@@ -13,6 +13,8 @@ public class Main extends JavaPlugin {
 	
 	private FileConfiguration config;
 	
+	private MySQLHandler mySQLHandler;
+	
 	private static Economy econ = null;
 	
 	private static String pluginPrefix = ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "xMySQL" + ChatColor.GREEN + ChatColor.BOLD + "Bridge" + ChatColor.RESET + ChatColor.DARK_GRAY + "] ";
@@ -23,9 +25,8 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		//TODO GET DATA
 		instance = this;
-
+		
 		setupConfig();
-		setupMySQL();
 		
 		if ( config.getBoolean("table.money.enabled") ) {
 			if (!setupEconomy() ) {
@@ -35,23 +36,13 @@ public class Main extends JavaPlugin {
 			}
 		}
 		
+		mySQLHandler = new MySQLHandler(config);
+		
 	}
-	
 	
 	@Override
 	public void onDisable() {
 		//TODO SAVE DATA
-	}
-	
-	private void setupMySQL() {
-		
-		
-		
-		setupTables();
-	}
-	
-	private void setupTables() {
-		
 	}
 	
 	private void setupConfig() {
@@ -63,14 +54,14 @@ public class Main extends JavaPlugin {
 		config.addDefault("mysql.host", "127.0.0.1");
 		config.addDefault("mysql.port", 3306);
 		config.addDefault("mysql.database", "minecraft");
-		config.addDefault("mysql.prefix", "xbr_");
-		config.addDefault("mysql.user", "admin");
+		config.addDefault("mysql.username", "admin");
 		config.addDefault("mysql.password", "foobar");
+		config.addDefault("mysql.prefix", "xbr_");
 		
 		config.addDefault("savetask.enabled", true);
 		config.addDefault("savetask.timer", 180);
 		
-		String[] tables = {"health", "hunger", "effects", "position", "experience", "money", "inventory", "enderchest"};
+		String[] tables = {"health", "hunger", "effects", "position", "experience", "money", "inventory", "enderchest", "achievments"};
 		
 		for ( String table: tables ) {
 			config.addDefault("table." + table + ".enabled", true);
@@ -100,10 +91,6 @@ public class Main extends JavaPlugin {
 		return instance;
 	}
 	
-	public FileConfiguration getConfig() {
-		return config;
-	}
-	
 	public static Economy getEconomy() {
 		return econ;
 	}
@@ -116,6 +103,10 @@ public class Main extends JavaPlugin {
 		} else {
 			return pluginPrefix;
 		}
+	}
+
+	public MySQLHandler getMySQLHandler() {
+		return mySQLHandler;
 	}
 	
 }
