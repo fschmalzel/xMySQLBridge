@@ -23,7 +23,7 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		//TODO GET DATA
+		//TODO playerjoinevent -> create User / load data & freeze the player for about 1 sec
 		instance = this;
 		
 		setupConfig();

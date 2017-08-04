@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class MySQLHandler {
 	
@@ -21,6 +20,15 @@ public class MySQLHandler {
 		username = config.getString("mysql.username");
 		password = config.getString("mysql.password");
 		
+	}
+	
+	public void setupTables( FileConfiguration config ) {
+		String healthTable = "CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.health.name") + "` (\r\n" + 
+		"  `uuid` varchar(16) NOT NULL,\r\n" + 
+		"  `health` double NOT NULL,\r\n" + 
+		"  PRIMARY KEY (`uuid`)\r\n" + 
+		")";
+		//TODO Create all tables
 	}
 	
 	public void openConnection() throws SQLException, ClassNotFoundException {

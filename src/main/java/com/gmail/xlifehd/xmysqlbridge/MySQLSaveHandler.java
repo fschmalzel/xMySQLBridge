@@ -7,13 +7,12 @@ import java.util.UUID;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class MySQLSaveHandler {
 	
-	//TODO Create SQL Query
-	private static String stringHealth =		"";
+	//TODO Create SQL Query, don't forget config
+	private static String stringHealth =		"UPDATE";
 	private static String stringHunger =		"";
 	private static String stringEffects =		"";
 	private static String stringPosition =		"";
@@ -69,8 +68,8 @@ public class MySQLSaveHandler {
 						
 						//TODO Replace variables in preparedstatements
 						if ( updateHealth != null ) {
-							
-							
+							updateHealth.setString(1, player.getUniqueId().toString());
+							updateHealth.setDouble(2, player.getPlayer().getHealth());
 							updateHealth.executeUpdate();
 						}
 						
