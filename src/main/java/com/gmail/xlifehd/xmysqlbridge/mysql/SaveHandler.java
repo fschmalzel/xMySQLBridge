@@ -8,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.gmail.xlifehd.xmysqlbridge.BukkitSerialization;
 import com.gmail.xlifehd.xmysqlbridge.Main;
 
 public class SaveHandler {
@@ -18,9 +19,9 @@ public class SaveHandler {
 	private static String queryEffects =		"";
 	private static String queryLocation =		"";
 	private static String queryExperience =		"INSERT INTO ? (uuid, experience) VALUES (?, ?) ON DUPLICATE KEY UPDATE experience = VALUES(experience);";
-	private static String queryMoney =			"";
-	private static String queryInventory =		"";
-	private static String queryEnderchest =		"";
+	private static String queryMoney =			"INSERT INTO ? (uuid, money) VALUES (?, ?) ON DUPLICATE KEY UPDATE money = VALUES(money);";
+	private static String queryInventory =		"INSERT INTO ? (uuid, inventory, armor) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE inventory = VALUES(inventory), armor = VALUES(armor);";
+	private static String queryEnderchest =		"INSERT INTO ? (uuid, enderchest) VALUES (?, ?) ON DUPLICATE KEY UPDATE enderchest = VALUES(enderchest);";
 	private static String queryAchievements =	"";
 	
 	private OfflinePlayer[] players;
@@ -51,6 +52,8 @@ public class SaveHandler {
 					FileConfiguration config = Main.getPlugin().getConfig();
 					con.setAutoCommit(false);
 					
+					String mySQLPrefix = config.getString("mysql.prefix");
+					
 					if ( config.getBoolean("table.health.enabled"))			{ updateHealth =		con.prepareStatement(queryHealth); }
 					if ( config.getBoolean("table.hunger.enabled"))			{ updateHunger =		con.prepareStatement(queryHunger); }
 					if ( config.getBoolean("table.effects.enabled"))		{ updateEffects =		con.prepareStatement(queryEffects); }
@@ -66,14 +69,14 @@ public class SaveHandler {
 						String uuid = player.getUniqueId().toString();
 						
 						if ( updateHealth != null ) {
-							updateHealth.setString(1, config.getString("mysql.prefix") + config.getString("table.health.name"));
+							updateHealth.setString(1, mySQLPrefix + config.getString("table.health.name"));
 							updateHealth.setString(2, uuid);
 							updateHealth.setDouble(3, player.getPlayer().getHealth());
 							updateHealth.executeUpdate();
 						}
 						
 						if ( updateHunger != null ) {
-							updateHealth.setString(1, config.getString("mysql.prefix") + config.getString("table.hunger.name"));
+							updateHealth.setString(1, mySQLPrefix + config.getString("table.hunger.name"));
 							updateHealth.setString(2, uuid);
 							updateHealth.setInt(3, player.getPlayer().getFoodLevel());
 							updateHunger.executeUpdate();
@@ -90,24 +93,33 @@ public class SaveHandler {
 						}
 						
 						if ( updateExperience != null ) {
-							updateHealth.setString(1, config.getString("mysql.prefix") + config.getString("table.experience.name"));
+							updateHealth.setString(1, mySQLPrefix + config.getString("table.experience.name"));
 							updateHealth.setString(2, uuid);
 							updateHealth.setFloat(3, player.getPlayer().getExp());
 							updateExperience.executeUpdate();
 						}
 						
 						if ( updateMoney != null ) {
-							//TODO SAVE MONEY
+							updateMoney.setString(1, mySQLPrefix + config.getString("table.money.name"));
+							updateMoney.setString(2, uuid);
+							updateMoney.setDouble(3, Main.getEconomy().getBalance(player));
 							updateMoney.executeUpdate();
 						}
 						
 						if ( updateInventory != null ) {
-							//TODO SAVE INVENTORY
+							String[] inventoryString = BukkitSerialization.playerInventoryToBase64(player.getPlayer().getInventory());
+							updateInventory.setString(1, mySQLPrefix + config.getString("table.inventory.name") );
+							updateInventory.setString(2, uuid);
+							updateInventory.setString(3, inventoryString[0]);
+							updateInventory.setString(4, inventoryString[1]);
 							updateInventory.executeUpdate();
 						}
 						
 						if ( updateEnderchest != null ) {
-							//TODO SAVE ENDERCHEST
+							String enderchestString = BukkitSerialization.toBase64(player.getPlayer().getEnderChest());
+							updateEnderchest.setString(1, mySQLPrefix + config.getString("table.enderchest.name") );
+							updateEnderchest.setString(2, uuid);
+							updateEnderchest.setString(3, enderchestString);
 							updateEnderchest.executeUpdate();
 						}
 						

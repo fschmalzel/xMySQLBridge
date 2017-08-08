@@ -8,6 +8,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.gmai.xlifehd.xmysqlbridge.listener.OnJoin;
+import com.gmai.xlifehd.xmysqlbridge.listener.OnQuit;
 import com.gmail.xlifehd.xmysqlbridge.mysql.GeneralHandler;
 
 import net.milkbowl.vault.economy.Economy;
