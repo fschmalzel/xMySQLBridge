@@ -1,9 +1,13 @@
 package com.gmail.xlifehd.xmysqlbridge;
 
+import java.sql.SQLException;
+
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.gmai.xlifehd.xmysqlbridge.listener.OnJoin;
 
 import net.milkbowl.vault.economy.Economy;
 
@@ -38,6 +42,17 @@ public class Main extends JavaPlugin {
 		
 		mySQLHandler = new MySQLHandler(config);
 		
+		//Move this to MySQLHandler
+		try {
+			mySQLHandler.openConnection();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		getServer().getPluginManager().registerEvents(new OnJoin(), this);
+		
 	}
 	
 	@Override
@@ -58,6 +73,7 @@ public class Main extends JavaPlugin {
 		config.addDefault("mysql.password", "foobar");
 		config.addDefault("mysql.prefix", "xbr_");
 		
+		//TODO Create savetask
 		config.addDefault("savetask.enabled", true);
 		config.addDefault("savetask.timer", 180);
 		
