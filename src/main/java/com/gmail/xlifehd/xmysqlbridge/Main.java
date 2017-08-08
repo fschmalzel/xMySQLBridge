@@ -8,6 +8,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.gmai.xlifehd.xmysqlbridge.listener.OnJoin;
+import com.gmail.xlifehd.xmysqlbridge.mysql.GeneralHandler;
 
 import net.milkbowl.vault.economy.Economy;
 
@@ -17,7 +18,7 @@ public class Main extends JavaPlugin {
 	
 	private FileConfiguration config;
 	
-	private MySQLHandler mySQLHandler;
+	private GeneralHandler mySQLHandler;
 	
 	private static Economy econ = null;
 	
@@ -27,7 +28,7 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		//TODO playerjoinevent -> create User / load data & freeze the player for about 1 sec
+		
 		instance = this;
 		
 		setupConfig();
@@ -40,9 +41,9 @@ public class Main extends JavaPlugin {
 			}
 		}
 		
-		mySQLHandler = new MySQLHandler(config);
+		mySQLHandler = new GeneralHandler(config);
 		
-		//Move this to MySQLHandler
+		//TODO Move this to GeneralHandler
 		try {
 			mySQLHandler.openConnection();
 		} catch (ClassNotFoundException e) {
@@ -51,13 +52,15 @@ public class Main extends JavaPlugin {
 			e.printStackTrace();
 		}
 		
+		//TODO Readup on advanced events
 		getServer().getPluginManager().registerEvents(new OnJoin(), this);
+		getServer().getPluginManager().registerEvents(new OnQuit(), this);
 		
 	}
 	
 	@Override
 	public void onDisable() {
-		//TODO SAVE DATA
+		//TODO SAVE DATA OR MAYBE NOT
 	}
 	
 	private void setupConfig() {
@@ -77,7 +80,7 @@ public class Main extends JavaPlugin {
 		config.addDefault("savetask.enabled", true);
 		config.addDefault("savetask.timer", 180);
 		
-		String[] tables = {"health", "hunger", "effects", "position", "experience", "money", "inventory", "enderchest", "achievments"};
+		String[] tables = {"health", "hunger", "effects", "location", "experience", "money", "inventory", "enderchest", "achievments"};
 		
 		for ( String table: tables ) {
 			config.addDefault("table." + table + ".enabled", true);
@@ -121,7 +124,7 @@ public class Main extends JavaPlugin {
 		}
 	}
 
-	public MySQLHandler getMySQLHandler() {
+	public GeneralHandler getMySQLHandler() {
 		return mySQLHandler;
 	}
 	

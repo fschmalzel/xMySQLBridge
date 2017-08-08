@@ -1,30 +1,31 @@
-package com.gmail.xlifehd.xmysqlbridge;
+package com.gmail.xlifehd.xmysqlbridge.mysql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.UUID;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class MySQLSaveHandler {
+import com.gmail.xlifehd.xmysqlbridge.Main;
+
+public class SaveHandler {
 	
-	//TODO Create SQL Query, don't forget config	
-	private static String queryHealth =			"INSERT INTO ? (uuid, health) VALUES ('?', ?) ON DUPLICATE KEY UPDATE health = VALUES(health);";
-	private static String queryHunger =			"";
+	//TODO CREATE QUERYS
+	private static String queryHealth =			"INSERT INTO ? (uuid, health) VALUES (?, ?) ON DUPLICATE KEY UPDATE health = VALUES(health);";
+	private static String queryHunger =			"INSERT INTO ? (uuid, hunger) VALUES (?, ?) ON DUPLICATE KEY UPDATE hunger = VALUES(hunger);";
 	private static String queryEffects =		"";
-	private static String queryPosition =		"";
-	private static String queryExperience =		"";
+	private static String queryLocation =		"";
+	private static String queryExperience =		"INSERT INTO ? (uuid, experience) VALUES (?, ?) ON DUPLICATE KEY UPDATE experience = VALUES(experience);";
 	private static String queryMoney =			"";
 	private static String queryInventory =		"";
 	private static String queryEnderchest =		"";
-	private static String queryAchievments =	"";
+	private static String queryAchievements =	"";
 	
 	private OfflinePlayer[] players;
 	
-	public MySQLSaveHandler (OfflinePlayer[] players) {
+	public SaveHandler (OfflinePlayer[] players) {
 		this.players = players;
 	}
 	
@@ -37,12 +38,12 @@ public class MySQLSaveHandler {
 				PreparedStatement updateHealth = null;
 				PreparedStatement updateHunger = null;
 				PreparedStatement updateEffects = null;
-				PreparedStatement updatePosition = null;
+				PreparedStatement updateLocation = null;
 				PreparedStatement updateExperience = null;
 				PreparedStatement updateMoney = null;
 				PreparedStatement updateInventory = null;
 				PreparedStatement updateEnderchest = null;
-				PreparedStatement updateAchievments = null;
+				PreparedStatement updateAchievements = null;
 				
 				try {
 					
@@ -53,18 +54,17 @@ public class MySQLSaveHandler {
 					if ( config.getBoolean("table.health.enabled"))			{ updateHealth =		con.prepareStatement(queryHealth); }
 					if ( config.getBoolean("table.hunger.enabled"))			{ updateHunger =		con.prepareStatement(queryHunger); }
 					if ( config.getBoolean("table.effects.enabled"))		{ updateEffects =		con.prepareStatement(queryEffects); }
-					if ( config.getBoolean("table.position.enabled"))		{ updatePosition =		con.prepareStatement(queryPosition); }
+					if ( config.getBoolean("table.location.enabled"))		{ updateLocation =		con.prepareStatement(queryLocation); }
 					if ( config.getBoolean("table.experience.enabled"))		{ updateExperience =	con.prepareStatement(queryExperience); }
 					if ( config.getBoolean("table.money.enabled"))			{ updateMoney =			con.prepareStatement(queryMoney); }
 					if ( config.getBoolean("table.inventory.enabled"))		{ updateInventory =		con.prepareStatement(queryInventory); }
 					if ( config.getBoolean("table.enderchest.enabled"))		{ updateEnderchest =	con.prepareStatement(queryEnderchest); }
-					if ( config.getBoolean("table.achievments.enabled"))	{ updateAchievments =	con.prepareStatement(queryAchievments); }
+					if ( config.getBoolean("table.achievements.enabled"))	{ updateAchievements =	con.prepareStatement(queryAchievements); }
 					
 					for ( OfflinePlayer player : players ) {
 						
 						String uuid = player.getUniqueId().toString();
 						
-						//TODO Replace variables in preparedstatements
 						if ( updateHealth != null ) {
 							updateHealth.setString(1, config.getString("mysql.prefix") + config.getString("table.health.name"));
 							updateHealth.setString(2, uuid);
@@ -73,43 +73,47 @@ public class MySQLSaveHandler {
 						}
 						
 						if ( updateHunger != null ) {
-							
+							updateHealth.setString(1, config.getString("mysql.prefix") + config.getString("table.hunger.name"));
+							updateHealth.setString(2, uuid);
+							updateHealth.setInt(3, player.getPlayer().getFoodLevel());
 							updateHunger.executeUpdate();
 						}
 						
 						if ( updateEffects != null ) {
-							
+							//TODO SAVE EFFECTS
 							updateEffects.executeUpdate();
 						}
 						
-						if ( updatePosition != null ) {
-							
-							updatePosition.executeUpdate();
+						if ( updateLocation != null ) {
+							//TODO SAVE LOCATION
+							updateLocation.executeUpdate();
 						}
 						
 						if ( updateExperience != null ) {
-							
+							updateHealth.setString(1, config.getString("mysql.prefix") + config.getString("table.experience.name"));
+							updateHealth.setString(2, uuid);
+							updateHealth.setFloat(3, player.getPlayer().getExp());
 							updateExperience.executeUpdate();
 						}
 						
 						if ( updateMoney != null ) {
-							
+							//TODO SAVE MONEY
 							updateMoney.executeUpdate();
 						}
 						
 						if ( updateInventory != null ) {
-							
+							//TODO SAVE INVENTORY
 							updateInventory.executeUpdate();
 						}
 						
 						if ( updateEnderchest != null ) {
-							
+							//TODO SAVE ENDERCHEST
 							updateEnderchest.executeUpdate();
 						}
 						
-						if ( updateAchievments != null ) {
-							
-							updateAchievments.executeUpdate();
+						if ( updateAchievements != null ) {
+							//TODO SAVE ACHIEVEMENTS
+							updateAchievements.executeUpdate();
 						}
 						
 						con.commit();
@@ -119,12 +123,12 @@ public class MySQLSaveHandler {
 					updateHealth.close();
 					updateHunger.close();
 					updateEffects.close();
-					updatePosition.close();
+					updateLocation.close();
 					updateExperience.close();
 					updateMoney.close();
 					updateInventory.close();
 					updateEnderchest.close();
-					updateAchievments.close();
+					updateAchievements.close();
 					con.setAutoCommit(true);
 					
 				} catch (SQLException e) {

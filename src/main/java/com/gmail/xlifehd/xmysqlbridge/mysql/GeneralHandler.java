@@ -1,4 +1,4 @@
-package com.gmail.xlifehd.xmysqlbridge;
+package com.gmail.xlifehd.xmysqlbridge.mysql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,13 +8,15 @@ import java.sql.Statement;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class MySQLHandler {
+import com.gmail.xlifehd.xmysqlbridge.Main;
+
+public class GeneralHandler {
 	
 	private Connection con;
 	private String host, database, username, password;
 	private int port;
 	
-	public MySQLHandler( FileConfiguration config ) {
+	public GeneralHandler( FileConfiguration config ) {
 		
 		host = config.getString("mysql.host");
 		port = config.getInt("mysql.port");
@@ -39,14 +41,22 @@ public class MySQLHandler {
 						"  `health` double NOT NULL,\r\n" + 
 						"  PRIMARY KEY (`uuid`)\r\n" + 
 						")";
-				String queryHunger =		"";
+				String queryHunger =		"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.hunger.name") + "` (\r\n" + 
+						"  `uuid` varchar(16) NOT NULL,\r\n" + 
+						"  `hunger` int NOT NULL,\r\n" + 
+						"  PRIMARY KEY (`uuid`)\r\n" + 
+						")";
 				String queryEffects =		"";
-				String queryPosition =		"";
-				String queryExperience =	"";
+				String queryLocation =		"";
+				String queryExperience =	"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.experience.name") + "` (\r\n" + 
+						"  `uuid` varchar(16) NOT NULL,\r\n" + 
+						"  `experience` float NOT NULL,\r\n" + 
+						"  PRIMARY KEY (`uuid`)\r\n" + 
+						")";
 				String queryMoney =			"";
 				String queryInventory =		"";
 				String queryEnderchest =	"";
-				String queryAchievments =	"";
+				String queryAchievements =	"";
 				
 				try {
 					
@@ -57,12 +67,12 @@ public class MySQLHandler {
 					if ( config.getBoolean("table.health.enabled"))			{ statement.executeQuery(queryHealth); }
 					if ( config.getBoolean("table.hunger.enabled"))			{ statement.executeQuery(queryHunger); }
 					if ( config.getBoolean("table.effects.enabled"))		{ statement.executeQuery(queryEffects); }
-					if ( config.getBoolean("table.position.enabled"))		{ statement.executeQuery(queryPosition); }
+					if ( config.getBoolean("table.location.enabled"))		{ statement.executeQuery(queryLocation); }
 					if ( config.getBoolean("table.experience.enabled"))		{ statement.executeQuery(queryExperience); }
 					if ( config.getBoolean("table.money.enabled"))			{ statement.executeQuery(queryMoney); }
 					if ( config.getBoolean("table.inventory.enabled"))		{ statement.executeQuery(queryInventory); }
 					if ( config.getBoolean("table.enderchest.enabled"))		{ statement.executeQuery(queryEnderchest); }
-					if ( config.getBoolean("table.achievments.enabled"))	{ statement.executeQuery(queryAchievments); }
+					if ( config.getBoolean("table.achievements.enabled"))	{ statement.executeQuery(queryAchievements); }
 					
 					con.close();
 					
