@@ -94,15 +94,15 @@ public class GeneralHandler {
 					Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 					Statement statement = con.createStatement();
 					//TODO Handle sql exception per result set, to give proper error message
-					if ( config.getBoolean("table.health.enabled"))			{ statement.executeQuery(queryHealth); }
-					if ( config.getBoolean("table.hunger.enabled"))			{ statement.executeQuery(queryHunger); }
-					if ( config.getBoolean("table.effects.enabled"))		{ statement.executeQuery(queryEffects); }
-					if ( config.getBoolean("table.location.enabled"))		{ statement.executeQuery(queryLocation); }
-					if ( config.getBoolean("table.experience.enabled"))		{ statement.executeQuery(queryExperience); }
-					if ( config.getBoolean("table.money.enabled"))			{ statement.executeQuery(queryMoney); }
-					if ( config.getBoolean("table.inventory.enabled"))		{ statement.executeQuery(queryInventory); }
-					if ( config.getBoolean("table.enderchest.enabled"))		{ statement.executeQuery(queryEnderchest); }
-					if ( config.getBoolean("table.achievements.enabled"))	{ statement.executeQuery(queryAchievements); }
+					if ( config.getBoolean("table.health.enabled"))			{ statement.executeUpdate(queryHealth); }
+					if ( config.getBoolean("table.hunger.enabled"))			{ statement.executeUpdate(queryHunger); }
+					if ( config.getBoolean("table.effects.enabled"))		{ statement.executeUpdate(queryEffects); }
+					if ( config.getBoolean("table.location.enabled"))		{ statement.executeUpdate(queryLocation); }
+					if ( config.getBoolean("table.experience.enabled"))		{ statement.executeUpdate(queryExperience); }
+					if ( config.getBoolean("table.money.enabled"))			{ statement.executeUpdate(queryMoney); }
+					if ( config.getBoolean("table.inventory.enabled"))		{ statement.executeUpdate(queryInventory); }
+					if ( config.getBoolean("table.enderchest.enabled"))		{ statement.executeUpdate(queryEnderchest); }
+					if ( config.getBoolean("table.achievements.enabled"))	{ statement.executeUpdate(queryAchievements); }
 					
 					con.close();
 					
