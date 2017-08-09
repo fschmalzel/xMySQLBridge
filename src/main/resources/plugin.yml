@@ -1,4 +1,7 @@
 name: xRandomTP
 main: com.gmail.xlifehd.xmysqlbridge.Main
-version: 0.0.7
+version: 0.0.8
 commands:
+  xmbr:
+    description: Test command
+    usage: /xmbr

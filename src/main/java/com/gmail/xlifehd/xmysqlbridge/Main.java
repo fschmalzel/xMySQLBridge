@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.gmai.xlifehd.xmysqlbridge.listener.OnJoin;
 import com.gmai.xlifehd.xmysqlbridge.listener.OnQuit;
+import com.gmail.xlifehd.xmysqlbridge.commands.TestCommand;
 import com.gmail.xlifehd.xmysqlbridge.mysql.GeneralHandler;
 
 import net.milkbowl.vault.economy.Economy;
@@ -43,9 +44,13 @@ public class Main extends JavaPlugin {
 		mySQLHandler = new GeneralHandler(config);
 		
 		//TODO Readup on advanced events
+		//Register Events
 		getServer().getPluginManager().registerEvents(new OnJoin(), this);
 		getServer().getPluginManager().registerEvents(new OnQuit(), this);
 		
+		//DEBUG
+		//Register Commands
+		this.getCommand("xmbr").setExecutor(new TestCommand());
 	}
 	
 	@Override
@@ -70,10 +75,10 @@ public class Main extends JavaPlugin {
 		config.addDefault("savetask.enabled", true);
 		config.addDefault("savetask.timer", 180);
 		
-		String[] tables = {"health", "hunger", "effects", "location", "experience", "money", "inventory", "enderchest", "achievments"};
+		String[] tables = {"health", "hunger", "effects", "location", "experience", "money", "inventory", "enderchest", "achievements"};
 		
 		for ( String table: tables ) {
-			config.addDefault("table." + table + ".enabled", true);
+			config.addDefault("table." + table + ".enabled", false);
 			config.addDefault("table." + table + ".name", table);
 			
 		}

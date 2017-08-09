@@ -20,7 +20,7 @@ public class OnJoin implements Listener {
 		//TODO Freeze him for about 1 sec, then load the data and unfreeze him if its finished and set some kind of flag somewhere that data can be saved if he leaves that flag should be made sure of being false
 		FileConfiguration config = Main.getPlugin().getConfig();
 		
-		LoadHandler loadHandler = new LoadHandler(player);
+		LoadHandler loadHandler = new LoadHandler(player.getUniqueId());
 		
 		if ( config.getBoolean("table.health.enabled") ) {
 			Double health = loadHandler.getHealth();

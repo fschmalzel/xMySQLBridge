@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
@@ -20,14 +19,12 @@ import com.gmail.xlifehd.xmysqlbridge.Main;
 
 public class LoadHandler {
 	
-	private OfflinePlayer player;
 	private UUID uuid;
 	private FileConfiguration config;
 	private String mySQLPrefix;
 	
-	public LoadHandler ( OfflinePlayer player ) {
-		this.player = player;
-		uuid = player.getUniqueId();
+	public LoadHandler ( UUID uuid ) {
+		this.uuid = uuid;
 		config = Main.getPlugin().getConfig();
 		mySQLPrefix = config.getString("mysql.prefix");
 	}
