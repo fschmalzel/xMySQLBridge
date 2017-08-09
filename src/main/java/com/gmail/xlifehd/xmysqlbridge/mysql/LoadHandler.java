@@ -31,7 +31,7 @@ public class LoadHandler {
 	
 	public Double getHealth () {
 		String tableName = config.getString("table.health.name");
-		String query = "SELECT * FROM " + mySQLPrefix + tableName + " WHERE uuid = " + uuid.toString() + ";";
+		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		//DEBUG
 		Main.getPlugin().getLogger().info(query);
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
@@ -53,7 +53,7 @@ public class LoadHandler {
 	
 	public Integer getHunger() {
 		String tableName = config.getString("table.hunger.name");
-		String query = "SELECT * FROM " + mySQLPrefix + tableName + " WHERE uuid = " + uuid.toString() + ";";
+		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
 		ResultSet rs;
@@ -77,7 +77,7 @@ public class LoadHandler {
 	
 	public Location getLocation() {
 		String tableName = config.getString("table.location.name");
-		String query = "SELECT * FROM " + mySQLPrefix + tableName + " WHERE uuid = " + uuid.toString() + ";";
+		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
 		ResultSet rs;
@@ -105,7 +105,7 @@ public class LoadHandler {
 	
 	public Float getExperience() {
 		String tableName = config.getString("table.experience.name");
-		String query = "SELECT * FROM " + mySQLPrefix + tableName + " WHERE uuid = " + uuid.toString() + ";";
+		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
 		ResultSet rs;
@@ -125,7 +125,7 @@ public class LoadHandler {
 	
 	public Double getMoney() {
 		String tableName = config.getString("table.money.name");
-		String query = "SELECT * FROM " + mySQLPrefix + tableName + " WHERE uuid = " + uuid.toString() + ";";
+		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
 		ResultSet rs;
@@ -145,7 +145,7 @@ public class LoadHandler {
 	
 	public PlayerInventory getInventory() {
 		String tableName = config.getString("table.inventory.name");
-		String query = "SELECT * FROM " + mySQLPrefix + tableName + " WHERE uuid = " + uuid.toString() + ";";
+		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
 		ResultSet rs;
@@ -173,7 +173,7 @@ public class LoadHandler {
 	
 	public Inventory getEnderchest() {
 		String tableName = config.getString("table.enderchest.name");
-		String query = "SELECT * FROM " + mySQLPrefix + tableName + " WHERE uuid = " + uuid.toString() + ";";
+		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
 		ResultSet rs;
