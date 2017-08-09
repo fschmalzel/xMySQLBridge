@@ -30,8 +30,6 @@ public class LoadHandler {
 	public Double getHealth () {
 		String tableName = config.getString("table.health.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
-		//DEBUG
-		Main.getPlugin().getLogger().info(query);
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
 		try {
@@ -99,7 +97,7 @@ public class LoadHandler {
 		return null;
 	}
 	
-	public Integer getExperience() {
+	public Number[] getExperience() {
 		String tableName = config.getString("table.experience.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
@@ -108,8 +106,20 @@ public class LoadHandler {
 			ResultSet rs = con.createStatement().executeQuery( query );
 			
 			if ( rs.next() ) {
-				Integer experience = rs.getInt("experience");
-				return experience;
+				Integer totalExp = rs.getInt("totalExp");
+				Integer level = rs.getInt("level");
+				Float exp = rs.getFloat("exp");
+				
+				//DEBUG
+				Main.getPlugin().getLogger().info(((Number) (totalExp)).toString());
+				Main.getPlugin().getLogger().info(((Number) (level)).toString());
+				Main.getPlugin().getLogger().info(((Number) (exp)).toString());
+				//DEBUG
+				Main.getPlugin().getLogger().info( String.valueOf(( (Number) (totalExp) ).intValue() ));
+				Main.getPlugin().getLogger().info( String.valueOf(( (Number) (level) ).intValue() ));
+				Main.getPlugin().getLogger().info( String.valueOf(( (Number) (exp) ).floatValue() ));
+				
+				return new Number[] {(Number) (totalExp), (Number) (level), (Number) (exp)};
 			}
 			
 		} catch (SQLException e) {

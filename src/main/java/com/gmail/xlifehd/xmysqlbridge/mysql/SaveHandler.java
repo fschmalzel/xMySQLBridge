@@ -20,7 +20,7 @@ public class SaveHandler {
 	private static String queryEffects =		"";
 	private static String queryLocation =		"INSERT INTO %s (uuid, world, x, y, z, yaw, pitch) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE " +
 			"world = VALUES(world), x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch);";
-	private static String queryExperience =		"INSERT INTO %s (uuid, experience) VALUES (?, ?) ON DUPLICATE KEY UPDATE experience = VALUES(experience);";
+	private static String queryExperience =		"INSERT INTO %s (uuid, totalExp, level, exp) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE totalExp = VALUES(totalExp), level = VALUES(level), exp = VALUES(exp);";
 	private static String queryMoney =			"INSERT INTO %s (uuid, money) VALUES (?, ?) ON DUPLICATE KEY UPDATE money = VALUES(money);";
 	private static String queryInventory =		"INSERT INTO %s (uuid, inventory, armor) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE inventory = VALUES(inventory), armor = VALUES(armor);";
 	private static String queryEnderchest =		"INSERT INTO %s (uuid, enderchest) VALUES (?, ?) ON DUPLICATE KEY UPDATE enderchest = VALUES(enderchest);";
@@ -108,16 +108,14 @@ public class SaveHandler {
 						if ( updateHealth != null ) {
 							updateHealth.setString(1, uuid);
 							updateHealth.setDouble(2, player.getPlayer().getHealth());
-							//DEBUG
-							Main.getPlugin().getLogger().info(updateHealth.toString());
+							
 							updateHealth.executeUpdate();
 						}
 						
 						if ( updateHunger != null ) {
 							updateHunger.setString(1, uuid);
 							updateHunger.setInt(2, player.getPlayer().getFoodLevel());
-							//DEBUG
-							Main.getPlugin().getLogger().info(updateHunger.toString());
+							
 							updateHunger.executeUpdate();
 						}
 						
@@ -136,14 +134,15 @@ public class SaveHandler {
 							updateLocation.setDouble(5, loc.getZ());
 							updateLocation.setFloat (6, loc.getYaw());
 							updateLocation.setFloat (7, loc.getPitch());
-							//DEBUG
-							Main.getPlugin().getLogger().info(updateLocation.toString());
+							
 							updateLocation.executeUpdate();
 						}
 						
 						if ( updateExperience != null ) {
 							updateExperience.setString(1, uuid);
 							updateExperience.setInt(2, player.getPlayer().getTotalExperience());
+							updateExperience.setInt(3, player.getPlayer().getLevel());
+							updateExperience.setFloat(4, player.getPlayer().getExp());
 							//DEBUG
 							Main.getPlugin().getLogger().info(updateExperience.toString());
 							updateExperience.executeUpdate();
@@ -157,16 +156,20 @@ public class SaveHandler {
 						
 						if ( updateInventory != null ) {
 							String[] inventoryString = BukkitSerialization.playerInventoryToBase64(player.getPlayer().getInventory());
+							
 							updateInventory.setString(1, uuid);
 							updateInventory.setString(2, inventoryString[0]);
 							updateInventory.setString(3, inventoryString[1]);
+							
 							updateInventory.executeUpdate();
 						}
 						
 						if ( updateEnderchest != null ) {
 							String enderchestString = BukkitSerialization.itemStackArrayToBase64(player.getPlayer().getEnderChest().getStorageContents());
+							
 							updateEnderchest.setString(1, uuid);
 							updateEnderchest.setString(2, enderchestString);
+							
 							updateEnderchest.executeUpdate();
 						}
 						
@@ -179,7 +182,6 @@ public class SaveHandler {
 						
 					}
 					
-					//TODO Check if it exists
 					if ( updateHealth != null ) { updateHealth.close(); };
 					if ( updateHunger != null ) { updateHunger.close(); };
 					if ( updateEffects != null ) { updateEffects.close(); };
@@ -189,6 +191,7 @@ public class SaveHandler {
 					if ( updateInventory != null ) { updateInventory.close(); };
 					if ( updateEnderchest != null ) { updateEnderchest.close(); };
 					if ( updateAchievements != null ) { updateAchievements.close(); };
+					
 					con.setAutoCommit(true);
 					
 				} catch (SQLException e) {

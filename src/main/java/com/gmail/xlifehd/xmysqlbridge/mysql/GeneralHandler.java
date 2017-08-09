@@ -42,20 +42,21 @@ public class GeneralHandler {
 			public void run() {
 				
 				FileConfiguration config = Main.getPlugin().getConfig();
+				String mySQLPrefix = config.getString("mysql.prefix");
 				
 				//TODO Create Querys
-				String queryHealth =		"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.health.name") + "` (" + 
+				String queryHealth =		"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.health.name") + "` (" + 
 						"  `uuid` varchar(36) NOT NULL," + 
 						"  `health` double NOT NULL," + 
 						"  PRIMARY KEY (`uuid`)" + 
 						")";
-				String queryHunger =		"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.hunger.name") + "` (" + 
+				String queryHunger =		"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.hunger.name") + "` (" + 
 						"  `uuid` varchar(36) NOT NULL," + 
 						"  `hunger` int NOT NULL," + 
 						"  PRIMARY KEY (`uuid`)" + 
 						")";
 				String queryEffects =		"";
-				String queryLocation =		"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.location.name") + "` (" + 
+				String queryLocation =		"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.location.name") + "` (" + 
 						"  `uuid` varchar(36) NOT NULL," + 
 						"  `world` varchar(200) NOT NULL," + 
 						"  `x` double NOT NULL," + 
@@ -65,23 +66,25 @@ public class GeneralHandler {
 						"  `pitch` float NOT NULL," + 
 						"  PRIMARY KEY (`uuid`)" + 
 						")";
-				String queryExperience =	"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.experience.name") + "` (" + 
+				String queryExperience =	"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.experience.name") + "` (" + 
 						"  `uuid` varchar(36) NOT NULL," + 
-						"  `experience` int NOT NULL," + 
+						"  `totalExp` int NOT NULL," + 
+						"  `level` int NOT NULL," + 
+						"  `exp` float NOT NULL," + 
 						"  PRIMARY KEY (`uuid`)" + 
 						")";
-				String queryMoney =			"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.money.name") + "` (" + 
+				String queryMoney =			"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.money.name") + "` (" + 
 						"  `uuid` varchar(36) NOT NULL," + 
 						"  `money` double NOT NULL," + 
 						"  PRIMARY KEY (`uuid`)" + 
 						")";
-				String queryInventory =		"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.inventory.name") + "` (" + 
+				String queryInventory =		"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.inventory.name") + "` (" + 
 						"  `uuid` varchar(36) NOT NULL," + 
 						"  `inventory` MEDIUMTEXT NOT NULL," + 
 						"  `armor` MEDIUMTEXT NOT NULL," + 
 						"  PRIMARY KEY (`uuid`)" + 
 						")";
-				String queryEnderchest =	"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.enderchest.name") + "` (" + 
+				String queryEnderchest =	"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.enderchest.name") + "` (" + 
 						"  `uuid` varchar(36) NOT NULL," + 
 						"  `enderchest` MEDIUMTEXT NOT NULL," + 
 						"  PRIMARY KEY (`uuid`)" + 

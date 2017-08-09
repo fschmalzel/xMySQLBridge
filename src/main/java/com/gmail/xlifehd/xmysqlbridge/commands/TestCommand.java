@@ -13,9 +13,9 @@ public class TestCommand implements CommandExecutor {
 		if ( sender instanceof Player ) {
 			Player player = (Player) sender;
 			
-			Main.getPlugin().getLogger().info(String.valueOf(player.getExp()));
-			Main.getPlugin().getLogger().info(String.valueOf(player.getExpToLevel()));
 			Main.getPlugin().getLogger().info(String.valueOf(player.getTotalExperience()));
+			Main.getPlugin().getLogger().info(String.valueOf(player.getLevel()));
+			Main.getPlugin().getLogger().info(String.valueOf(player.getExp()));
 			
 		} else {
 			sender.sendMessage(Main.getPrefix("error") + "You have to be a player!");

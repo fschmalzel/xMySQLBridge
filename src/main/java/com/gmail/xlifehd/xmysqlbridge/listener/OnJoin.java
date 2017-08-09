@@ -52,9 +52,11 @@ public class OnJoin implements Listener {
 				}
 				
 				if ( config.getBoolean("table.experience.enabled") ) {
-					Integer exp = loadHandler.getExperience();
-					if ( exp != null ) {
-						player.setTotalExperience(exp);
+					Number[] data = loadHandler.getExperience();
+					if ( data != null ) {
+						player.setTotalExperience(data[0].intValue());
+						player.setLevel(data[1].intValue());
+						player.setExp(data[2].floatValue());
 					}
 				}
 				
