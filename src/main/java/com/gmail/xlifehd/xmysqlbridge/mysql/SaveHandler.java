@@ -116,6 +116,8 @@ public class SaveHandler {
 						if ( updateHunger != null ) {
 							updateHealth.setString(1, uuid);
 							updateHealth.setInt(2, player.getPlayer().getFoodLevel());
+							//DEBUG
+							Main.getPlugin().getLogger().info(updateHunger.toString());
 							updateHunger.executeUpdate();
 						}
 						
@@ -134,12 +136,16 @@ public class SaveHandler {
 							updateLocation.setDouble(5, loc.getZ());
 							updateLocation.setFloat (6, loc.getYaw());
 							updateLocation.setFloat (7, loc.getPitch());
+							//DEBUG
+							Main.getPlugin().getLogger().info(updateLocation.toString());
 							updateLocation.executeUpdate();
 						}
 						
 						if ( updateExperience != null ) {
 							updateHealth.setString(1, uuid);
 							updateHealth.setFloat(2, player.getPlayer().getExp());
+							//DEBUG
+							Main.getPlugin().getLogger().info(updateExperience.toString());
 							updateExperience.executeUpdate();
 						}
 						
@@ -173,6 +179,7 @@ public class SaveHandler {
 						
 					}
 					
+					//TODO Check if it exists
 					updateHealth.close();
 					updateHunger.close();
 					updateEffects.close();

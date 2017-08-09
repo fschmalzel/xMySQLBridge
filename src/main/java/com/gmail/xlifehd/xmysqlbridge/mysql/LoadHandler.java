@@ -36,14 +36,14 @@ public class LoadHandler {
 		Main.getPlugin().getLogger().info(query);
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
-		ResultSet rs;
-		
 		try {
-			rs = con.createStatement().executeQuery( query );
-			Double health =  rs.getDouble("health");
-			if ( health != null ) {
+			ResultSet rs = con.createStatement().executeQuery( query );
+			
+			if ( rs.next() ) {
+				Double health =  rs.getDouble("health");
 				return health;
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -56,14 +56,14 @@ public class LoadHandler {
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
-		ResultSet rs;
-		
 		try {
-			rs = con.createStatement().executeQuery( query );
-			Integer hunger = rs.getInt("hunger");
-			if ( hunger != null ) {
+			ResultSet rs = con.createStatement().executeQuery( query );
+			
+			if ( rs.next() ) {
+				Integer hunger = rs.getInt("hunger");
 				return hunger;
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -80,18 +80,16 @@ public class LoadHandler {
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
-		ResultSet rs;
-		
 		try {
-			rs = con.createStatement().executeQuery( query );
-			String worldString = rs.getString("world");
-			Double x = rs.getDouble("x");
-			Double y = rs.getDouble("y");
-			Double z = rs.getDouble("z");
-			Float yaw = rs.getFloat("yaw");
-			Float pitch = rs.getFloat("pitch");
-			if ( worldString != null && x != null && y != null && z != null && yaw != null & pitch != null ) {
-				World world = Bukkit.getWorld(worldString);
+			ResultSet rs = con.createStatement().executeQuery( query );
+
+			if ( rs.next() ) {
+				World world = Bukkit.getWorld(rs.getString("world"));
+				Double x = rs.getDouble("x");
+				Double y = rs.getDouble("y");
+				Double z = rs.getDouble("z");
+				Float yaw = rs.getFloat("yaw");
+				Float pitch = rs.getFloat("pitch");
 				Location loc = new Location(world, x, y, z, yaw, pitch);
 				return loc;
 			}
@@ -108,14 +106,14 @@ public class LoadHandler {
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
-		ResultSet rs;
-		
 		try {
-			rs = con.createStatement().executeQuery( query );
-			Float experience = rs.getFloat("experience");
-			if ( experience != null ) {
+			ResultSet rs = con.createStatement().executeQuery( query );
+			
+			if ( rs.next() ) {
+				Float experience = rs.getFloat("experience");
 				return experience;
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -128,14 +126,14 @@ public class LoadHandler {
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
-		ResultSet rs;
-		
 		try {
-			rs = con.createStatement().executeQuery( query );
-			Double money = rs.getDouble("money");
-			if ( money != null ) {
+			ResultSet rs = con.createStatement().executeQuery( query );
+			
+			if ( rs.next() ) {
+				Double money = rs.getDouble("money");
 				return money;
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -148,20 +146,17 @@ public class LoadHandler {
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
-		ResultSet rs;
-		
 		try {
-			rs = con.createStatement().executeQuery( query );
-			String inventoryString = rs.getString("inventory");
-			String armorString = rs.getString("armor");
+			ResultSet rs = con.createStatement().executeQuery( query );
 			
-			if ( inventoryString != null && armorString != null) {
-				Inventory inventory = BukkitSerialization.fromBase64(inventoryString);
-				ItemStack[] armor = BukkitSerialization.itemStackArrayFromBase64(armorString);
+			if ( rs.next() ) {
+				Inventory inventory = BukkitSerialization.fromBase64( rs.getString("inventory") );
+				ItemStack[] armor = BukkitSerialization.itemStackArrayFromBase64( rs.getString("armor") );
 				PlayerInventory playerInventory = (PlayerInventory) inventory;
 				playerInventory.setArmorContents(armor);
 				return playerInventory;
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -176,15 +171,14 @@ public class LoadHandler {
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
-		ResultSet rs;
-		
 		try {
-			rs = con.createStatement().executeQuery( query );
-			String enderchestString = rs.getString("enderchest");
-			if ( enderchestString != null ) {
-				Inventory enderchestInventory = BukkitSerialization.fromBase64(enderchestString);
+			ResultSet rs = con.createStatement().executeQuery( query );
+			
+			if (rs.next() ) {
+				Inventory enderchestInventory = BukkitSerialization.fromBase64(rs.getString("enderchest"));
 				return enderchestInventory;
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
