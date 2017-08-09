@@ -143,7 +143,7 @@ public class SaveHandler {
 						
 						if ( updateExperience != null ) {
 							updateExperience.setString(1, uuid);
-							updateExperience.setFloat(2, player.getPlayer().getExp());
+							updateExperience.setInt(2, player.getPlayer().getTotalExperience());
 							//DEBUG
 							Main.getPlugin().getLogger().info(updateExperience.toString());
 							updateExperience.executeUpdate();

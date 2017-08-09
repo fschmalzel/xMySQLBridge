@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.ItemStack;
 
 import com.gmail.xlifehd.xmysqlbridge.Main;
 import com.gmail.xlifehd.xmysqlbridge.XUtils;
@@ -53,9 +53,9 @@ public class OnJoin implements Listener {
 				}
 				
 				if ( config.getBoolean("table.experience.enabled") ) {
-					Float exp = loadHandler.getExperience();
+					Integer exp = loadHandler.getExperience();
 					if ( exp != null ) {
-						player.setExp(exp);
+						player.setTotalExperience(exp);
 					}
 				}
 				
@@ -72,10 +72,10 @@ public class OnJoin implements Listener {
 				}
 				
 				if ( config.getBoolean("table.inventory.enabled") ) {
-					PlayerInventory playerInventory = loadHandler.getInventory();
-					if ( playerInventory != null ) {
-						player.getInventory().setStorageContents(playerInventory.getStorageContents());
-						player.getInventory().setArmorContents(playerInventory.getArmorContents());
+					ItemStack[][] inventory = loadHandler.getInventory();
+					if ( inventory != null ) {
+						player.getInventory().setStorageContents(inventory[0]);
+						player.getInventory().setArmorContents(inventory[1]);
 					}
 				}
 				

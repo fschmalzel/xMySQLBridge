@@ -12,7 +12,6 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 import com.gmail.xlifehd.xmysqlbridge.BukkitSerialization;
 import com.gmail.xlifehd.xmysqlbridge.Main;
@@ -101,7 +100,7 @@ public class LoadHandler {
 		return null;
 	}
 	
-	public Float getExperience() {
+	public Integer getExperience() {
 		String tableName = config.getString("table.experience.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
@@ -110,7 +109,7 @@ public class LoadHandler {
 			ResultSet rs = con.createStatement().executeQuery( query );
 			
 			if ( rs.next() ) {
-				Float experience = rs.getFloat("experience");
+				Integer experience = rs.getInt("experience");
 				return experience;
 			}
 			
@@ -141,7 +140,7 @@ public class LoadHandler {
 		return null;
 	}
 	
-	public PlayerInventory getInventory() {
+	public ItemStack[][] getInventory() {
 		String tableName = config.getString("table.inventory.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
@@ -150,11 +149,9 @@ public class LoadHandler {
 			ResultSet rs = con.createStatement().executeQuery( query );
 			
 			if ( rs.next() ) {
-				Inventory inventory = BukkitSerialization.fromBase64( rs.getString("inventory") );
+				ItemStack[] inventory = BukkitSerialization.fromBase64( rs.getString("inventory") ).getStorageContents();
 				ItemStack[] armor = BukkitSerialization.itemStackArrayFromBase64( rs.getString("armor") );
-				PlayerInventory playerInventory = (PlayerInventory) inventory;
-				playerInventory.setArmorContents(armor);
-				return playerInventory;
+				return new ItemStack[][] {inventory, armor};
 			}
 			
 		} catch (SQLException e) {

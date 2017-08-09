@@ -67,7 +67,7 @@ public class GeneralHandler {
 						")";
 				String queryExperience =	"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.experience.name") + "` (" + 
 						"  `uuid` varchar(36) NOT NULL," + 
-						"  `experience` float NOT NULL," + 
+						"  `experience` int NOT NULL," + 
 						"  PRIMARY KEY (`uuid`)" + 
 						")";
 				String queryMoney =			"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.money.name") + "` (" + 
