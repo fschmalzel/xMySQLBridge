@@ -74,6 +74,8 @@ public class SaveHandler {
 							updateHealth.setString(1, mySQLPrefix + config.getString("table.health.name"));
 							updateHealth.setString(2, uuid);
 							updateHealth.setDouble(3, player.getPlayer().getHealth());
+							//DEBUG
+							Main.getPlugin().getLogger().info(updateHealth.toString());
 							updateHealth.executeUpdate();
 						}
 						

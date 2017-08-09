@@ -32,6 +32,8 @@ public class LoadHandler {
 	public Double getHealth () {
 		String tableName = config.getString("table.health.name");
 		String query = "SELECT * FROM " + mySQLPrefix + tableName + " WHERE uuid = " + uuid.toString() + ";";
+		//DEBUG
+		Main.getPlugin().getLogger().info(query);
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
 		ResultSet rs;
