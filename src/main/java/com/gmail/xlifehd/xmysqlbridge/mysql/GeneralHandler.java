@@ -44,33 +44,48 @@ public class GeneralHandler {
 				FileConfiguration config = Main.getPlugin().getConfig();
 				
 				//TODO Create Querys
-				String queryHealth =		"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.health.name") + "` (\r\n" + 
-						"  `uuid` varchar(16) NOT NULL,\r\n" + 
-						"  `health` double NOT NULL,\r\n" + 
-						"  PRIMARY KEY (`uuid`)\r\n" + 
+				String queryHealth =		"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.health.name") + "` (" + 
+						"  `uuid` varchar(36) NOT NULL," + 
+						"  `health` double NOT NULL," + 
+						"  PRIMARY KEY (`uuid`)" + 
 						")";
-				String queryHunger =		"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.hunger.name") + "` (\r\n" + 
-						"  `uuid` varchar(16) NOT NULL,\r\n" + 
-						"  `hunger` int NOT NULL,\r\n" + 
-						"  PRIMARY KEY (`uuid`)\r\n" + 
+				String queryHunger =		"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.hunger.name") + "` (" + 
+						"  `uuid` varchar(36) NOT NULL," + 
+						"  `hunger` int NOT NULL," + 
+						"  PRIMARY KEY (`uuid`)" + 
 						")";
 				String queryEffects =		"";
-				// uuid, String world, double x y z, float pitch yaw
-				String queryLocation =		"";
-				String queryExperience =	"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.experience.name") + "` (\r\n" + 
-						"  `uuid` varchar(16) NOT NULL,\r\n" + 
-						"  `experience` float NOT NULL,\r\n" + 
-						"  PRIMARY KEY (`uuid`)\r\n" + 
+				String queryLocation =		"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.location.name") + "` (" + 
+						"  `uuid` varchar(36) NOT NULL," + 
+						"  `world` varchar(200) NOT NULL," + 
+						"  `x` double NOT NULL," + 
+						"  `y` double NOT NULL," + 
+						"  `z` double NOT NULL," + 
+						"  `yaw` float NOT NULL," + 
+						"  `pitch` float NOT NULL," + 
+						"  PRIMARY KEY (`uuid`)" + 
 						")";
-				String queryMoney =			"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.money.name") + "` (\r\n" + 
-						"  `uuid` varchar(16) NOT NULL,\r\n" + 
-						"  `money` double NOT NULL,\r\n" + 
-						"  PRIMARY KEY (`uuid`)\r\n" + 
+				String queryExperience =	"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.experience.name") + "` (" + 
+						"  `uuid` varchar(36) NOT NULL," + 
+						"  `experience` float NOT NULL," + 
+						"  PRIMARY KEY (`uuid`)" + 
 						")";
-				// uuid, string inventory, string armor
-				String queryInventory =		"";
-				// uuid, string enderchest
-				String queryEnderchest =	"";
+				String queryMoney =			"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.money.name") + "` (" + 
+						"  `uuid` varchar(36) NOT NULL," + 
+						"  `money` double NOT NULL," + 
+						"  PRIMARY KEY (`uuid`)" + 
+						")";
+				String queryInventory =		"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.inventory.name") + "` (" + 
+						"  `uuid` varchar(36) NOT NULL," + 
+						"  `inventory` MEDIUMTEXT NOT NULL," + 
+						"  `armor` MEDIUMTEXT NOT NULL," + 
+						"  PRIMARY KEY (`uuid`)" + 
+						")";
+				String queryEnderchest =	"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.enderchest.name") + "` (" + 
+						"  `uuid` varchar(36) NOT NULL," + 
+						"  `enderchest` MEDIUMTEXT NOT NULL," + 
+						"  PRIMARY KEY (`uuid`)" + 
+						")";
 				String queryAchievements =	"";
 				
 				try {
