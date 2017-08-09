@@ -59,7 +59,7 @@ public class Main extends JavaPlugin {
 	}
 	
 	private void setupConfig() {
-		config = this.getConfig();
+		config = getConfig();
 		
 		config.options().header("xMySQLBridge Config by xLifeHD@gmail.com");
 		config.addDefault("CfgVersion", 1);
