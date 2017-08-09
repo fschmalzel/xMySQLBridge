@@ -1,7 +1,5 @@
 package com.gmail.xlifehd.xmysqlbridge;
 
-import java.sql.SQLException;
-
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -43,15 +41,6 @@ public class Main extends JavaPlugin {
 		}
 		
 		mySQLHandler = new GeneralHandler(config);
-		
-		//TODO Move this to GeneralHandler
-		try {
-			mySQLHandler.openConnection();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		
 		//TODO Readup on advanced events
 		getServer().getPluginManager().registerEvents(new OnJoin(), this);

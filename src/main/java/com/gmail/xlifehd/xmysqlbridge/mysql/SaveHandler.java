@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -17,7 +18,8 @@ public class SaveHandler {
 	private static String queryHealth =			"INSERT INTO ? (uuid, health) VALUES (?, ?) ON DUPLICATE KEY UPDATE health = VALUES(health);";
 	private static String queryHunger =			"INSERT INTO ? (uuid, hunger) VALUES (?, ?) ON DUPLICATE KEY UPDATE hunger = VALUES(hunger);";
 	private static String queryEffects =		"";
-	private static String queryLocation =		"";
+	private static String queryLocation =		"INSERT INTO ? (uuid, world, x, y, z, yaw, pitch) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE " +
+			"world = VALUES(world), x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch);";
 	private static String queryExperience =		"INSERT INTO ? (uuid, experience) VALUES (?, ?) ON DUPLICATE KEY UPDATE experience = VALUES(experience);";
 	private static String queryMoney =			"INSERT INTO ? (uuid, money) VALUES (?, ?) ON DUPLICATE KEY UPDATE money = VALUES(money);";
 	private static String queryInventory =		"INSERT INTO ? (uuid, inventory, armor) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE inventory = VALUES(inventory), armor = VALUES(armor);";
@@ -88,7 +90,16 @@ public class SaveHandler {
 						}
 						
 						if ( updateLocation != null ) {
-							//TODO SAVE LOCATION
+							Location loc = player.getPlayer().getLocation();
+							
+							updateLocation.setString(1, mySQLPrefix + config.getString("table.location.name"));
+							updateLocation.setString(2, uuid);
+							updateLocation.setString(3, loc.getWorld().getName());
+							updateLocation.setDouble(4, loc.getX());
+							updateLocation.setDouble(5, loc.getY());
+							updateLocation.setDouble(6, loc.getZ());
+							updateLocation.setFloat (7, loc.getYaw());
+							updateLocation.setFloat (8, loc.getPitch());
 							updateLocation.executeUpdate();
 						}
 						

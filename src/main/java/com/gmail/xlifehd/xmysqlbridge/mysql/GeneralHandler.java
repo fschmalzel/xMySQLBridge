@@ -24,6 +24,14 @@ public class GeneralHandler {
 		username = config.getString("mysql.username");
 		password = config.getString("mysql.password");
 		
+		try {
+			openConnection();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		setupTables(config);
 	}
 	
@@ -47,14 +55,22 @@ public class GeneralHandler {
 						"  PRIMARY KEY (`uuid`)\r\n" + 
 						")";
 				String queryEffects =		"";
+				// uuid, String world, double x y z, float pitch yaw
 				String queryLocation =		"";
 				String queryExperience =	"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.experience.name") + "` (\r\n" + 
 						"  `uuid` varchar(16) NOT NULL,\r\n" + 
 						"  `experience` float NOT NULL,\r\n" + 
 						"  PRIMARY KEY (`uuid`)\r\n" + 
 						")";
-				String queryMoney =			"";
+				// uuid, double money
+				String queryMoney =			"CREATE TABLE IF NOT EXISTS `" + config.getString("mysql.prefix") + config.getString("table.money.name") + "` (\r\n" + 
+						"  `uuid` varchar(16) NOT NULL,\r\n" + 
+						"  `money` double NOT NULL,\r\n" + 
+						"  PRIMARY KEY (`uuid`)\r\n" + 
+						")";
+				// uuid, string inventory, string armor
 				String queryInventory =		"";
+				// uuid, string enderchest
 				String queryEnderchest =	"";
 				String queryAchievements =	"";
 				

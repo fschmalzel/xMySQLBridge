@@ -1,10 +1,13 @@
 package com.gmai.xlifehd.xmysqlbridge.listener;
 
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.gmail.xlifehd.xmysqlbridge.Main;
 import com.gmail.xlifehd.xmysqlbridge.mysql.LoadHandler;
@@ -20,11 +23,17 @@ public class OnJoin implements Listener {
 		LoadHandler loadHandler = new LoadHandler(player);
 		
 		if ( config.getBoolean("table.health.enabled") ) {
-			player.setHealth(loadHandler.getHealth());
+			Double health = loadHandler.getHealth();
+			if ( health != null ) {
+				player.setHealth(health);
+			}
 		}
 		
 		if ( config.getBoolean("table.hunger.enabled") ) {
-			player.setFoodLevel(loadHandler.getHunger());
+			Integer hunger = loadHandler.getHunger();
+			if ( hunger != null ) {
+				player.setFoodLevel(hunger);
+			}
 		}
 		
 		if ( config.getBoolean("table.effects.enabled") ) {
@@ -33,25 +42,44 @@ public class OnJoin implements Listener {
 		}
 		
 		if ( config.getBoolean("table.location.enabled") ) {
-			//TODO SET LOCATION
-			//Location loc = loadHandler.getLocation();
-			//player.setLocation(loadHandler.getLocation());
+			Location loc = loadHandler.getLocation();
+			if ( loc != null ) {
+				player.teleport(loc);
+			}
 		}
 		
 		if ( config.getBoolean("table.experience.enabled") ) {
-			player.setExp(loadHandler.getExperience());
+			Float exp = loadHandler.getExperience();
+			if ( exp != null ) {
+				player.setExp(exp);
+			}
 		}
 		
 		if ( config.getBoolean("table.money.enabled") ) {
-			//TODO SET MONEY
+			Double money = loadHandler.getMoney();
+			if ( money != null ) {
+				double difference = money - Main.getEconomy().getBalance(player);
+				if ( difference > 0 ) {
+					Main.getEconomy().depositPlayer(player, difference);
+				} else {
+					Main.getEconomy().withdrawPlayer(player, -difference);
+				}
+			}
 		}
 		
 		if ( config.getBoolean("table.inventory.enabled") ) {
-			//TODO SET INVENTORY
+			PlayerInventory playerInventory = loadHandler.getInventory();
+			if ( playerInventory != null ) {
+				player.getInventory().setStorageContents(playerInventory.getStorageContents());
+				player.getInventory().setArmorContents(playerInventory.getArmorContents());
+			}
 		}
 		
 		if ( config.getBoolean("table.enderchest.enabled") ) {
-			//TODO SET ENDERCHEST INVENTORY
+			Inventory enderchest = loadHandler.getEnderchest();
+			if ( enderchest != null ) {
+				player.getEnderChest().setStorageContents(enderchest.getStorageContents());
+			}
 		}
 		
 		if ( config.getBoolean("table.achievements.enabled") ) {

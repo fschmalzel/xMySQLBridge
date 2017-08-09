@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -30,7 +32,7 @@ public class LoadHandler {
 		mySQLPrefix = config.getString("mysql.prefix");
 	}
 	
-	public double getHealth () {
+	public Double getHealth () {
 		String tableName = config.getString("table.health.name");
 		String query = "SELECT * FROM " + mySQLPrefix + tableName + " WHERE uuid = " + uuid.toString() + ";";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
@@ -47,10 +49,10 @@ public class LoadHandler {
 			e.printStackTrace();
 		}
 		
-		return player.getPlayer().getHealth();
+		return null;
 	}
 	
-	public int getHunger() {
+	public Integer getHunger() {
 		String tableName = config.getString("table.hunger.name");
 		String query = "SELECT * FROM " + mySQLPrefix + tableName + " WHERE uuid = " + uuid.toString() + ";";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
@@ -67,7 +69,7 @@ public class LoadHandler {
 			e.printStackTrace();
 		}
 		
-		return player.getPlayer().getFoodLevel();
+		return null;
 	}
 	
 	public void getEffects() {
@@ -75,11 +77,34 @@ public class LoadHandler {
 	}
 	
 	public Location getLocation() {
-		//TODO LOAD LOCATION
+		String tableName = config.getString("table.location.name");
+		String query = "SELECT * FROM " + mySQLPrefix + tableName + " WHERE uuid = " + uuid.toString() + ";";
+		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
+		
+		ResultSet rs;
+		
+		try {
+			rs = con.createStatement().executeQuery( query );
+			String worldString = rs.getString("world");
+			Double x = rs.getDouble("x");
+			Double y = rs.getDouble("y");
+			Double z = rs.getDouble("z");
+			Float yaw = rs.getFloat("yaw");
+			Float pitch = rs.getFloat("pitch");
+			if ( worldString != null && x != null && y != null && z != null && yaw != null & pitch != null ) {
+				World world = Bukkit.getWorld(worldString);
+				Location loc = new Location(world, x, y, z, yaw, pitch);
+				return loc;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 	
-	public float getExperience() {
+	public Float getExperience() {
 		String tableName = config.getString("table.experience.name");
 		String query = "SELECT * FROM " + mySQLPrefix + tableName + " WHERE uuid = " + uuid.toString() + ";";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
@@ -96,12 +121,27 @@ public class LoadHandler {
 			e.printStackTrace();
 		}
 		
-		return player.getPlayer().getExp();
+		return null;
 	}
 	
-	public double getMoney() {
-		//TODO LOAD MONEY
-		return 0;
+	public Double getMoney() {
+		String tableName = config.getString("table.money.name");
+		String query = "SELECT * FROM " + mySQLPrefix + tableName + " WHERE uuid = " + uuid.toString() + ";";
+		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
+		
+		ResultSet rs;
+		
+		try {
+			rs = con.createStatement().executeQuery( query );
+			Double money = rs.getDouble("money");
+			if ( money != null ) {
+				return money;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public PlayerInventory getInventory() {
@@ -132,8 +172,27 @@ public class LoadHandler {
 		return null;
 	}
 	
-	public void getEnderchest() {
-		//TODO LOAD ENDERCHEST
+	public Inventory getEnderchest() {
+		String tableName = config.getString("table.enderchest.name");
+		String query = "SELECT * FROM " + mySQLPrefix + tableName + " WHERE uuid = " + uuid.toString() + ";";
+		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
+		
+		ResultSet rs;
+		
+		try {
+			rs = con.createStatement().executeQuery( query );
+			String enderchestString = rs.getString("enderchest");
+			if ( enderchestString != null ) {
+				Inventory enderchestInventory = BukkitSerialization.fromBase64(enderchestString);
+				return enderchestInventory;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public void getAchievements() {
@@ -141,3 +200,18 @@ public class LoadHandler {
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
