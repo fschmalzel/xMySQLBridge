@@ -114,8 +114,8 @@ public class SaveHandler {
 						}
 						
 						if ( updateHunger != null ) {
-							updateHealth.setString(1, uuid);
-							updateHealth.setInt(2, player.getPlayer().getFoodLevel());
+							updateHunger.setString(1, uuid);
+							updateHunger.setInt(2, player.getPlayer().getFoodLevel());
 							//DEBUG
 							Main.getPlugin().getLogger().info(updateHunger.toString());
 							updateHunger.executeUpdate();

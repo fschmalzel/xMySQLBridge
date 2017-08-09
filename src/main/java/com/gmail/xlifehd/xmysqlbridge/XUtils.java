@@ -13,7 +13,7 @@ public class XUtils {
 	}
 	
 	public static boolean isFrozen( Player player ) {
-		return true;
+		return false;
 	}
 	
 }
