@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.gmai.xlifehd.xmysqlbridge.listener.OnJoin;
-import com.gmai.xlifehd.xmysqlbridge.listener.OnQuit;
 import com.gmail.xlifehd.xmysqlbridge.commands.TestCommand;
+import com.gmail.xlifehd.xmysqlbridge.listener.OnJoin;
+import com.gmail.xlifehd.xmysqlbridge.listener.OnQuit;
 import com.gmail.xlifehd.xmysqlbridge.mysql.GeneralHandler;
 import com.gmail.xlifehd.xmysqlbridge.mysql.SaveHandler;
 

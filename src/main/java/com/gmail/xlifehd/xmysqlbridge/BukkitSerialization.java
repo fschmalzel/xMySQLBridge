@@ -24,7 +24,8 @@ public class BukkitSerialization {
      */
     public static String[] playerInventoryToBase64(PlayerInventory playerInventory) throws IllegalStateException {
     	//get the main content part, this doesn't return the armor
-    	String content = toBase64(playerInventory);
+    	//String content = toBase64(playerInventory);
+    	String content = itemStackArrayToBase64(playerInventory.getStorageContents());
     	String armor = itemStackArrayToBase64(playerInventory.getArmorContents());
     	
     	return new String[] { content, armor };
@@ -117,10 +118,13 @@ public class BukkitSerialization {
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
             BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
-            Inventory inventory = Bukkit.getServer().createInventory(null, dataInput.readInt());
+            int itemLength = dataInput.readInt();
+            int invSize = itemLength + 9 - (itemLength % 9); //Convert to multiple of 9
+            
+            Inventory inventory = Bukkit.getServer().createInventory(null, invSize);
     
             // Read the serialized inventory
-            for (int i = 0; i < inventory.getSize(); i++) {
+            for (int i = 0; i < itemLength; i++) {
                 inventory.setItem(i, (ItemStack) dataInput.readObject());
             }
             

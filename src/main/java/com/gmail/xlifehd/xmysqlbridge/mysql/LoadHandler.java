@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.gmail.xlifehd.xmysqlbridge.BukkitSerialization;
@@ -149,7 +148,7 @@ public class LoadHandler {
 			ResultSet rs = con.createStatement().executeQuery( query );
 			
 			if ( rs.next() ) {
-				ItemStack[] inventory = BukkitSerialization.fromBase64( rs.getString("inventory") ).getContents();
+				ItemStack[] inventory = BukkitSerialization.itemStackArrayFromBase64( rs.getString("inventory") );
 				ItemStack[] armor = BukkitSerialization.itemStackArrayFromBase64( rs.getString("armor") );
 				return new ItemStack[][] {inventory, armor};
 			}
@@ -163,7 +162,7 @@ public class LoadHandler {
 		return null;
 	}
 	
-	public Inventory getEnderchest() {
+	public ItemStack[] getEnderchest() {
 		String tableName = config.getString("table.enderchest.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
@@ -172,8 +171,8 @@ public class LoadHandler {
 			ResultSet rs = con.createStatement().executeQuery( query );
 			
 			if (rs.next() ) {
-				Inventory enderchestInventory = BukkitSerialization.fromBase64(rs.getString("enderchest"));
-				return enderchestInventory;
+				ItemStack[] enderchest = BukkitSerialization.itemStackArrayFromBase64(rs.getString("enderchest"));
+				return enderchest;
 			}
 			
 		} catch (SQLException e) {

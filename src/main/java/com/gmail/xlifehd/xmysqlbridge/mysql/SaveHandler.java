@@ -164,7 +164,7 @@ public class SaveHandler {
 						}
 						
 						if ( updateEnderchest != null ) {
-							String enderchestString = BukkitSerialization.toBase64(player.getPlayer().getEnderChest());
+							String enderchestString = BukkitSerialization.itemStackArrayToBase64(player.getPlayer().getEnderChest().getStorageContents());
 							updateEnderchest.setString(1, uuid);
 							updateEnderchest.setString(2, enderchestString);
 							updateEnderchest.executeUpdate();

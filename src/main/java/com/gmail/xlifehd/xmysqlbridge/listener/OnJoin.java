@@ -1,4 +1,4 @@
-package com.gmai.xlifehd.xmysqlbridge.listener;
+package com.gmail.xlifehd.xmysqlbridge.listener;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.gmail.xlifehd.xmysqlbridge.Main;
@@ -74,15 +73,15 @@ public class OnJoin implements Listener {
 				if ( config.getBoolean("table.inventory.enabled") ) {
 					ItemStack[][] inventory = loadHandler.getInventory();
 					if ( inventory != null ) {
-						player.getInventory().setContents(inventory[0]);
+						player.getInventory().setStorageContents(inventory[0]);
 						player.getInventory().setArmorContents(inventory[1]);
 					}
 				}
 				
 				if ( config.getBoolean("table.enderchest.enabled") ) {
-					Inventory enderchest = loadHandler.getEnderchest();
+					ItemStack[] enderchest = loadHandler.getEnderchest();
 					if ( enderchest != null ) {
-						player.getEnderChest().setStorageContents(enderchest.getStorageContents());
+						player.getEnderChest().setStorageContents(enderchest);
 					}
 				}
 				
