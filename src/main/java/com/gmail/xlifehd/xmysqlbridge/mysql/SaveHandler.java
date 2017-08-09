@@ -142,8 +142,8 @@ public class SaveHandler {
 						}
 						
 						if ( updateExperience != null ) {
-							updateHealth.setString(1, uuid);
-							updateHealth.setFloat(2, player.getPlayer().getExp());
+							updateExperience.setString(1, uuid);
+							updateExperience.setFloat(2, player.getPlayer().getExp());
 							//DEBUG
 							Main.getPlugin().getLogger().info(updateExperience.toString());
 							updateExperience.executeUpdate();
