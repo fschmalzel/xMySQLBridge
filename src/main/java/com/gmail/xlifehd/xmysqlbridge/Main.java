@@ -1,7 +1,12 @@
 package com.gmail.xlifehd.xmysqlbridge;
 
+import java.util.Collection;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -9,6 +14,7 @@ import com.gmai.xlifehd.xmysqlbridge.listener.OnJoin;
 import com.gmai.xlifehd.xmysqlbridge.listener.OnQuit;
 import com.gmail.xlifehd.xmysqlbridge.commands.TestCommand;
 import com.gmail.xlifehd.xmysqlbridge.mysql.GeneralHandler;
+import com.gmail.xlifehd.xmysqlbridge.mysql.SaveHandler;
 
 import net.milkbowl.vault.economy.Economy;
 
@@ -55,7 +61,10 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		//TODO SAVE DATA OR MAYBE NOT
+		Collection<? extends Player> playerCollection = Bukkit.getOnlinePlayers();
+		OfflinePlayer[] players = (OfflinePlayer[]) playerCollection.toArray();
+		SaveHandler saveHandler = new SaveHandler(players);
+		saveHandler.savePlayerData();
 	}
 	
 	private void setupConfig() {
