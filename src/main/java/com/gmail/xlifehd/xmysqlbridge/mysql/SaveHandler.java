@@ -180,15 +180,15 @@ public class SaveHandler {
 					}
 					
 					//TODO Check if it exists
-					updateHealth.close();
-					updateHunger.close();
-					updateEffects.close();
-					updateLocation.close();
-					updateExperience.close();
-					updateMoney.close();
-					updateInventory.close();
-					updateEnderchest.close();
-					updateAchievements.close();
+					if ( updateHealth != null ) { updateHealth.close(); };
+					if ( updateHunger != null ) { updateHunger.close(); };
+					if ( updateEffects != null ) { updateEffects.close(); };
+					if ( updateLocation != null ) { updateLocation.close(); };
+					if ( updateExperience != null ) { updateExperience.close(); };
+					if ( updateMoney != null ) { updateMoney.close(); };
+					if ( updateInventory != null ) { updateInventory.close(); };
+					if ( updateEnderchest != null ) { updateEnderchest.close(); };
+					if ( updateAchievements != null ) { updateAchievements.close(); };
 					con.setAutoCommit(true);
 					
 				} catch (SQLException e) {

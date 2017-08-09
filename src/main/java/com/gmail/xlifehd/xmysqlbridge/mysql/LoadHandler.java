@@ -149,7 +149,7 @@ public class LoadHandler {
 			ResultSet rs = con.createStatement().executeQuery( query );
 			
 			if ( rs.next() ) {
-				ItemStack[] inventory = BukkitSerialization.fromBase64( rs.getString("inventory") ).getStorageContents();
+				ItemStack[] inventory = BukkitSerialization.fromBase64( rs.getString("inventory") ).getContents();
 				ItemStack[] armor = BukkitSerialization.itemStackArrayFromBase64( rs.getString("armor") );
 				return new ItemStack[][] {inventory, armor};
 			}

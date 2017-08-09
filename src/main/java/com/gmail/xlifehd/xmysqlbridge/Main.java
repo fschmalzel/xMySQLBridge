@@ -73,6 +73,7 @@ public class Main extends JavaPlugin {
 		config.options().header("xMySQLBridge Config by xLifeHD@gmail.com");
 		config.addDefault("CfgVersion", 1);
 		
+		//TODO useSSL config
 		config.addDefault("mysql.host", "127.0.0.1");
 		config.addDefault("mysql.port", 3306);
 		config.addDefault("mysql.database", "minecraft");
