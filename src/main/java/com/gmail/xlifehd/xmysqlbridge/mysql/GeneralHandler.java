@@ -104,8 +104,6 @@ public class GeneralHandler {
 					if ( config.getBoolean("table.enderchest.enabled"))		{ statement.executeUpdate(queryEnderchest); }
 					if ( config.getBoolean("table.achievements.enabled"))	{ statement.executeUpdate(queryAchievements); }
 					
-					con.close();
-					
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (SQLException e) {
