@@ -5,8 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -27,9 +27,9 @@ public class SaveHandler {
 	private static String queryEnderchest =		"INSERT INTO %s (uuid, enderchest) VALUES (?, ?) ON DUPLICATE KEY UPDATE enderchest = VALUES(enderchest);";
 	private static String queryAchievements =	"";
 	
-	private OfflinePlayer[] players;
+	private Player[] players;
 	
-	public SaveHandler (OfflinePlayer[] players) {
+	public SaveHandler (Player[] players) {
 		this.players = players;
 	}
 	
@@ -102,21 +102,21 @@ public class SaveHandler {
 						updateAchievements = con.prepareStatement(queryAchievements);
 					}
 					
-					for ( OfflinePlayer player : players ) {
+					for ( Player player : players ) {
 						
 						String uuid = player.getUniqueId().toString();
 						
 						if ( updateHealth != null ) {
 							updateHealth.setString(1, uuid);
-							updateHealth.setDouble(2, player.getPlayer().getHealth());
+							updateHealth.setDouble(2, player.getHealth());
 							
 							updateHealth.executeUpdate();
 						}
 						
 						if ( updateHunger != null ) {
 							updateHunger.setString(1, uuid);
-							updateHunger.setInt(2, player.getPlayer().getFoodLevel());
-							updateHunger.setFloat(3, player.getPlayer().getSaturation());
+							updateHunger.setInt(2, player.getFoodLevel());
+							updateHunger.setFloat(3, player.getSaturation());
 							
 							updateHunger.executeUpdate();
 						}
@@ -127,7 +127,7 @@ public class SaveHandler {
 						}
 						
 						if ( updateLocation != null ) {
-							Location loc = player.getPlayer().getLocation();
+							Location loc = player.getLocation();
 							
 							updateLocation.setString(1, uuid);
 							updateLocation.setString(2, loc.getWorld().getName());
@@ -142,21 +142,21 @@ public class SaveHandler {
 						
 						if ( updateExperience != null ) {
 							updateExperience.setString(1, uuid);
-							updateExperience.setInt(2, player.getPlayer().getTotalExperience());
-							updateExperience.setInt(3, player.getPlayer().getLevel());
-							updateExperience.setFloat(4, player.getPlayer().getExp());
+							updateExperience.setInt(2, player.getTotalExperience());
+							updateExperience.setInt(3, player.getLevel());
+							updateExperience.setFloat(4, player.getExp());
 							updateExperience.executeUpdate();
 						}
 						
 						if ( updateMoney != null ) {
 							updateMoney.setString(1, uuid);
-							updateMoney.setDouble(2, Main.getEconomy().getBalance(player));
+							updateMoney.setDouble(2, Main.getEconomy().getBalance(player.getPlayer()));
 							updateMoney.executeUpdate();
 						}
 						
 						if ( updateInventory != null ) {
-							String[] inventoryString = BukkitSerialization.playerInventoryToBase64(player.getPlayer().getInventory());
-							String offhand = BukkitSerialization.itemStackArrayToBase64(new ItemStack[] {player.getPlayer().getInventory().getItemInOffHand()});
+							String[] inventoryString = BukkitSerialization.playerInventoryToBase64(player.getInventory());
+							String offhand = BukkitSerialization.itemStackArrayToBase64(new ItemStack[] {player.getInventory().getItemInOffHand()});
 							
 							updateInventory.setString(1, uuid);
 							updateInventory.setString(2, inventoryString[0]);
@@ -167,7 +167,7 @@ public class SaveHandler {
 						}
 						
 						if ( updateEnderchest != null ) {
-							String enderchestString = BukkitSerialization.itemStackArrayToBase64(player.getPlayer().getEnderChest().getStorageContents());
+							String enderchestString = BukkitSerialization.itemStackArrayToBase64(player.getEnderChest().getStorageContents());
 							
 							updateEnderchest.setString(1, uuid);
 							updateEnderchest.setString(2, enderchestString);

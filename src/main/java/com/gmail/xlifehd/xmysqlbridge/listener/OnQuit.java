@@ -1,6 +1,5 @@
 package com.gmail.xlifehd.xmysqlbridge.listener;
 
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +13,7 @@ public class OnQuit implements Listener {
 	@EventHandler
 	public void onPlayerQuitEvent(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
-		OfflinePlayer[] players = {(OfflinePlayer) event.getPlayer()};
+		Player[] players = {player};
 		
 		if ( !XUtils.isFrozen(player) ) {
 			SaveHandler saveHandler = new SaveHandler(players);

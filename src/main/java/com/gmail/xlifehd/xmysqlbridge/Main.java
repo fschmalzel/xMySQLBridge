@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -122,8 +121,8 @@ public class Main extends JavaPlugin {
 	
 	public void saveAllPlayers() {
 		Collection<? extends Player> playerCollection = Bukkit.getOnlinePlayers();
-		OfflinePlayer[] players = (OfflinePlayer[]) playerCollection.toArray();
-		SaveHandler saveHandler = new SaveHandler(players);
+		Player[] playerArray = playerCollection.toArray(new Player[playerCollection.size()]);
+		SaveHandler saveHandler = new SaveHandler(playerArray);
 		saveHandler.savePlayerData();
 	}
 	
