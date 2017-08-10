@@ -17,7 +17,7 @@ public class OnQuit implements Listener {
 		
 		if ( !XUtils.isFrozen(player) ) {
 			SaveHandler saveHandler = new SaveHandler(players);
-			saveHandler.savePlayerData();
+			saveHandler.savePlayerDataAsync();
 		}
 		
 	}

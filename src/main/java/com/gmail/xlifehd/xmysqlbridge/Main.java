@@ -60,7 +60,7 @@ public class Main extends JavaPlugin {
 		if (config.getBoolean("savetask.enabled")) {
 			Runnable r = new Runnable() {
 				public void run() {
-					saveAllPlayers();
+					getPreparedSaveHandler().savePlayerDataAsync();
 				}
 			};
 			long time = config.getLong("savetask.timer") * 20;
@@ -71,7 +71,7 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		saveAllPlayers();
+		getPreparedSaveHandler().savePlayerData();
 	}
 	
 	private void setupConfig() {
@@ -119,11 +119,11 @@ public class Main extends JavaPlugin {
 		
 	}
 	
-	public void saveAllPlayers() {
+	public SaveHandler getPreparedSaveHandler() {
 		Collection<? extends Player> playerCollection = Bukkit.getOnlinePlayers();
 		Player[] playerArray = playerCollection.toArray(new Player[playerCollection.size()]);
 		SaveHandler saveHandler = new SaveHandler(playerArray);
-		saveHandler.savePlayerData();
+		return saveHandler;
 	}
 	
 	public static Main getPlugin() {
