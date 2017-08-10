@@ -160,7 +160,8 @@ public class LoadHandler {
 			if ( rs.next() ) {
 				ItemStack[] inventory = BukkitSerialization.itemStackArrayFromBase64( rs.getString("inventory") );
 				ItemStack[] armor = BukkitSerialization.itemStackArrayFromBase64( rs.getString("armor") );
-				return new ItemStack[][] {inventory, armor};
+				ItemStack[] offhand = BukkitSerialization.itemStackArrayFromBase64( rs.getString("offhand") );
+				return new ItemStack[][] {inventory, armor, offhand};
 			}
 			
 		} catch (SQLException e) {

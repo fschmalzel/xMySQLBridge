@@ -77,6 +77,7 @@ public class OnJoin implements Listener {
 					if ( inventory != null ) {
 						player.getInventory().setStorageContents(inventory[0]);
 						player.getInventory().setArmorContents(inventory[1]);
+						player.getInventory().setExtraContents(inventory[2]);
 					}
 				}
 				

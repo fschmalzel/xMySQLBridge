@@ -85,6 +85,7 @@ public class Main extends JavaPlugin {
 		config.addDefault("savetask.enabled", true);
 		config.addDefault("savetask.timer", 180);
 		
+		//TODO saturation remaining air
 		String[] tables = {"health", "hunger", "effects", "location", "experience", "money", "inventory", "enderchest", "achievements"};
 		
 		for ( String table: tables ) {

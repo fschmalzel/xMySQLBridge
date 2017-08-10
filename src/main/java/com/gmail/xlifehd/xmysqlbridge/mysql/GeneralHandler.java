@@ -82,6 +82,7 @@ public class GeneralHandler {
 						"  `uuid` varchar(36) NOT NULL," + 
 						"  `inventory` MEDIUMTEXT NOT NULL," + 
 						"  `armor` MEDIUMTEXT NOT NULL," + 
+						"  `offhand` MEDIUMTEXT NOT NULL," + 
 						"  PRIMARY KEY (`uuid`)" + 
 						")";
 				String queryEnderchest =	"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.enderchest.name") + "` (" + 

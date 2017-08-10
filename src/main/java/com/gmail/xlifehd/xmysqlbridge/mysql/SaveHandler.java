@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.gmail.xlifehd.xmysqlbridge.BukkitSerialization;
@@ -22,7 +23,7 @@ public class SaveHandler {
 			"world = VALUES(world), x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch);";
 	private static String queryExperience =		"INSERT INTO %s (uuid, totalExp, level, exp) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE totalExp = VALUES(totalExp), level = VALUES(level), exp = VALUES(exp);";
 	private static String queryMoney =			"INSERT INTO %s (uuid, money) VALUES (?, ?) ON DUPLICATE KEY UPDATE money = VALUES(money);";
-	private static String queryInventory =		"INSERT INTO %s (uuid, inventory, armor) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE inventory = VALUES(inventory), armor = VALUES(armor);";
+	private static String queryInventory =		"INSERT INTO %s (uuid, inventory, armor, offhand) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE inventory = VALUES(inventory), armor = VALUES(armor), offhand = VALUES(offhand);";
 	private static String queryEnderchest =		"INSERT INTO %s (uuid, enderchest) VALUES (?, ?) ON DUPLICATE KEY UPDATE enderchest = VALUES(enderchest);";
 	private static String queryAchievements =	"";
 	
@@ -156,10 +157,11 @@ public class SaveHandler {
 						
 						if ( updateInventory != null ) {
 							String[] inventoryString = BukkitSerialization.playerInventoryToBase64(player.getPlayer().getInventory());
-							
+							String offhand = BukkitSerialization.itemStackArrayToBase64(new ItemStack[] {player.getPlayer().getInventory().getItemInOffHand()});
 							updateInventory.setString(1, uuid);
 							updateInventory.setString(2, inventoryString[0]);
 							updateInventory.setString(3, inventoryString[1]);
+							updateInventory.setString(4, offhand);
 							
 							updateInventory.executeUpdate();
 						}
