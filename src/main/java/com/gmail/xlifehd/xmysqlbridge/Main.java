@@ -57,14 +57,22 @@ public class Main extends JavaPlugin {
 		//DEBUG
 		//Register Commands
 		this.getCommand("xmbr").setExecutor(new TestCommand());
+		
+		if (config.getBoolean("savetask.enabled")) {
+			Runnable r = new Runnable() {
+				public void run() {
+					saveAllPlayers();
+				}
+			};
+			long time = config.getLong("savetask.timer") * 20;
+			Main.getPlugin().getServer().getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), r, time, time);
+		}
+		
 	}
 	
 	@Override
 	public void onDisable() {
-		Collection<? extends Player> playerCollection = Bukkit.getOnlinePlayers();
-		OfflinePlayer[] players = (OfflinePlayer[]) playerCollection.toArray();
-		SaveHandler saveHandler = new SaveHandler(players);
-		saveHandler.savePlayerData();
+		saveAllPlayers();
 	}
 	
 	private void setupConfig() {
@@ -110,6 +118,13 @@ public class Main extends JavaPlugin {
 		econ = rsp.getProvider();
 		return econ != null;
 		
+	}
+	
+	public void saveAllPlayers() {
+		Collection<? extends Player> playerCollection = Bukkit.getOnlinePlayers();
+		OfflinePlayer[] players = (OfflinePlayer[]) playerCollection.toArray();
+		SaveHandler saveHandler = new SaveHandler(players);
+		saveHandler.savePlayerData();
 	}
 	
 	public static Main getPlugin() {
