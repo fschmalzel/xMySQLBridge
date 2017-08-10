@@ -53,6 +53,7 @@ public class GeneralHandler {
 				String queryHunger =		"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.hunger.name") + "` (" + 
 						"  `uuid` varchar(36) NOT NULL," + 
 						"  `hunger` int NOT NULL," + 
+						"  `saturation` float NOT NULL," + 
 						"  PRIMARY KEY (`uuid`)" + 
 						")";
 				String queryEffects =		"";

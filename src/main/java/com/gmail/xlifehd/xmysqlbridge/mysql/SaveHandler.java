@@ -17,7 +17,7 @@ public class SaveHandler {
 	
 	//TODO CREATE QUERYS
 	private static String queryHealth =			"INSERT INTO %s (uuid, health) VALUES (?, ?) ON DUPLICATE KEY UPDATE health = VALUES(health);";
-	private static String queryHunger =			"INSERT INTO %s (uuid, hunger) VALUES (?, ?) ON DUPLICATE KEY UPDATE hunger = VALUES(hunger);";
+	private static String queryHunger =			"INSERT INTO %s (uuid, hunger, saturation) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE hunger = VALUES(hunger), saturation = VALUES(saturation);";
 	private static String queryEffects =		"";
 	private static String queryLocation =		"INSERT INTO %s (uuid, world, x, y, z, yaw, pitch) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE " +
 			"world = VALUES(world), x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch);";
@@ -116,6 +116,7 @@ public class SaveHandler {
 						if ( updateHunger != null ) {
 							updateHunger.setString(1, uuid);
 							updateHunger.setInt(2, player.getPlayer().getFoodLevel());
+							updateHunger.setFloat(3, player.getPlayer().getSaturation());
 							
 							updateHunger.executeUpdate();
 						}
@@ -144,8 +145,6 @@ public class SaveHandler {
 							updateExperience.setInt(2, player.getPlayer().getTotalExperience());
 							updateExperience.setInt(3, player.getPlayer().getLevel());
 							updateExperience.setFloat(4, player.getPlayer().getExp());
-							//DEBUG
-							Main.getPlugin().getLogger().info(updateExperience.toString());
 							updateExperience.executeUpdate();
 						}
 						
@@ -158,6 +157,7 @@ public class SaveHandler {
 						if ( updateInventory != null ) {
 							String[] inventoryString = BukkitSerialization.playerInventoryToBase64(player.getPlayer().getInventory());
 							String offhand = BukkitSerialization.itemStackArrayToBase64(new ItemStack[] {player.getPlayer().getInventory().getItemInOffHand()});
+							
 							updateInventory.setString(1, uuid);
 							updateInventory.setString(2, inventoryString[0]);
 							updateInventory.setString(3, inventoryString[1]);

@@ -33,9 +33,10 @@ public class OnJoin implements Listener {
 				}
 				
 				if ( config.getBoolean("table.hunger.enabled") ) {
-					Integer hunger = loadHandler.getHunger();
-					if ( hunger != null ) {
-						player.setFoodLevel(hunger);
+					Number[] data = loadHandler.getHunger();
+					if ( data != null ) {
+						player.setFoodLevel(data[0].intValue());
+						player.setSaturation(data[1].floatValue());
 					}
 				}
 				
@@ -98,8 +99,8 @@ public class OnJoin implements Listener {
 			
 		};//Runnable end
 		
-		Main.getPlugin().getServer().getScheduler().scheduleSyncDelayedTask(Main.getPlugin(), r, 20 * 1);
-				
+		Main.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(Main.getPlugin(), r, 20*1);
+		
 	}
 	
 }

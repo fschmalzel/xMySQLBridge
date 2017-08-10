@@ -47,7 +47,7 @@ public class LoadHandler {
 		return null;
 	}
 	
-	public Integer getHunger() {
+	public Number[] getHunger() {
 		String tableName = config.getString("table.hunger.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
@@ -57,7 +57,9 @@ public class LoadHandler {
 			
 			if ( rs.next() ) {
 				Integer hunger = rs.getInt("hunger");
-				return hunger;
+				Float saturation = rs.getFloat("saturation");
+				
+				return new Number[] {(Number) (hunger), (Number) (saturation)};
 			}
 			
 		} catch (SQLException e) {
@@ -109,15 +111,6 @@ public class LoadHandler {
 				Integer totalExp = rs.getInt("totalExp");
 				Integer level = rs.getInt("level");
 				Float exp = rs.getFloat("exp");
-				
-				//DEBUG
-				Main.getPlugin().getLogger().info(((Number) (totalExp)).toString());
-				Main.getPlugin().getLogger().info(((Number) (level)).toString());
-				Main.getPlugin().getLogger().info(((Number) (exp)).toString());
-				//DEBUG
-				Main.getPlugin().getLogger().info( String.valueOf(( (Number) (totalExp) ).intValue() ));
-				Main.getPlugin().getLogger().info( String.valueOf(( (Number) (level) ).intValue() ));
-				Main.getPlugin().getLogger().info( String.valueOf(( (Number) (exp) ).floatValue() ));
 				
 				return new Number[] {(Number) (totalExp), (Number) (level), (Number) (exp)};
 			}

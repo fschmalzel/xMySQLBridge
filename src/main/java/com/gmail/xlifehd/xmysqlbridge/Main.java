@@ -85,7 +85,7 @@ public class Main extends JavaPlugin {
 		config.addDefault("savetask.enabled", true);
 		config.addDefault("savetask.timer", 180);
 		
-		//TODO saturation remaining air
+		//TODO Add remaining air, fire ticks, exhaustion, fallheight, bed spawn location, essentials info, gamemode
 		String[] tables = {"health", "hunger", "effects", "location", "experience", "money", "inventory", "enderchest", "achievements"};
 		
 		for ( String table: tables ) {
