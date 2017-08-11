@@ -3,6 +3,8 @@ package com.gmail.xlifehd.xmysqlbridge;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -14,6 +16,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
@@ -252,17 +255,21 @@ public class BukkitSerialization {
 	 * 
 	 * A method to serialize {@link AdvancementProgress} to Base64 String.
 	 * 
-	 * @param player to get advancementPrograss from to turn into a Base64 String.
-	 * @return Base64 string of the advancementPrograss.
+	 * @param player to get advancementProgress from to turn into a Base64 String.
+	 * @return Base64 string of the advancementProgress.
 	 * @throws IllegalStateException
 	 */
 	public static String advancementsToBase64(Player player) {
 		try {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
-			
 			Iterator<Advancement> advIter = Bukkit.advancementIterator();
-			int length = 0; //TODO getlength of advIter
+			int length = 0;
+			
+			for ( Iterator<Advancement> tempAdvIter = advIter; tempAdvIter.hasNext(); ++length) {
+				tempAdvIter.next();
+			}
+			
 			dataOutput.writeInt(length);
 			
 			for ( Iterator<Advancement> i = advIter; i.hasNext(); ) {
@@ -280,7 +287,7 @@ public class BukkitSerialization {
 	}
 	
 	/**
-	 * Gets a {@link HashMap} which links advancementProgress of an player to an advancement.
+	 * Gets a {@link HashMap<Advancement, AdvancementProgress>} which links advancementProgress of an player to an advancement.
 	 * 
 	 * @param data Base64 string to convert to HashMap.
 	 * @return HashMap created from the Base64 string.
@@ -302,6 +309,58 @@ public class BukkitSerialization {
 			
 			dataInput.close();
 			return hashMap;
+		} catch (ClassNotFoundException e) {
+			throw new IOException("Unable to decode class type.", e);
+		}
+	}
+	
+	/**
+	 * 
+	 * A method to serialize a Collection of {@link PotionEffect}s to a Base64 String.
+	 * 
+	 * @param  potion effects to turn into a Base64 String.
+	 * @return Base64 string of the potion effects.
+	 * @throws IllegalStateException
+	 */
+	public static String potionEffectsToBase64(Collection<PotionEffect> potionEffects) {
+		try {
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
+			
+			dataOutput.writeInt(potionEffects.size());
+			
+			for ( Iterator<PotionEffect> i = potionEffects.iterator(); i.hasNext(); ) {
+				dataOutput.writeObject(i.next());
+			}
+			
+			dataOutput.close();
+			return Base64Coder.encodeLines(outputStream.toByteArray());
+		} catch (Exception e) {
+			throw new IllegalStateException("Unable to save advancementprogress.", e);
+		}
+	}
+	
+	/**
+	 * Gets a {@link Collection<PotionEffect>} of potion effects from a Base64 String.
+	 * 
+	 * @param data Base64 string to convert to Collection.
+	 * @return Collection created from the Base64 string.
+	 * @throws IOException
+	 */
+	public static Collection<PotionEffect> potionEffectsFromBase64(String data) throws IOException {
+		try {
+			ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+			BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
+			Collection<PotionEffect> potionEffects = new ArrayList<PotionEffect>();
+			int length = dataInput.readInt();
+			
+			// Read the serialized potion effects.
+			for (int i = 0; i < length; i++) {
+				potionEffects.add((PotionEffect) dataInput.readObject());
+			}
+			
+			dataInput.close();
+			return potionEffects;
 		} catch (ClassNotFoundException e) {
 			throw new IOException("Unable to decode class type.", e);
 		}
