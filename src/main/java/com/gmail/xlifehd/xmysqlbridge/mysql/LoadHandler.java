@@ -10,7 +10,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.gmail.xlifehd.xmysqlbridge.BukkitSerialization;
 import com.gmail.xlifehd.xmysqlbridge.Main;
@@ -142,7 +144,7 @@ public class LoadHandler {
 		return null;
 	}
 	
-	public ItemStack[][] getInventory() {
+	public PlayerInventory getInventory() {
 		String tableName = config.getString("table.inventory.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
@@ -151,10 +153,8 @@ public class LoadHandler {
 			ResultSet rs = con.createStatement().executeQuery( query );
 			
 			if ( rs.next() ) {
-				ItemStack[] inventory = BukkitSerialization.itemStackArrayFromBase64( rs.getString("inventory") );
-				ItemStack[] armor = BukkitSerialization.itemStackArrayFromBase64( rs.getString("armor") );
-				ItemStack[] offhand = BukkitSerialization.itemStackArrayFromBase64( rs.getString("offhand") );
-				return new ItemStack[][] {inventory, armor, offhand};
+				PlayerInventory playerInventory = BukkitSerialization.playerInventoryFromBase64(new String[] {rs.getString("inventory"), rs.getString("armor"), rs.getString("offhand")});
+				return playerInventory;
 			}
 			
 		} catch (SQLException e) {

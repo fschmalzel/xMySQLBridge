@@ -33,12 +33,13 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		
+		//TODO Test money sync
 		instance = this;
 		
 		setupConfig();
 		
 		if ( config.getBoolean("table.money.enabled") ) {
+			getLogger().severe(errorPrefix + "The money MySQL-bridge should not be used, instead use an economy plugin that supports MySQL!");
 			if (!setupEconomy() ) {
 				getLogger().severe(errorPrefix + "Disabled due to no Vault dependency found!");
 				getServer().getPluginManager().disablePlugin(this);

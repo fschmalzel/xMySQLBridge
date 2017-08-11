@@ -165,13 +165,12 @@ public class SaveHandler {
 				}
 				
 				if ( updateInventory != null ) {
-					String[] inventoryString = BukkitSerialization.playerInventoryToBase64(player.getInventory());
-					String offhand = BukkitSerialization.itemStackArrayToBase64(new ItemStack[] {player.getInventory().getItemInOffHand()});
+					String[] contents = BukkitSerialization.playerInventoryToBase64(player.getInventory());
 					
 					updateInventory.setString(1, uuid);
-					updateInventory.setString(2, inventoryString[0]);
-					updateInventory.setString(3, inventoryString[1]);
-					updateInventory.setString(4, offhand);
+					updateInventory.setString(2, contents[0]);
+					updateInventory.setString(3, contents[1]);
+					updateInventory.setString(4, contents[2]);
 					
 					updateInventory.executeUpdate();
 				}

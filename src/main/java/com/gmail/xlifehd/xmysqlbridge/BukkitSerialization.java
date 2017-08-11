@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -14,12 +15,12 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 public class BukkitSerialization {
 	
-	//CODE FROM https://gist.github.com/graywolf336/8153678
+	//CODE FROM <a href="https://gist.github.com/graywolf336/8153678">Original Source</a>
 	/**
-     * Converts the player inventory to a String array of Base64 strings. First string is the content and second string is the armor.
+     * A method to serialize a {@link PlayerInventory} to an array of Base64 Strings. First string is the content and second string is the armor and third is the item in the offHand.
      * 
      * @param playerInventory to turn into an array of strings.
-     * @return Array of strings: [ main content, armor content ]
+     * @return Array of strings: [ main content, armor content, IteminOffhand content ]
      * @throws IllegalStateException
      */
     public static String[] playerInventoryToBase64(PlayerInventory playerInventory) throws IllegalStateException {
@@ -27,8 +28,27 @@ public class BukkitSerialization {
     	//String content = toBase64(playerInventory);
     	String content = itemStackArrayToBase64(playerInventory.getStorageContents());
     	String armor = itemStackArrayToBase64(playerInventory.getArmorContents());
+    	String offhand = itemStackToBase64(playerInventory.getItemInOffHand());
     	
-    	return new String[] { content, armor };
+    	return new String[] { content, armor, offhand };
+    }
+    
+    /**
+     * 
+     * A method to get an {@link PlayerInventory} from 3 encoded, Base64, strings. First string is storage and second string is armor and third is the item in the offHand.
+     * 
+     * @param data Base64 string of data containing an playerInventory.
+     * @return PlayerInventory created from the 3 Base64 strings.
+     * @throws IllegalArgumentException, IOException
+     */
+    public static PlayerInventory playerInventoryFromBase64(String[] contents) throws IllegalArgumentException, IOException {
+    	PlayerInventory playerInventory = (PlayerInventory) Bukkit.createInventory(null, InventoryType.PLAYER);
+
+		playerInventory.setStorageContents(	itemStackArrayFromBase64(contents[0]) );
+		playerInventory.setArmorContents(	itemStackArrayFromBase64(contents[1]) );
+		playerInventory.setItemInOffHand(	itemStackFromBase64		(contents[2]) );
+    	
+    	return playerInventory;
     }
     
     /**
@@ -65,7 +85,35 @@ public class BukkitSerialization {
     }
     
     /**
-     * A method to serialize an inventory to Base64 string.
+     * 
+     * A method to serialize an {@link ItemStack} to Base64 String.
+     * 
+     * <p />
+     * 
+     * Based off of {@link #toBase64(Inventory)}.
+     * 
+     * @param item to turn into a Base64 String.
+     * @return Base64 string of the item.
+     * @throws IllegalStateException
+     */
+    public static String itemStackToBase64(ItemStack item) throws IllegalStateException {
+    	try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
+
+            // Save the item
+            dataOutput.writeObject(item);
+            
+            // Serialize that item
+            dataOutput.close();
+            return Base64Coder.encodeLines(outputStream.toByteArray());
+        } catch (Exception e) {
+            throw new IllegalStateException("Unable to save item stacks.", e);
+        }
+    }
+    
+    /**
+     * A method to serialize an {@link Inventory} to Base64 string.
      * 
      * <p />
      * 
@@ -121,6 +169,12 @@ public class BukkitSerialization {
             int itemLength = dataInput.readInt();
             int invSize = itemLength + 9 - (itemLength % 9); //Convert to multiple of 9
             
+            if ( itemLength > 36) { itemLength = 36; }
+            if ( invSize > 36 ) {
+            	invSize = 36;
+            	Bukkit.getLogger().warning("BukkitSerialization: size of the inventory exceeds 36 items, some items may be lost");
+            }
+            
             Inventory inventory = Bukkit.getServer().createInventory(null, invSize);
     
             // Read the serialized inventory
@@ -163,4 +217,30 @@ public class BukkitSerialization {
             throw new IOException("Unable to decode class type.", e);
         }
     }
+    
+    /**
+     * Gets an ItemStack from a Base64 string.
+     * 
+     * <p />
+     * 
+     * Base off of {@link #itemStackArrayFromBase64(String)}.
+     * 
+     * @param data Base64 string to convert to ItemStack.
+     * @return ItemStack created from the Base64 string.
+     * @throws IOException
+     */
+    public static ItemStack itemStackFromBase64(String data) throws IOException {
+    	try {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+            BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
+            
+            ItemStack item = (ItemStack) dataInput.readObject();
+            
+            dataInput.close();
+            return item;
+        } catch (ClassNotFoundException e) {
+            throw new IOException("Unable to decode class type.", e);
+        }
+    }
+    
 }

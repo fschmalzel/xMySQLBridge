@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.gmail.xlifehd.xmysqlbridge.Main;
 import com.gmail.xlifehd.xmysqlbridge.XUtils;
@@ -74,11 +75,13 @@ public class OnJoin implements Listener {
 				}
 				
 				if ( config.getBoolean("table.inventory.enabled") ) {
-					ItemStack[][] inventory = loadHandler.getInventory();
-					if ( inventory != null ) {
-						player.getInventory().setStorageContents(inventory[0]);
-						player.getInventory().setArmorContents(inventory[1]);
-						player.getInventory().setExtraContents(inventory[2]);
+					PlayerInventory newPlayerInventory = loadHandler.getInventory();
+					
+					if ( newPlayerInventory != null ) {
+						PlayerInventory playerInventory = player.getInventory();
+						playerInventory.setStorageContents(newPlayerInventory.getStorageContents());
+						playerInventory.setArmorContents(newPlayerInventory.getArmorContents());
+						playerInventory.setItemInOffHand(newPlayerInventory.getItemInOffHand());
 					}
 				}
 				
