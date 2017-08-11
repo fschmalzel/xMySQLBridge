@@ -1,6 +1,7 @@
 package com.gmail.xlifehd.xmysqlbridge;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,9 +11,11 @@ import org.bukkit.entity.Player;
 public class XUtils {
 	
 	List<UUID> frozenPlayers;
+	HashMap<UUID, GameMode> uuidToGameMode;
 	
 	public XUtils() {
 		frozenPlayers = new ArrayList<UUID>();
+		uuidToGameMode = new HashMap<UUID, GameMode>();
 	}
 	
 	public void freezePlayer( Player player ) {
@@ -36,19 +39,28 @@ public class XUtils {
 	}
 	
 	private void setFreeze(Player player, boolean frozen) {
+		UUID uuid = player.getUniqueId();
 		player.setAllowFlight(frozen);
 		player.setFlying(frozen);
 		player.setCollidable(!frozen);
 		player.setInvulnerable(frozen);
 		player.setGravity(!frozen);
 		if ( frozen ) {
+			if ( !uuidToGameMode.containsKey(uuid) ) { uuidToGameMode.put(uuid, player.getGameMode()); }
 			player.setGameMode(GameMode.SPECTATOR);
 			player.setWalkSpeed(0);
 			player.setFlySpeed(0);
 		} else {
-			player.setGameMode(GameMode.SURVIVAL);
-			player.setWalkSpeed(1);
-			player.setFlySpeed(1);
+			
+			if ( uuidToGameMode.containsKey(uuid) ) {
+				player.setGameMode(uuidToGameMode.get(uuid));
+				uuidToGameMode.remove(uuid);
+			} else {
+				player.setGameMode(GameMode.SURVIVAL);
+			}
+			
+			player.setWalkSpeed(0.2f);
+			player.setFlySpeed(0.2f);
 		}
 	}
 	
