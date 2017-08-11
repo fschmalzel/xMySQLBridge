@@ -122,26 +122,6 @@ public class LoadHandler {
 		return null;
 	}
 	
-	public Double getMoney() {
-		String tableName = config.getString("table.money.name");
-		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
-		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
-		
-		try {
-			ResultSet rs = con.createStatement().executeQuery( query );
-			
-			if ( rs.next() ) {
-				Double money = rs.getDouble("money");
-				return money;
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
-	
 	public ItemStack[][] getInventory() {
 		String tableName = config.getString("table.inventory.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";

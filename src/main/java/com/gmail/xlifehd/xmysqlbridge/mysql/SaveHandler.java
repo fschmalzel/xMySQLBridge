@@ -21,7 +21,6 @@ public class SaveHandler {
 	private static String queryLocation =		"INSERT INTO %s (uuid, world, x, y, z, yaw, pitch) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE " +
 			"world = VALUES(world), x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch);";
 	private static String queryExperience =		"INSERT INTO %s (uuid, totalExp, level, exp) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE totalExp = VALUES(totalExp), level = VALUES(level), exp = VALUES(exp);";
-	private static String queryMoney =			"INSERT INTO %s (uuid, money) VALUES (?, ?) ON DUPLICATE KEY UPDATE money = VALUES(money);";
 	private static String queryInventory =		"INSERT INTO %s (uuid, inventory, armor, offhand) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE inventory = VALUES(inventory), armor = VALUES(armor), offhand = VALUES(offhand);";
 	private static String queryEnderchest =		"INSERT INTO %s (uuid, enderchest) VALUES (?, ?) ON DUPLICATE KEY UPDATE enderchest = VALUES(enderchest);";
 	private static String queryAchievements =	"";
@@ -53,7 +52,6 @@ public class SaveHandler {
 		PreparedStatement updateEffects = null;
 		PreparedStatement updateLocation = null;
 		PreparedStatement updateExperience = null;
-		PreparedStatement updateMoney = null;
 		PreparedStatement updateInventory = null;
 		PreparedStatement updateEnderchest = null;
 		PreparedStatement updateAchievements = null;
@@ -91,11 +89,6 @@ public class SaveHandler {
 				updateExperience = con.prepareStatement(queryExperience);
 			}
 			
-			if ( config.getBoolean("table.money.enabled")) {
-				queryMoney = String.format(queryMoney, "`" + mySQLPrefix + config.getString("table.money.name") + "`");
-				updateMoney = con.prepareStatement(queryMoney);
-			}
-			
 			if ( config.getBoolean("table.inventory.enabled")) {
 				queryInventory = String.format(queryInventory, "`" + mySQLPrefix + config.getString("table.inventory.name") + "`");
 				updateInventory = con.prepareStatement(queryInventory);
@@ -116,12 +109,14 @@ public class SaveHandler {
 				String uuid = player.getUniqueId().toString();
 				
 				if ( !Main.getPlugin().getxUtils().isFrozen(player.getUniqueId()) ) {
+					
 					if (updateHealth != null) {
 						updateHealth.setString(1, uuid);
 						updateHealth.setDouble(2, player.getHealth());
 
 						updateHealth.executeUpdate();
 					}
+					
 					if (updateHunger != null) {
 						updateHunger.setString(1, uuid);
 						updateHunger.setInt(2, player.getFoodLevel());
@@ -129,10 +124,12 @@ public class SaveHandler {
 
 						updateHunger.executeUpdate();
 					}
+					
 					if (updateEffects != null) {
 						//TODO SAVE EFFECTS
 						updateEffects.executeUpdate();
 					}
+					
 					if (updateLocation != null) {
 						Location loc = player.getLocation();
 
@@ -146,6 +143,7 @@ public class SaveHandler {
 
 						updateLocation.executeUpdate();
 					}
+					
 					if (updateExperience != null) {
 						updateExperience.setString(1, uuid);
 						updateExperience.setInt(2, player.getTotalExperience());
@@ -153,11 +151,7 @@ public class SaveHandler {
 						updateExperience.setFloat(4, player.getExp());
 						updateExperience.executeUpdate();
 					}
-					if (updateMoney != null) {
-						updateMoney.setString(1, uuid);
-						updateMoney.setDouble(2, Main.getEconomy().getBalance(player.getPlayer()));
-						updateMoney.executeUpdate();
-					}
+					
 					if (updateInventory != null) {
 						String[] contents = BukkitSerialization.playerInventoryToBase64(player.getInventory());
 
@@ -168,6 +162,7 @@ public class SaveHandler {
 
 						updateInventory.executeUpdate();
 					}
+					
 					if (updateEnderchest != null) {
 						String enderchestString = BukkitSerialization
 								.itemStackArrayToBase64(player.getEnderChest().getStorageContents());
@@ -177,10 +172,12 @@ public class SaveHandler {
 
 						updateEnderchest.executeUpdate();
 					}
+					
 					if (updateAchievements != null) {
 						//TODO SAVE ACHIEVEMENTS
 						updateAchievements.executeUpdate();
 					}
+					
 					con.commit();
 				}
 				
@@ -191,7 +188,6 @@ public class SaveHandler {
 			if ( updateEffects != null ) { updateEffects.close(); };
 			if ( updateLocation != null ) { updateLocation.close(); };
 			if ( updateExperience != null ) { updateExperience.close(); };
-			if ( updateMoney != null ) { updateMoney.close(); };
 			if ( updateInventory != null ) { updateInventory.close(); };
 			if ( updateEnderchest != null ) { updateEnderchest.close(); };
 			if ( updateAchievements != null ) { updateAchievements.close(); };

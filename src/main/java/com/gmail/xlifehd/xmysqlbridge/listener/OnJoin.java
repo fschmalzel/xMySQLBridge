@@ -72,18 +72,6 @@ public class OnJoin implements Listener {
 					}
 				}
 				
-				if ( config.getBoolean("table.money.enabled") ) {
-					Double money = loadHandler.getMoney();
-					if ( money != null ) {
-						double difference = money - Main.getEconomy().getBalance(player);
-						if ( difference > 0 ) {
-							Main.getEconomy().depositPlayer(player, difference);
-						} else {
-							Main.getEconomy().withdrawPlayer(player, -difference);
-						}
-					}
-				}
-				
 				if ( config.getBoolean("table.inventory.enabled") ) {
 					ItemStack[][] contents = loadHandler.getInventory();
 					

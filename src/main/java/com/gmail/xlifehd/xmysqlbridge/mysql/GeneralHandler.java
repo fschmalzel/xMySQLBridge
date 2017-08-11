@@ -74,11 +74,6 @@ public class GeneralHandler {
 						"  `exp` float NOT NULL," + 
 						"  PRIMARY KEY (`uuid`)" + 
 						")";
-				String queryMoney =			"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.money.name") + "` (" + 
-						"  `uuid` varchar(36) NOT NULL," + 
-						"  `money` double NOT NULL," + 
-						"  PRIMARY KEY (`uuid`)" + 
-						")";
 				String queryInventory =		"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.inventory.name") + "` (" + 
 						"  `uuid` varchar(36) NOT NULL," + 
 						"  `inventory` MEDIUMTEXT NOT NULL," + 
@@ -104,7 +99,6 @@ public class GeneralHandler {
 					if ( config.getBoolean("table.effects.enabled"))		{ statement.executeUpdate(queryEffects); }
 					if ( config.getBoolean("table.location.enabled"))		{ statement.executeUpdate(queryLocation); }
 					if ( config.getBoolean("table.experience.enabled"))		{ statement.executeUpdate(queryExperience); }
-					if ( config.getBoolean("table.money.enabled"))			{ statement.executeUpdate(queryMoney); }
 					if ( config.getBoolean("table.inventory.enabled"))		{ statement.executeUpdate(queryInventory); }
 					if ( config.getBoolean("table.enderchest.enabled"))		{ statement.executeUpdate(queryEnderchest); }
 					if ( config.getBoolean("table.achievements.enabled"))	{ statement.executeUpdate(queryAchievements); }
