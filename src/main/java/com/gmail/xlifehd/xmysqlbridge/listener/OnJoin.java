@@ -75,13 +75,13 @@ public class OnJoin implements Listener {
 				}
 				
 				if ( config.getBoolean("table.inventory.enabled") ) {
-					PlayerInventory newPlayerInventory = loadHandler.getInventory();
+					ItemStack[][] contents = loadHandler.getInventory();
 					
-					if ( newPlayerInventory != null ) {
+					if ( contents != null ) {
 						PlayerInventory playerInventory = player.getInventory();
-						playerInventory.setStorageContents(newPlayerInventory.getStorageContents());
-						playerInventory.setArmorContents(newPlayerInventory.getArmorContents());
-						playerInventory.setItemInOffHand(newPlayerInventory.getItemInOffHand());
+						playerInventory.setStorageContents(contents[0]);
+						playerInventory.setArmorContents(contents[1]);
+						playerInventory.setItemInOffHand(contents[2][0]);
 					}
 				}
 				

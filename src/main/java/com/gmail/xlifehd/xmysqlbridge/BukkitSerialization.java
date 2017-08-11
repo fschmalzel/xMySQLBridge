@@ -43,24 +43,6 @@ public class BukkitSerialization {
 	
 	/**
 	 * 
-	 * A method to get an {@link PlayerInventory} from 3 encoded, Base64, strings. First string is storage and second string is armor and third is the item in the offHand.
-	 * 
-	 * @param data Base64 string of data containing an playerInventory.
-	 * @return PlayerInventory created from the 3 Base64 strings.
-	 * @throws IllegalArgumentException, IOException
-	 */
-	public static PlayerInventory playerInventoryFromBase64(String[] contents) throws IllegalArgumentException, IOException {
-		PlayerInventory playerInventory = (PlayerInventory) Bukkit.createInventory(null, InventoryType.PLAYER);
-
-		playerInventory.setStorageContents(	itemStackArrayFromBase64(contents[0]) );
-		playerInventory.setArmorContents(	itemStackArrayFromBase64(contents[1]) );
-		playerInventory.setItemInOffHand(	itemStackFromBase64		(contents[2]) );
-		
-		return playerInventory;
-	}
-	
-	/**
-	 * 
 	 * A method to serialize an {@link ItemStack} array to Base64 String.
 	 * 
 	 * <p />

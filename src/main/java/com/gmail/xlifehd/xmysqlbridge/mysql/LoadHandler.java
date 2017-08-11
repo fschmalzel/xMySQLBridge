@@ -143,7 +143,7 @@ public class LoadHandler {
 		return null;
 	}
 	
-	public PlayerInventory getInventory() {
+	public ItemStack[][] getInventory() {
 		String tableName = config.getString("table.inventory.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
 		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
@@ -152,8 +152,11 @@ public class LoadHandler {
 			ResultSet rs = con.createStatement().executeQuery( query );
 			
 			if ( rs.next() ) {
-				PlayerInventory playerInventory = BukkitSerialization.playerInventoryFromBase64(new String[] {rs.getString("inventory"), rs.getString("armor"), rs.getString("offhand")});
-				return playerInventory;
+				ItemStack[] storage = BukkitSerialization.itemStackArrayFromBase64(rs.getString("inventory"));
+				ItemStack[] armor = BukkitSerialization.itemStackArrayFromBase64(rs.getString("armor"));
+				ItemStack[] offhand = new ItemStack[] { BukkitSerialization.itemStackFromBase64(rs.getString("offhand"))};
+				
+				return new ItemStack[][] {storage, armor, offhand};
 			}
 			
 		} catch (SQLException e) {
