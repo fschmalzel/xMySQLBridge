@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.gmail.xlifehd.xmysqlbridge.BukkitSerialization;
