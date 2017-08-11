@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.gmail.xlifehd.xmysqlbridge.Main;
 import com.gmail.xlifehd.xmysqlbridge.mysql.LoadHandler;
@@ -18,6 +19,16 @@ public class OnJoin implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 		Main.getPlugin().getxUtils().freezePlayer( player );
+		
+		final Runnable safeUnfreeze = new Runnable() {
+			
+			public void run() {
+				Main.getPlugin().getxUtils().unfreezePlayer(player);
+			}
+			
+		};
+		
+		final BukkitTask task = Main.getPlugin().getServer().getScheduler().runTaskLater(Main.getPlugin(), safeUnfreeze, 20*30); //30 secs
 		
 		Runnable r = new Runnable() {
 			
@@ -94,23 +105,17 @@ public class OnJoin implements Listener {
 				if ( config.getBoolean("table.achievements.enabled") ) {
 					//TODO ACHIEVEMENTS
 				}
-				
-				Main.getPlugin().getxUtils().unfreezePlayer( player );
+				task.cancel();
+				Main.getPlugin().getServer().getScheduler().runTask(Main.getPlugin(), safeUnfreeze);
 				
 			}//Run end
 			
 		};//Runnable end
 		
-		Runnable safeUnfreeze = new Runnable() {
-			
-			public void run() {
-				Main.getPlugin().getxUtils().unfreezePlayer(player);
-			}
-			
-		};
+
 		
 		Main.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(Main.getPlugin(), r, Main.getPlugin().getConfig().getLong("loadDelayinTicks"));
-		Main.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(Main.getPlugin(), safeUnfreeze, 20*30); //30 secs
+		
 	}
 	
 }

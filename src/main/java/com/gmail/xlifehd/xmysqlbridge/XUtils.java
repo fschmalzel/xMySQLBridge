@@ -40,6 +40,7 @@ public class XUtils {
 		player.setFlying(frozen);
 		player.setCollidable(!frozen);
 		player.setInvulnerable(frozen);
+		player.setGravity(!frozen);
 		if ( frozen ) {
 			player.setGameMode(GameMode.SPECTATOR);
 			player.setWalkSpeed(0);
