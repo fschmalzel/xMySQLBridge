@@ -1,6 +1,6 @@
 name: xMySQLBridge
 main: com.gmail.xlifehd.xmysqlbridge.Main
-version: 0.2.35
+version: 0.2.36
 #TODO Add support for more economy plugins (add them to the softdepend list)
 softdepend: [Essentials, Vault, SaneEconomy, Craftconomy3, Gringotts]
 commands:

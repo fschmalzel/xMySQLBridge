@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.gmail.xlifehd.xmysqlbridge.commands.TestCommand;
 import com.gmail.xlifehd.xmysqlbridge.listener.CommandBlocker;
 import com.gmail.xlifehd.xmysqlbridge.listener.OnJoin;
 import com.gmail.xlifehd.xmysqlbridge.listener.OnQuit;
@@ -36,7 +35,7 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		//TODO Test money sync
+		//TODO Remove money sync
 		instance = this;
 		
 		setupConfig();
@@ -61,7 +60,7 @@ public class Main extends JavaPlugin {
 		
 		//DEBUG
 		//Register Commands
-		this.getCommand("xmbr").setExecutor(new TestCommand());
+		//this.getCommand("xmbr").setExecutor(new TestCommand());
 		
 		if (config.getBoolean("savetask.enabled")) {
 			Runnable r = new Runnable() {
@@ -94,7 +93,6 @@ public class Main extends JavaPlugin {
 		config.addDefault("mysql.password", "foobar");
 		config.addDefault("mysql.prefix", "xbr_");
 		
-		//TODO Create savetask
 		config.addDefault("savetask.enabled", true);
 		config.addDefault("savetask.timer", 180);
 		

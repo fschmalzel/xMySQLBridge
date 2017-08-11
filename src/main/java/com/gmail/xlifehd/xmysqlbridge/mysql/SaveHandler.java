@@ -115,80 +115,74 @@ public class SaveHandler {
 				
 				String uuid = player.getUniqueId().toString();
 				
-				if ( updateHealth != null ) {
-					updateHealth.setString(1, uuid);
-					updateHealth.setDouble(2, player.getHealth());
-					
-					updateHealth.executeUpdate();
+				if ( !Main.getPlugin().getxUtils().isFrozen(player.getUniqueId()) ) {
+					if (updateHealth != null) {
+						updateHealth.setString(1, uuid);
+						updateHealth.setDouble(2, player.getHealth());
+
+						updateHealth.executeUpdate();
+					}
+					if (updateHunger != null) {
+						updateHunger.setString(1, uuid);
+						updateHunger.setInt(2, player.getFoodLevel());
+						updateHunger.setFloat(3, player.getSaturation());
+
+						updateHunger.executeUpdate();
+					}
+					if (updateEffects != null) {
+						//TODO SAVE EFFECTS
+						updateEffects.executeUpdate();
+					}
+					if (updateLocation != null) {
+						Location loc = player.getLocation();
+
+						updateLocation.setString(1, uuid);
+						updateLocation.setString(2, loc.getWorld().getName());
+						updateLocation.setDouble(3, loc.getX());
+						updateLocation.setDouble(4, loc.getY());
+						updateLocation.setDouble(5, loc.getZ());
+						updateLocation.setFloat(6, loc.getYaw());
+						updateLocation.setFloat(7, loc.getPitch());
+
+						updateLocation.executeUpdate();
+					}
+					if (updateExperience != null) {
+						updateExperience.setString(1, uuid);
+						updateExperience.setInt(2, player.getTotalExperience());
+						updateExperience.setInt(3, player.getLevel());
+						updateExperience.setFloat(4, player.getExp());
+						updateExperience.executeUpdate();
+					}
+					if (updateMoney != null) {
+						updateMoney.setString(1, uuid);
+						updateMoney.setDouble(2, Main.getEconomy().getBalance(player.getPlayer()));
+						updateMoney.executeUpdate();
+					}
+					if (updateInventory != null) {
+						String[] contents = BukkitSerialization.playerInventoryToBase64(player.getInventory());
+
+						updateInventory.setString(1, uuid);
+						updateInventory.setString(2, contents[0]);
+						updateInventory.setString(3, contents[1]);
+						updateInventory.setString(4, contents[2]);
+
+						updateInventory.executeUpdate();
+					}
+					if (updateEnderchest != null) {
+						String enderchestString = BukkitSerialization
+								.itemStackArrayToBase64(player.getEnderChest().getStorageContents());
+
+						updateEnderchest.setString(1, uuid);
+						updateEnderchest.setString(2, enderchestString);
+
+						updateEnderchest.executeUpdate();
+					}
+					if (updateAchievements != null) {
+						//TODO SAVE ACHIEVEMENTS
+						updateAchievements.executeUpdate();
+					}
+					con.commit();
 				}
-				
-				if ( updateHunger != null ) {
-					updateHunger.setString(1, uuid);
-					updateHunger.setInt(2, player.getFoodLevel());
-					updateHunger.setFloat(3, player.getSaturation());
-					
-					updateHunger.executeUpdate();
-				}
-				
-				if ( updateEffects != null ) {
-					//TODO SAVE EFFECTS
-					updateEffects.executeUpdate();
-				}
-				
-				if ( updateLocation != null ) {
-					Location loc = player.getLocation();
-					
-					updateLocation.setString(1, uuid);
-					updateLocation.setString(2, loc.getWorld().getName());
-					updateLocation.setDouble(3, loc.getX());
-					updateLocation.setDouble(4, loc.getY());
-					updateLocation.setDouble(5, loc.getZ());
-					updateLocation.setFloat (6, loc.getYaw());
-					updateLocation.setFloat (7, loc.getPitch());
-					
-					updateLocation.executeUpdate();
-				}
-				
-				if ( updateExperience != null ) {
-					updateExperience.setString(1, uuid);
-					updateExperience.setInt(2, player.getTotalExperience());
-					updateExperience.setInt(3, player.getLevel());
-					updateExperience.setFloat(4, player.getExp());
-					updateExperience.executeUpdate();
-				}
-				
-				if ( updateMoney != null ) {
-					updateMoney.setString(1, uuid);
-					updateMoney.setDouble(2, Main.getEconomy().getBalance(player.getPlayer()));
-					updateMoney.executeUpdate();
-				}
-				
-				if ( updateInventory != null ) {
-					String[] contents = BukkitSerialization.playerInventoryToBase64(player.getInventory());
-					
-					updateInventory.setString(1, uuid);
-					updateInventory.setString(2, contents[0]);
-					updateInventory.setString(3, contents[1]);
-					updateInventory.setString(4, contents[2]);
-					
-					updateInventory.executeUpdate();
-				}
-				
-				if ( updateEnderchest != null ) {
-					String enderchestString = BukkitSerialization.itemStackArrayToBase64(player.getEnderChest().getStorageContents());
-					
-					updateEnderchest.setString(1, uuid);
-					updateEnderchest.setString(2, enderchestString);
-					
-					updateEnderchest.executeUpdate();
-				}
-				
-				if ( updateAchievements != null ) {
-					//TODO SAVE ACHIEVEMENTS
-					updateAchievements.executeUpdate();
-				}
-				
-				con.commit();
 				
 			}
 			

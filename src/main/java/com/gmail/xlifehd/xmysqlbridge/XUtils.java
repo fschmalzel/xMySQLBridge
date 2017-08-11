@@ -40,16 +40,22 @@ public class XUtils {
 	
 	private void setFreeze(Player player, boolean frozen) {
 		UUID uuid = player.getUniqueId();
+		//TODO Check if gamemode is synced
+		//TODO Check why players are able to swim whilst being frozen
 		player.setAllowFlight(frozen);
 		player.setFlying(frozen);
 		player.setCollidable(!frozen);
 		player.setInvulnerable(frozen);
 		player.setGravity(!frozen);
+		
 		if ( frozen ) {
+			
 			if ( !uuidToGameMode.containsKey(uuid) ) { uuidToGameMode.put(uuid, player.getGameMode()); }
+			
 			player.setGameMode(GameMode.SPECTATOR);
 			player.setWalkSpeed(0);
 			player.setFlySpeed(0);
+			
 		} else {
 			
 			if ( uuidToGameMode.containsKey(uuid) ) {
@@ -61,6 +67,7 @@ public class XUtils {
 			
 			player.setWalkSpeed(0.2f);
 			player.setFlySpeed(0.2f);
+			
 		}
 	}
 	
