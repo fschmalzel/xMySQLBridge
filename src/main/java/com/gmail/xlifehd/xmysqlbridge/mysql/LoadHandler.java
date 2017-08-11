@@ -11,7 +11,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 import com.gmail.xlifehd.xmysqlbridge.BukkitSerialization;
 import com.gmail.xlifehd.xmysqlbridge.Main;

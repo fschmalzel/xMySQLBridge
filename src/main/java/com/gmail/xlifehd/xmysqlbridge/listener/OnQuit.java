@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import com.gmail.xlifehd.xmysqlbridge.XUtils;
+import com.gmail.xlifehd.xmysqlbridge.Main;
 import com.gmail.xlifehd.xmysqlbridge.mysql.SaveHandler;
 
 public class OnQuit implements Listener {
@@ -15,7 +15,7 @@ public class OnQuit implements Listener {
 		Player player = event.getPlayer();
 		Player[] players = {player};
 		
-		if ( !XUtils.isFrozen(player) ) {
+		if ( !Main.getPlugin().getxUtils().isFrozen(player.getUniqueId()) ) {
 			SaveHandler saveHandler = new SaveHandler(players);
 			saveHandler.savePlayerDataAsync();
 		}

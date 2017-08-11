@@ -10,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.gmail.xlifehd.xmysqlbridge.Main;
-import com.gmail.xlifehd.xmysqlbridge.XUtils;
 import com.gmail.xlifehd.xmysqlbridge.mysql.LoadHandler;
 
 public class OnJoin implements Listener {
@@ -18,7 +17,7 @@ public class OnJoin implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
-		XUtils.freezePlayer( player );
+		Main.getPlugin().getxUtils().freezePlayer( player );
 		
 		Runnable r = new Runnable() {
 			
@@ -96,14 +95,22 @@ public class OnJoin implements Listener {
 					//TODO ACHIEVEMENTS
 				}
 				
-				XUtils.unfreezePlayer( player );
+				Main.getPlugin().getxUtils().unfreezePlayer( player );
 				
 			}//Run end
 			
 		};//Runnable end
 		
-		Main.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(Main.getPlugin(), r, 20*1);
+		Runnable safeUnfreeze = new Runnable() {
+			
+			public void run() {
+				Main.getPlugin().getxUtils().unfreezePlayer(player);
+			}
+			
+		};
 		
+		Main.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(Main.getPlugin(), r, Main.getPlugin().getConfig().getLong("loadDelayinTicks"));
+		Main.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(Main.getPlugin(), safeUnfreeze, 20*30); //30 secs
 	}
 	
 }

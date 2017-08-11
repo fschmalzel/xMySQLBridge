@@ -25,6 +25,8 @@ public class Main extends JavaPlugin {
 	
 	private GeneralHandler mySQLHandler;
 	
+	private XUtils xUtils;
+	
 	private static Economy econ = null;
 	
 	private static String pluginPrefix = ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "xMySQL" + ChatColor.GREEN + ChatColor.BOLD + "Bridge" + ChatColor.RESET + ChatColor.DARK_GRAY + "] ";
@@ -48,10 +50,12 @@ public class Main extends JavaPlugin {
 		}
 		
 		mySQLHandler = new GeneralHandler(config);
+		xUtils = new XUtils();
 		
 		//TODO Readup on advanced events
 		//Register Events
 		getServer().getPluginManager().registerEvents(new OnJoin(), this);
+		getServer().getPluginManager().registerEvents(new OnQuit(), this);
 		getServer().getPluginManager().registerEvents(new OnQuit(), this);
 		
 		//DEBUG
@@ -102,6 +106,8 @@ public class Main extends JavaPlugin {
 			
 		}
 		
+		config.addDefault("loadDelayinTicks", 50);
+		
 		config.options().copyHeader(true);
 		config.options().copyDefaults(true);
 		saveConfig();
@@ -147,6 +153,10 @@ public class Main extends JavaPlugin {
 
 	public GeneralHandler getMySQLHandler() {
 		return mySQLHandler;
+	}
+
+	public XUtils getxUtils() {
+		return xUtils;
 	}
 	
 }
