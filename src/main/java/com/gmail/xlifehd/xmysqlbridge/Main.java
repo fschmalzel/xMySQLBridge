@@ -84,7 +84,7 @@ public class Main extends JavaPlugin {
 		
 		//TODO Add remaining air, fire ticks, exhaustion, fallheight, bed spawn location, essentials info, gamemode
 		//TODO Change achievment to advancement everywhere
-		String[] tables = {"health", "hunger", "effects", "location", "experience", "inventory", "enderchest", "achievements"};
+		String[] tables = {"health", "hunger", "effects", "location", "experience", "inventory", "enderchest", "advancements"};
 		
 		for ( String table: tables ) {
 			config.addDefault("table." + table + ".enabled", false);

@@ -186,8 +186,8 @@ public class LoadHandler {
 		return null;
 	}
 	
-	public void getAchievements() {
-		//TODO LOAD ACHIEVEMENTS
+	public void getAdvancements() {
+		//TODO LOAD advancements
 	}
 	
 }

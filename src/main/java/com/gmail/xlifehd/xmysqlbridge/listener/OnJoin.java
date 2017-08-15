@@ -103,7 +103,7 @@ public class OnJoin implements Listener {
 					}
 				}
 				
-				if ( config.getBoolean("table.achievements.enabled") ) {
+				if ( config.getBoolean("table.advancements.enabled") ) {
 					//TODO Advancements
 				}
 				task.cancel();

@@ -23,7 +23,7 @@ public class SaveHandler {
 	private static String queryExperience =		"INSERT INTO %s (uuid, totalExp, level, exp) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE totalExp = VALUES(totalExp), level = VALUES(level), exp = VALUES(exp);";
 	private static String queryInventory =		"INSERT INTO %s (uuid, inventory, armor, offhand) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE inventory = VALUES(inventory), armor = VALUES(armor), offhand = VALUES(offhand);";
 	private static String queryEnderchest =		"INSERT INTO %s (uuid, enderchest) VALUES (?, ?) ON DUPLICATE KEY UPDATE enderchest = VALUES(enderchest);";
-	private static String queryAchievements =	"";
+	private static String queryAdvancements =	"";
 	
 	private Player[] players;
 	
@@ -54,7 +54,7 @@ public class SaveHandler {
 		PreparedStatement updateExperience = null;
 		PreparedStatement updateInventory = null;
 		PreparedStatement updateEnderchest = null;
-		PreparedStatement updateAchievements = null;
+		PreparedStatement updateAdvancements = null;
 		
 		try {
 			
@@ -99,9 +99,9 @@ public class SaveHandler {
 				updateEnderchest = con.prepareStatement(queryEnderchest);
 			}
 			
-			if ( config.getBoolean("table.achievements.enabled")) {
-				queryAchievements = String.format(queryAchievements, "`" + mySQLPrefix + config.getString("table.achievements.name") + "`");
-				updateAchievements = con.prepareStatement(queryAchievements);
+			if ( config.getBoolean("table.advancements.enabled")) {
+				queryAdvancements = String.format(queryAdvancements, "`" + mySQLPrefix + config.getString("table.advancements.name") + "`");
+				updateAdvancements = con.prepareStatement(queryAdvancements);
 			}
 			
 			for ( Player player : players ) {
@@ -127,8 +127,10 @@ public class SaveHandler {
 					
 					if (updateEffects != null) {
 						String effects = BukkitSerialization.potionEffectsToBase64(player.getActivePotionEffects());
+						
 						updateEffects.setString(1, uuid);
 						updateEffects.setString(2, effects);
+						
 						updateEffects.executeUpdate();
 					}
 					
@@ -151,6 +153,7 @@ public class SaveHandler {
 						updateExperience.setInt(2, player.getTotalExperience());
 						updateExperience.setInt(3, player.getLevel());
 						updateExperience.setFloat(4, player.getExp());
+						
 						updateExperience.executeUpdate();
 					}
 					
@@ -175,9 +178,9 @@ public class SaveHandler {
 						updateEnderchest.executeUpdate();
 					}
 					
-					if (updateAchievements != null) {
+					if (updateAdvancements != null) {
 						//TODO SAVE ACHIEVEMENTS
-						updateAchievements.executeUpdate();
+						updateAdvancements.executeUpdate();
 					}
 					
 					con.commit();
@@ -192,7 +195,7 @@ public class SaveHandler {
 			if ( updateExperience != null ) { updateExperience.close(); };
 			if ( updateInventory != null ) { updateInventory.close(); };
 			if ( updateEnderchest != null ) { updateEnderchest.close(); };
-			if ( updateAchievements != null ) { updateAchievements.close(); };
+			if ( updateAdvancements != null ) { updateAdvancements.close(); };
 			
 			con.setAutoCommit(true);
 			

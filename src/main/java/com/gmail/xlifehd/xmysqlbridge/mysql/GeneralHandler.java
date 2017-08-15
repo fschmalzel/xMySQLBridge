@@ -90,7 +90,7 @@ public class GeneralHandler {
 						"  `enderchest` MEDIUMTEXT NOT NULL," + 
 						"  PRIMARY KEY (`uuid`)" + 
 						")";
-				String queryAchievements =	"";
+				String queryAdvancements =	"";
 				
 				try {
 					
@@ -105,7 +105,7 @@ public class GeneralHandler {
 					if ( config.getBoolean("table.experience.enabled"))		{ statement.executeUpdate(queryExperience); }
 					if ( config.getBoolean("table.inventory.enabled"))		{ statement.executeUpdate(queryInventory); }
 					if ( config.getBoolean("table.enderchest.enabled"))		{ statement.executeUpdate(queryEnderchest); }
-					if ( config.getBoolean("table.achievements.enabled"))	{ statement.executeUpdate(queryAchievements); }
+					if ( config.getBoolean("table.advancements.enabled"))	{ statement.executeUpdate(queryAdvancements); }
 					
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
