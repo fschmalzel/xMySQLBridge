@@ -1,6 +1,6 @@
 name: xMySQLBridge
 main: com.gmail.xlifehd.xmysqlbridge.Main
-version: 0.3.37
+version: 0.4.38
 commands:
   xmbr:
     description: Test command

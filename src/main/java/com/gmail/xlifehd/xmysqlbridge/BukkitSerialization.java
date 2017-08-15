@@ -240,7 +240,7 @@ public class BukkitSerialization {
 	 * @return Base64 string of the advancementProgress.
 	 * @throws IllegalStateException
 	 */
-	public static String advancementsToBase64(Player player) {
+	public static String advancementsToBase64(Player player) throws IllegalStateException {
 		try {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
@@ -303,7 +303,7 @@ public class BukkitSerialization {
 	 * @return Base64 string of the potion effects.
 	 * @throws IllegalStateException
 	 */
-	public static String potionEffectsToBase64(Collection<PotionEffect> potionEffects) {
+	public static String potionEffectsToBase64(Collection<PotionEffect> potionEffects) throws IllegalStateException {
 		try {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);

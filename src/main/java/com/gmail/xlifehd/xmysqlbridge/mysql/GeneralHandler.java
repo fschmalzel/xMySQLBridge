@@ -44,7 +44,7 @@ public class GeneralHandler {
 				FileConfiguration config = Main.getPlugin().getConfig();
 				String mySQLPrefix = config.getString("mysql.prefix");
 				
-				//TODO Create Querys
+				//TODO Create Advancement table
 				String queryHealth =		"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.health.name") + "` (" + 
 						"  `uuid` varchar(36) NOT NULL," + 
 						"  `health` double NOT NULL," + 
@@ -56,7 +56,11 @@ public class GeneralHandler {
 						"  `saturation` float NOT NULL," + 
 						"  PRIMARY KEY (`uuid`)" + 
 						")";
-				String queryEffects =		"";
+				String queryEffects =		"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.effects.name") + "` (" + 
+						"  `uuid` varchar(36) NOT NULL," + 
+						"  `effects` LONGTEXT NOT NULL," + 
+						"  PRIMARY KEY (`uuid`)" + 
+						")";
 				String queryLocation =		"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.location.name") + "` (" + 
 						"  `uuid` varchar(36) NOT NULL," + 
 						"  `world` varchar(200) NOT NULL," + 
@@ -93,7 +97,7 @@ public class GeneralHandler {
 					Main.getPlugin().getMySQLHandler().openConnection();
 					Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 					Statement statement = con.createStatement();
-					//TODO Handle sql exception per result set, to give proper error message
+					//TODO Handle SQL exception per result set, to give proper error message
 					if ( config.getBoolean("table.health.enabled"))			{ statement.executeUpdate(queryHealth); }
 					if ( config.getBoolean("table.hunger.enabled"))			{ statement.executeUpdate(queryHunger); }
 					if ( config.getBoolean("table.effects.enabled"))		{ statement.executeUpdate(queryEffects); }
@@ -126,7 +130,7 @@ public class GeneralHandler {
 				return;
 			}
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database, this.username, this.password);
+			con = DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database + "?useSSL=false", this.username, this.password);
 			
 		}
 	}

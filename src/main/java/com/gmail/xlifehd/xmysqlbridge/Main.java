@@ -71,7 +71,7 @@ public class Main extends JavaPlugin {
 		config.options().header("xMySQLBridge Config by xLifeHD@gmail.com");
 		config.addDefault("CfgVersion", 1);
 		
-		//TODO useSSL config
+		//TODO Add ssl support
 		config.addDefault("mysql.host", "127.0.0.1");
 		config.addDefault("mysql.port", 3306);
 		config.addDefault("mysql.database", "minecraft");
@@ -83,6 +83,7 @@ public class Main extends JavaPlugin {
 		config.addDefault("savetask.timer", 180);
 		
 		//TODO Add remaining air, fire ticks, exhaustion, fallheight, bed spawn location, essentials info, gamemode
+		//TODO Change achievment to advancement everywhere
 		String[] tables = {"health", "hunger", "effects", "location", "experience", "inventory", "enderchest", "achievements"};
 		
 		for ( String table: tables ) {

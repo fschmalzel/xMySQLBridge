@@ -3,8 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>com.gmail.xlifehd</groupId>
-	<artifactId>xmysqlbridge</artifactId>
-	<version>0.2.36</version>
+	<artifactId>xMySQLBridge</artifactId>
+	<version>0.4.38</version>
 	<packaging>jar</packaging>
 	
 	<name>xMySQLBridge</name>

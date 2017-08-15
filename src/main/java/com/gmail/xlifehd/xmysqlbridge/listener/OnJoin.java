@@ -1,5 +1,8 @@
 package com.gmail.xlifehd.xmysqlbridge.listener;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -8,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.gmail.xlifehd.xmysqlbridge.Main;
@@ -52,8 +56,17 @@ public class OnJoin implements Listener {
 				}
 				
 				if ( config.getBoolean("table.effects.enabled") ) {
-					//TODO SET EFFECTS
-					//loadHandler.getEffects();
+					Collection<PotionEffect> newEffects = loadHandler.getEffects();
+					Collection<PotionEffect> oldEffects = player.getActivePotionEffects();
+					
+					//Remove old potion effects
+					for ( Iterator<PotionEffect> i = oldEffects.iterator(); i.hasNext(); ) {
+						PotionEffect effect = i.next();
+						player.removePotionEffect(effect.getType());
+					}
+					
+					//Set new potion effects
+					player.addPotionEffects(newEffects);
 				}
 				
 				if ( config.getBoolean("table.location.enabled") ) {
@@ -91,7 +104,7 @@ public class OnJoin implements Listener {
 				}
 				
 				if ( config.getBoolean("table.achievements.enabled") ) {
-					//TODO ACHIEVEMENTS
+					//TODO Advancements
 				}
 				task.cancel();
 				Main.getPlugin().getServer().getScheduler().runTask(Main.getPlugin(), safeUnfreeze);

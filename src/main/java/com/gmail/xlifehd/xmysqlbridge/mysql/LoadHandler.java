@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -11,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
 import com.gmail.xlifehd.xmysqlbridge.BukkitSerialization;
 import com.gmail.xlifehd.xmysqlbridge.Main;
@@ -20,17 +22,18 @@ public class LoadHandler {
 	private UUID uuid;
 	private FileConfiguration config;
 	private String mySQLPrefix;
+	private Connection con;
 	
 	public LoadHandler ( UUID uuid ) {
 		this.uuid = uuid;
 		config = Main.getPlugin().getConfig();
 		mySQLPrefix = config.getString("mysql.prefix");
+		con = Main.getPlugin().getMySQLHandler().getConnection();
 	}
 	
 	public Double getHealth () {
 		String tableName = config.getString("table.health.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
-		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
 		try {
 			ResultSet rs = con.createStatement().executeQuery( query );
@@ -50,7 +53,6 @@ public class LoadHandler {
 	public Number[] getHunger() {
 		String tableName = config.getString("table.hunger.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
-		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
 		try {
 			ResultSet rs = con.createStatement().executeQuery( query );
@@ -69,14 +71,32 @@ public class LoadHandler {
 		return null;
 	}
 	
-	public void getEffects() {
-		//TODO LOAD EFFECTS
+	public Collection<PotionEffect> getEffects() {
+		String tableName = config.getString("table.effects.name");
+		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
+		
+		try {
+			ResultSet rs = con.createStatement().executeQuery( query );
+			
+			if ( rs.next() ) {
+				String effectsString = rs.getString("effects");
+				Collection<PotionEffect> effects = BukkitSerialization.potionEffectsFromBase64(effectsString);
+				return effects;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
 	}
 	
 	public Location getLocation() {
 		String tableName = config.getString("table.location.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
-		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
 		try {
 			ResultSet rs = con.createStatement().executeQuery( query );
@@ -102,7 +122,6 @@ public class LoadHandler {
 	public Number[] getExperience() {
 		String tableName = config.getString("table.experience.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
-		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
 		try {
 			ResultSet rs = con.createStatement().executeQuery( query );
@@ -125,7 +144,6 @@ public class LoadHandler {
 	public ItemStack[][] getInventory() {
 		String tableName = config.getString("table.inventory.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
-		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
 		try {
 			ResultSet rs = con.createStatement().executeQuery( query );
@@ -150,7 +168,6 @@ public class LoadHandler {
 	public ItemStack[] getEnderchest() {
 		String tableName = config.getString("table.enderchest.name");
 		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
-		Connection con = Main.getPlugin().getMySQLHandler().getConnection();
 		
 		try {
 			ResultSet rs = con.createStatement().executeQuery( query );

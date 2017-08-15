@@ -17,7 +17,7 @@ public class SaveHandler {
 	//TODO CREATE QUERYS
 	private static String queryHealth =			"INSERT INTO %s (uuid, health) VALUES (?, ?) ON DUPLICATE KEY UPDATE health = VALUES(health);";
 	private static String queryHunger =			"INSERT INTO %s (uuid, hunger, saturation) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE hunger = VALUES(hunger), saturation = VALUES(saturation);";
-	private static String queryEffects =		"";
+	private static String queryEffects =		"INSERT INTO %s (uuid, effects) VALUES (?, ?) ON DUPLICATE KEY UPDATE effects = VALUES(effects);";
 	private static String queryLocation =		"INSERT INTO %s (uuid, world, x, y, z, yaw, pitch) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE " +
 			"world = VALUES(world), x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch);";
 	private static String queryExperience =		"INSERT INTO %s (uuid, totalExp, level, exp) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE totalExp = VALUES(totalExp), level = VALUES(level), exp = VALUES(exp);";
@@ -126,7 +126,9 @@ public class SaveHandler {
 					}
 					
 					if (updateEffects != null) {
-						//TODO SAVE EFFECTS
+						String effects = BukkitSerialization.potionEffectsToBase64(player.getActivePotionEffects());
+						updateEffects.setString(1, uuid);
+						updateEffects.setString(2, effects);
 						updateEffects.executeUpdate();
 					}
 					
