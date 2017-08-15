@@ -83,7 +83,6 @@ public class Main extends JavaPlugin {
 		config.addDefault("savetask.timer", 180);
 		
 		//TODO Add remaining air, fire ticks, exhaustion, fallheight, bed spawn location, essentials info, gamemode
-		//TODO Change achievment to advancement everywhere
 		String[] tables = {"health", "hunger", "effects", "location", "experience", "inventory", "enderchest", "advancements"};
 		
 		for ( String table: tables ) {

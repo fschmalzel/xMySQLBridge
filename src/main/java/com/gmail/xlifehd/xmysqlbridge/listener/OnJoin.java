@@ -1,9 +1,12 @@
 package com.gmail.xlifehd.xmysqlbridge.listener;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.bukkit.Location;
+import org.bukkit.advancement.Advancement;
+import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,6 +17,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitTask;
 
+import com.gmail.xlifehd.xmysqlbridge.BukkitSerialization;
 import com.gmail.xlifehd.xmysqlbridge.Main;
 import com.gmail.xlifehd.xmysqlbridge.mysql.LoadHandler;
 
@@ -104,7 +108,12 @@ public class OnJoin implements Listener {
 				}
 				
 				if ( config.getBoolean("table.advancements.enabled") ) {
-					//TODO Advancements
+					//TODO Set advancements
+					HashMap<Advancement, AdvancementProgress> hashMap = loadHandler.getAdvancements();
+					
+					
+					
+					
 				}
 				task.cancel();
 				Main.getPlugin().getServer().getScheduler().runTask(Main.getPlugin(), safeUnfreeze);

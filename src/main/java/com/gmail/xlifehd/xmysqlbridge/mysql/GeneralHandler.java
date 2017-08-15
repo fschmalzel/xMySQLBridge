@@ -44,7 +44,6 @@ public class GeneralHandler {
 				FileConfiguration config = Main.getPlugin().getConfig();
 				String mySQLPrefix = config.getString("mysql.prefix");
 				
-				//TODO Create Advancement table
 				String queryHealth =		"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.health.name") + "` (" + 
 						"  `uuid` varchar(36) NOT NULL," + 
 						"  `health` double NOT NULL," + 
@@ -90,7 +89,11 @@ public class GeneralHandler {
 						"  `enderchest` MEDIUMTEXT NOT NULL," + 
 						"  PRIMARY KEY (`uuid`)" + 
 						")";
-				String queryAdvancements =	"";
+				String queryAdvancements =	"CREATE TABLE IF NOT EXISTS `" + mySQLPrefix + config.getString("table.effects.name") + "` (" + 
+						"  `uuid` varchar(36) NOT NULL," + 
+						"  `advancements` LONGTEXT NOT NULL," + 
+						"  PRIMARY KEY (`uuid`)" + 
+						")";
 				
 				try {
 					

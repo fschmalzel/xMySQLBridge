@@ -23,7 +23,7 @@ public class SaveHandler {
 	private static String queryExperience =		"INSERT INTO %s (uuid, totalExp, level, exp) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE totalExp = VALUES(totalExp), level = VALUES(level), exp = VALUES(exp);";
 	private static String queryInventory =		"INSERT INTO %s (uuid, inventory, armor, offhand) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE inventory = VALUES(inventory), armor = VALUES(armor), offhand = VALUES(offhand);";
 	private static String queryEnderchest =		"INSERT INTO %s (uuid, enderchest) VALUES (?, ?) ON DUPLICATE KEY UPDATE enderchest = VALUES(enderchest);";
-	private static String queryAdvancements =	"";
+	private static String queryAdvancements =	"INSERT INTO %s (uuid, advancements) VALUES (?, ?) ON DUPLICATE KEY UPDATE advancements = VALUES(advancements);";
 	
 	private Player[] players;
 	
@@ -169,8 +169,7 @@ public class SaveHandler {
 					}
 					
 					if (updateEnderchest != null) {
-						String enderchestString = BukkitSerialization
-								.itemStackArrayToBase64(player.getEnderChest().getStorageContents());
+						String enderchestString = BukkitSerialization.itemStackArrayToBase64(player.getEnderChest().getStorageContents());
 
 						updateEnderchest.setString(1, uuid);
 						updateEnderchest.setString(2, enderchestString);
@@ -179,7 +178,11 @@ public class SaveHandler {
 					}
 					
 					if (updateAdvancements != null) {
-						//TODO SAVE ACHIEVEMENTS
+						String advancements = BukkitSerialization.advancementsToBase64(player);
+						
+						updateAdvancements.setString(1, uuid);
+						updateAdvancements.setString(2, advancements);
+						
 						updateAdvancements.executeUpdate();
 					}
 					

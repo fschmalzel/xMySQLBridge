@@ -5,11 +5,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.advancement.Advancement;
+import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -91,7 +94,6 @@ public class LoadHandler {
 		}
 		
 		return null;
-		
 	}
 	
 	public Location getLocation() {
@@ -186,8 +188,26 @@ public class LoadHandler {
 		return null;
 	}
 	
-	public void getAdvancements() {
-		//TODO LOAD advancements
+	public HashMap<Advancement, AdvancementProgress> getAdvancements() {
+		String tableName = config.getString("table.advancements.name");
+		String query = "SELECT * FROM `" + mySQLPrefix + tableName + "` WHERE uuid = '" + uuid.toString() + "';";
+		
+		try {
+			ResultSet rs = con.createStatement().executeQuery( query );
+			
+			if ( rs.next() ) {
+				String advancementsString = rs.getString("advancements");
+				HashMap<Advancement, AdvancementProgress> hashMap = BukkitSerialization.advancementsFromBase64(advancementsString);
+				return hashMap;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 }
