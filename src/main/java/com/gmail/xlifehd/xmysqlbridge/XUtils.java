@@ -46,23 +46,23 @@ public class XUtils {
 		player.setFlying(frozen);
 		player.setCollidable(!frozen);
 		player.setInvulnerable(frozen);
-		player.setGravity(!frozen);
-		
+		//player.setGravity(!frozen);
+		player.setGravity(true);
 		if ( frozen ) {
 			
 			if ( !uuidToGameMode.containsKey(uuid) ) { uuidToGameMode.put(uuid, player.getGameMode()); }
 			
-			player.setGameMode(GameMode.SPECTATOR);
+			//player.setGameMode(GameMode.SPECTATOR);
 			player.setWalkSpeed(0);
 			player.setFlySpeed(0);
 			
 		} else {
 			
 			if ( uuidToGameMode.containsKey(uuid) ) {
-				player.setGameMode(uuidToGameMode.get(uuid));
+				//player.setGameMode(uuidToGameMode.get(uuid));
 				uuidToGameMode.remove(uuid);
 			} else {
-				player.setGameMode(GameMode.SURVIVAL);
+				//player.setGameMode(GameMode.SURVIVAL);
 			}
 			
 			player.setWalkSpeed(0.2f);
