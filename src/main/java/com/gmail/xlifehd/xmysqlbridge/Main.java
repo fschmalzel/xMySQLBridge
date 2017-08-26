@@ -8,7 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.gmail.xlifehd.xmysqlbridge.listener.CommandBlocker;
+import com.gmail.xlifehd.xmysqlbridge.listener.Blocker;
 import com.gmail.xlifehd.xmysqlbridge.listener.OnJoin;
 import com.gmail.xlifehd.xmysqlbridge.listener.OnQuit;
 import com.gmail.xlifehd.xmysqlbridge.mysql.GeneralHandler;
@@ -42,7 +42,7 @@ public class Main extends JavaPlugin {
 		//Register Events
 		getServer().getPluginManager().registerEvents(new OnJoin(), this);
 		getServer().getPluginManager().registerEvents(new OnQuit(), this);
-		getServer().getPluginManager().registerEvents(new CommandBlocker(), this);
+		getServer().getPluginManager().registerEvents(new Blocker(), this);
 		
 		//DEBUG
 		//Register Commands
