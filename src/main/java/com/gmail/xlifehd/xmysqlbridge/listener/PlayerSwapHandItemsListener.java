@@ -15,7 +15,7 @@ public class PlayerSwapHandItemsListener implements Listener {
 		Main plugin = Main.getPlugin();
 		
 		//DEBUG
-		plugin.getLogger().info(Main.getPrefix("info") + "005 SwapHandItemsEvent");
+		plugin.getLogger().info(Main.getPrefix("info") + "SwapHandItemsEvent");
 		
 		if ( plugin.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);

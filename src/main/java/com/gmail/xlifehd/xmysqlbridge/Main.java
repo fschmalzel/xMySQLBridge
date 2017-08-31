@@ -9,11 +9,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.gmail.xlifehd.xmysqlbridge.listener.Blocker;
+import com.gmail.xlifehd.xmysqlbridge.listener.EntityPickupItemListener;
+import com.gmail.xlifehd.xmysqlbridge.listener.InventoryInteractListener;
 import com.gmail.xlifehd.xmysqlbridge.listener.InventoryOpenListener;
 import com.gmail.xlifehd.xmysqlbridge.listener.OnJoin;
 import com.gmail.xlifehd.xmysqlbridge.listener.OnQuit;
+import com.gmail.xlifehd.xmysqlbridge.listener.PlayerCommandPreprocessListener;
+import com.gmail.xlifehd.xmysqlbridge.listener.PlayerDropItemListener;
+import com.gmail.xlifehd.xmysqlbridge.listener.PlayerInteractEntityListener;
+import com.gmail.xlifehd.xmysqlbridge.listener.PlayerInteractListener;
+import com.gmail.xlifehd.xmysqlbridge.listener.PlayerItemConsumeListener;
 import com.gmail.xlifehd.xmysqlbridge.listener.PlayerItemHeldListener;
+import com.gmail.xlifehd.xmysqlbridge.listener.PlayerMoveListener;
+import com.gmail.xlifehd.xmysqlbridge.listener.PlayerPortalListener;
 import com.gmail.xlifehd.xmysqlbridge.listener.PlayerSwapHandItemsListener;
 import com.gmail.xlifehd.xmysqlbridge.mysql.GeneralHandler;
 import com.gmail.xlifehd.xmysqlbridge.mysql.SaveHandler;
@@ -96,10 +104,24 @@ public class Main extends JavaPlugin {
 		pluginMgr.registerEvents(new OnJoin(), this);
 		pluginMgr.registerEvents(new OnQuit(), this);
 		
-		pluginMgr.registerEvents(new Blocker(), this);
-		pluginMgr.registerEvents(new InventoryOpenListener(), this);
-		pluginMgr.registerEvents(new PlayerItemHeldListener(), this);
-		pluginMgr.registerEvents(new PlayerSwapHandItemsListener(), this);
+		//Blocker listeners
+		pluginMgr.registerEvents(new InventoryOpenListener(), this); //WORKS
+		pluginMgr.registerEvents(new InventoryInteractListener(), this);
+		pluginMgr.registerEvents(new PlayerItemHeldListener(), this); //WORKS
+		pluginMgr.registerEvents(new PlayerSwapHandItemsListener(), this); //WORKS
+		pluginMgr.registerEvents(new PlayerDropItemListener(), this);
+		pluginMgr.registerEvents(new EntityPickupItemListener(), this);
+		pluginMgr.registerEvents(new PlayerItemConsumeListener(), this);
+		
+		pluginMgr.registerEvents(new PlayerCommandPreprocessListener(), this);
+		
+		pluginMgr.registerEvents(new PlayerMoveListener(), this);
+		pluginMgr.registerEvents(new PlayerPortalListener(), this);
+		//TODO Look if the animation event needs to be blocked
+		
+		pluginMgr.registerEvents(new PlayerInteractListener(), this); //TODO TEST IF "PlayerBucketEvent" & "PlayerBedEnter" is covered with this
+		pluginMgr.registerEvents(new PlayerInteractEntityListener(), this);
+		
 	}
 	
 	private void setupSaveTask() {
