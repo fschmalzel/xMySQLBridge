@@ -1,4 +1,4 @@
-package com.gmail.xlifehd.xmysqlbridge.listener;
+package com.gmail.xlifehd.xmysqlbridge.listeners.blocker;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,7 +15,7 @@ public class PlayerItemHeldListener implements Listener {
 		Main plugin = Main.getPlugin();
 		
 		//DEBUG
-		plugin.getLogger().info(Main.getPrefix("info") + "009 ItemHeldEvent");
+		plugin.getLogger().info("PlayerItemHeldEvent");
 		
 		if ( plugin.getxUtils().isFrozen( e.getPlayer().getUniqueId() ) ) {
 			e.setCancelled(true);

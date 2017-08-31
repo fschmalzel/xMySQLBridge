@@ -9,20 +9,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.gmail.xlifehd.xmysqlbridge.listener.EntityPickupItemListener;
-import com.gmail.xlifehd.xmysqlbridge.listener.InventoryInteractListener;
-import com.gmail.xlifehd.xmysqlbridge.listener.InventoryOpenListener;
-import com.gmail.xlifehd.xmysqlbridge.listener.OnJoin;
-import com.gmail.xlifehd.xmysqlbridge.listener.OnQuit;
-import com.gmail.xlifehd.xmysqlbridge.listener.PlayerCommandPreprocessListener;
-import com.gmail.xlifehd.xmysqlbridge.listener.PlayerDropItemListener;
-import com.gmail.xlifehd.xmysqlbridge.listener.PlayerInteractEntityListener;
-import com.gmail.xlifehd.xmysqlbridge.listener.PlayerInteractListener;
-import com.gmail.xlifehd.xmysqlbridge.listener.PlayerItemConsumeListener;
-import com.gmail.xlifehd.xmysqlbridge.listener.PlayerItemHeldListener;
-import com.gmail.xlifehd.xmysqlbridge.listener.PlayerMoveListener;
-import com.gmail.xlifehd.xmysqlbridge.listener.PlayerPortalListener;
-import com.gmail.xlifehd.xmysqlbridge.listener.PlayerSwapHandItemsListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.OnJoin;
+import com.gmail.xlifehd.xmysqlbridge.listeners.OnQuit;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.EntityPickupItemListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.InventoryInteractListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.InventoryOpenListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.PlayerCommandPreprocessListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.PlayerDropItemListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.PlayerInteractEntityListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.PlayerInteractListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.PlayerItemConsumeListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.PlayerItemHeldListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.PlayerMoveListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.PlayerPortalListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.PlayerSwapHandItemsListener;
 import com.gmail.xlifehd.xmysqlbridge.mysql.GeneralHandler;
 import com.gmail.xlifehd.xmysqlbridge.mysql.SaveHandler;
 
@@ -105,21 +105,22 @@ public class Main extends JavaPlugin {
 		pluginMgr.registerEvents(new OnQuit(), this);
 		
 		//Blocker listeners
-		pluginMgr.registerEvents(new InventoryOpenListener(), this); //WORKS
+		//DEBUG
+		//pluginMgr.registerEvents(new InventoryOpenListener(), this); //Works, is covered "PlayerInteractListener"
 		pluginMgr.registerEvents(new InventoryInteractListener(), this);
-		pluginMgr.registerEvents(new PlayerItemHeldListener(), this); //WORKS
-		pluginMgr.registerEvents(new PlayerSwapHandItemsListener(), this); //WORKS
+		//pluginMgr.registerEvents(new PlayerItemHeldListener(), this); //Works
+		//pluginMgr.registerEvents(new PlayerSwapHandItemsListener(), this); //Works
 		pluginMgr.registerEvents(new PlayerDropItemListener(), this);
 		pluginMgr.registerEvents(new EntityPickupItemListener(), this);
-		pluginMgr.registerEvents(new PlayerItemConsumeListener(), this);
+		//pluginMgr.registerEvents(new PlayerItemConsumeListener(), this); //Is covered by "PlayerInteractionListener", but still needs testing
 		
-		pluginMgr.registerEvents(new PlayerCommandPreprocessListener(), this);
+		//pluginMgr.registerEvents(new PlayerCommandPreprocessListener(), this); //Works
 		
-		pluginMgr.registerEvents(new PlayerMoveListener(), this);
+		//pluginMgr.registerEvents(new PlayerMoveListener(), this); //Works
 		pluginMgr.registerEvents(new PlayerPortalListener(), this);
 		//TODO Look if the animation event needs to be blocked
 		
-		pluginMgr.registerEvents(new PlayerInteractListener(), this); //TODO TEST IF "PlayerBucketEvent" & "PlayerBedEnter" is covered with this
+		pluginMgr.registerEvents(new PlayerInteractListener(), this); //TODO Test if "PlayerBedEnter" is covered with this; Placing with the bucket is, emptying needs testing
 		pluginMgr.registerEvents(new PlayerInteractEntityListener(), this);
 		
 	}

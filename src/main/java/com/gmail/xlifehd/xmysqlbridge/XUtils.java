@@ -41,25 +41,27 @@ public class XUtils {
 	
 	private void setFreeze(Player player, boolean frozen) {
 		UUID uuid = player.getUniqueId();
+		
 		//TODO Check if gamemode is synced
 		player.setAllowFlight(frozen);
-		
 		player.setCollidable(!frozen);
 		player.setInvulnerable(frozen);
+		
 		if ( frozen ) {
 			
 			if ( !uuidToGameMode.containsKey(uuid) ) { uuidToGameMode.put(uuid, player.getGameMode()); }
 			
 			player.setFlying(true);
-			player.setGameMode(GameMode.SPECTATOR);
+			//DEBUG
+			//player.setGameMode(GameMode.SPECTATOR);
 			player.setWalkSpeed(0);
 			player.setFlySpeed(0);
 			
 		} else {
 			
 			if ( uuidToGameMode.containsKey(uuid) ) {
-				
-				player.setGameMode(uuidToGameMode.get(uuid));
+				//DEBUG
+				//player.setGameMode(uuidToGameMode.get(uuid));
 				GameMode gm = uuidToGameMode.get(uuid);
 				
 				switch ( gm ) {

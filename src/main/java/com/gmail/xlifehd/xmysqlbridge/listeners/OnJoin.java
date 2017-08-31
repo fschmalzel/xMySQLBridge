@@ -1,4 +1,4 @@
-package com.gmail.xlifehd.xmysqlbridge.listener;
+package com.gmail.xlifehd.xmysqlbridge.listeners;
 
 import java.util.Collection;
 import java.util.HashMap;

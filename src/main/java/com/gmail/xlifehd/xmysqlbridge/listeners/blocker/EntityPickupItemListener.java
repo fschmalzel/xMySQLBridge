@@ -1,4 +1,4 @@
-package com.gmail.xlifehd.xmysqlbridge.listener;
+package com.gmail.xlifehd.xmysqlbridge.listeners.blocker;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -16,7 +16,7 @@ public class EntityPickupItemListener implements Listener {
 		Main plugin = Main.getPlugin();
 		
 		//DEBUG
-		plugin.getLogger().info(Main.getPrefix("info") + "PickupItemEvent");
+		plugin.getLogger().info("EntityPickupItemEvent");
 		if ( e.getEntityType() == EntityType.PLAYER ) {
 			if ( plugin.getxUtils().isFrozen( e.getEntity().getUniqueId() ) ) {
 				e.setCancelled(true);

@@ -1,4 +1,4 @@
-package com.gmail.xlifehd.xmysqlbridge.listener;
+package com.gmail.xlifehd.xmysqlbridge.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
