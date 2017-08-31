@@ -72,32 +72,11 @@ public class Blocker implements Listener{
 		}
 	}
 	
-//	@EventHandler(priority = EventPriority.HIGHEST)
-//	public void onPlayerEggThrow ( PlayerEggThrowEvent e ) {
-//		if ( Main.getPlugin().getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
-//			e.
-//		}
-//	}
-	
-//	@EventHandler(priority = EventPriority.HIGHEST)
-//	public void onPlayerPickupArrow ( PlayerPickupArrowEvent e ) {
-//		if ( Main.getPlugin().getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
-//			e.setCancelled(true);
-//		}
-//	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onEntityrPickupItem ( EntityPickupItemEvent e ) {
+	public void onEntityPickupItem ( EntityPickupItemEvent e ) {
 		Main.getPlugin().getLogger().info(Main.getPrefix("info") + "004 PickupItemEvent");
 		if ( Main.getPlugin().getxUtils().isFrozen(((OfflinePlayer) e).getPlayer().getUniqueId())) {
-			e.setCancelled(true);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerSwapHandItems ( PlayerSwapHandItemsEvent e ) {
-		Main.getPlugin().getLogger().info(Main.getPrefix("info") + "005 SwapHandItemsEvent");
-		if ( Main.getPlugin().getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);
 		}
 	}
@@ -113,22 +92,6 @@ public class Blocker implements Listener{
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerPortal ( PlayerPortalEvent e ) {
 		Main.getPlugin().getLogger().info(Main.getPrefix("info") + "007 PortalEvent");
-		if ( Main.getPlugin().getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
-			e.setCancelled(true);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onEntityPickupItem ( EntityPickupItemEvent e) {
-		Main.getPlugin().getLogger().info(Main.getPrefix("info") + "008 PickupItemEvent");
-		if ( Main.getPlugin().getxUtils().isFrozen(((OfflinePlayer) e).getPlayer().getUniqueId())) {
-			e.setCancelled(true);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerItemHeld ( PlayerItemHeldEvent e ) {
-		Main.getPlugin().getLogger().info(Main.getPrefix("info") + "009 ItemHeldEvent");
 		if ( Main.getPlugin().getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);
 		}
@@ -167,14 +130,6 @@ public class Blocker implements Listener{
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerFish ( PlayerFishEvent e ) {
-		Main.getPlugin().getLogger().info(Main.getPrefix("info") + "014 FishEvent");
-		if ( Main.getPlugin().getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
-			e.setCancelled(true);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerBucket ( PlayerBucketEvent e ) {
 		Main.getPlugin().getLogger().info(Main.getPrefix("info") + "015 BucketEvent");
 		if ( Main.getPlugin().getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
@@ -202,14 +157,6 @@ public class Blocker implements Listener{
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerAnimation ( PlayerAnimationEvent e ) {
 		Main.getPlugin().getLogger().info(Main.getPrefix("info") + "018 AnimationEvent");
-		if ( Main.getPlugin().getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
-			e.setCancelled(true);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onInventoryOpen ( InventoryOpenEvent e ) {
-		Main.getPlugin().getLogger().info(Main.getPrefix("info") + "019 InventoryOpenEvent");
 		if ( Main.getPlugin().getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);
 		}

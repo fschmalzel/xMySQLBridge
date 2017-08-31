@@ -6,11 +6,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.gmail.xlifehd.xmysqlbridge.listener.Blocker;
+import com.gmail.xlifehd.xmysqlbridge.listener.InventoryOpenListener;
 import com.gmail.xlifehd.xmysqlbridge.listener.OnJoin;
 import com.gmail.xlifehd.xmysqlbridge.listener.OnQuit;
+import com.gmail.xlifehd.xmysqlbridge.listener.PlayerItemHeldListener;
+import com.gmail.xlifehd.xmysqlbridge.listener.PlayerSwapHandItemsListener;
 import com.gmail.xlifehd.xmysqlbridge.mysql.GeneralHandler;
 import com.gmail.xlifehd.xmysqlbridge.mysql.SaveHandler;
 
@@ -38,25 +42,13 @@ public class Main extends JavaPlugin {
 		mySQLHandler = new GeneralHandler(config);
 		xUtils = new XUtils();
 		
-		//TODO Readup on advanced events
-		//Register Events
-		getServer().getPluginManager().registerEvents(new OnJoin(), this);
-		getServer().getPluginManager().registerEvents(new OnQuit(), this);
-		getServer().getPluginManager().registerEvents(new Blocker(), this);
+		registerListeners();
 		
 		//DEBUG
 		//Register Commands
 		//this.getCommand("xmbr").setExecutor(new TestCommand());
 		
-		if (config.getBoolean("savetask.enabled")) {
-			Runnable r = new Runnable() {
-				public void run() {
-					getPreparedSaveHandler().savePlayerDataAsync();
-				}
-			};
-			long time = config.getLong("savetask.timer") * 20;
-			Main.getPlugin().getServer().getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), r, time, time);
-		}
+		setupSaveTask();
 		
 	}
 	
@@ -98,6 +90,31 @@ public class Main extends JavaPlugin {
 		saveConfig();
 	}
 	
+	private void registerListeners() {
+		PluginManager pluginMgr = getServer().getPluginManager();
+		
+		pluginMgr.registerEvents(new OnJoin(), this);
+		pluginMgr.registerEvents(new OnQuit(), this);
+		
+		pluginMgr.registerEvents(new Blocker(), this);
+		pluginMgr.registerEvents(new InventoryOpenListener(), this);
+		pluginMgr.registerEvents(new PlayerItemHeldListener(), this);
+		pluginMgr.registerEvents(new PlayerSwapHandItemsListener(), this);
+	}
+	
+	private void setupSaveTask() {
+		if (config.getBoolean("savetask.enabled")) {
+			Runnable r = new Runnable() {
+				public void run() {
+					getPreparedSaveHandler().savePlayerDataAsync();
+				}
+			};
+			long time = config.getLong("savetask.timer") * 20;
+			Main.getPlugin().getServer().getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), r, time, time);
+		}
+	}
+	
+	
 	public SaveHandler getPreparedSaveHandler() {
 		Collection<? extends Player> playerCollection = Bukkit.getOnlinePlayers();
 		Player[] playerArray = playerCollection.toArray(new Player[playerCollection.size()]);
@@ -118,7 +135,7 @@ public class Main extends JavaPlugin {
 			return pluginPrefix;
 		}
 	}
-
+	
 	public GeneralHandler getMySQLHandler() {
 		return mySQLHandler;
 	}
