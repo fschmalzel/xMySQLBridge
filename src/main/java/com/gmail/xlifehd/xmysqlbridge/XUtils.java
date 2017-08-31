@@ -28,7 +28,8 @@ public class XUtils {
 	
 	public void unfreezePlayer( Player player ) {
 		UUID uuid = player.getUniqueId();
-		if ( frozenPlayers.contains(uuid) ) {
+		//DEBUG
+		if ( false && frozenPlayers.contains(uuid) ) {
 			frozenPlayers.remove(uuid);
 			setFreeze(player, false);
 		}
