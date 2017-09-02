@@ -12,6 +12,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.gmail.xlifehd.xmysqlbridge.listeners.OnJoin;
 import com.gmail.xlifehd.xmysqlbridge.listeners.OnQuit;
 import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.EntityPickupItemListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.InventoryClickListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.InventoryCreativeListener;
+import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.InventoryDragListener;
 import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.InventoryInteractListener;
 import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.InventoryOpenListener;
 import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.PlayerCommandPreprocessListener;
@@ -106,21 +109,25 @@ public class Main extends JavaPlugin {
 		
 		//Blocker listeners
 		//DEBUG
-		//pluginMgr.registerEvents(new InventoryOpenListener(), this); //Works, is covered "PlayerInteractListener"
+		//TODO Test arrows and fix the problems with players being able to open their inventory
+		pluginMgr.registerEvents(new InventoryOpenListener(), this); //Works, is covered "PlayerInteractListener"
 		pluginMgr.registerEvents(new InventoryInteractListener(), this);
+		pluginMgr.registerEvents(new InventoryDragListener(), this);
+		pluginMgr.registerEvents(new InventoryClickListener(), this);
+		pluginMgr.registerEvents(new InventoryCreativeListener(), this);
 		//pluginMgr.registerEvents(new PlayerItemHeldListener(), this); //Works
 		//pluginMgr.registerEvents(new PlayerSwapHandItemsListener(), this); //Works
-		pluginMgr.registerEvents(new PlayerDropItemListener(), this);
-		pluginMgr.registerEvents(new EntityPickupItemListener(), this);
-		//pluginMgr.registerEvents(new PlayerItemConsumeListener(), this); //Is covered by "PlayerInteractionListener", but still needs testing
+		//pluginMgr.registerEvents(new PlayerDropItemListener(), this); //Works
+		//pluginMgr.registerEvents(new EntityPickupItemListener(), this); //Works
+		pluginMgr.registerEvents(new PlayerItemConsumeListener(), this); //Is covered by "PlayerInteractionListener", but still needs testing
 		
 		//pluginMgr.registerEvents(new PlayerCommandPreprocessListener(), this); //Works
 		
 		//pluginMgr.registerEvents(new PlayerMoveListener(), this); //Works
-		pluginMgr.registerEvents(new PlayerPortalListener(), this);
+		//pluginMgr.registerEvents(new PlayerPortalListener(), this); //Works
 		//TODO Look if the animation event needs to be blocked
 		
-		pluginMgr.registerEvents(new PlayerInteractListener(), this); //TODO Test if "PlayerBedEnter" is covered with this; Placing with the bucket is, emptying needs testing
+		pluginMgr.registerEvents(new PlayerInteractListener(), this); //Works, entering bed and bucket events are covered with this
 		pluginMgr.registerEvents(new PlayerInteractEntityListener(), this);
 		
 	}
