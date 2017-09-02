@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
@@ -17,7 +18,6 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitTask;
 
-import com.gmail.xlifehd.xmysqlbridge.BukkitSerialization;
 import com.gmail.xlifehd.xmysqlbridge.Main;
 import com.gmail.xlifehd.xmysqlbridge.mysql.LoadHandler;
 
@@ -110,13 +110,48 @@ public class OnJoin implements Listener {
 				}
 				
 				if ( config.getBoolean("table.advancements.enabled") ) {
+					
 					//TODO Set advancements
 					HashMap<Advancement, AdvancementProgress> hashMap = loadHandler.getAdvancements();
 					
+					//Iterate through all Advancements
+					for ( Iterator<Advancement> i = hashMap.keySet().iterator(); i.hasNext(); ) {
+						
+						Advancement adv = i.next();
+						
+						//Check if the advancement is present on this server
+						if ( Bukkit.getAdvancement(adv.getKey()) != null ) {
+							
+							AdvancementProgress advProg = player.getAdvancementProgress(adv);
+							
+							//Check if the advancement is already completed
+							if ( !advProg.isDone() ) {
+								
+								AdvancementProgress newAdvProg = hashMap.get(adv);
+								Collection<String> newAwardedCriteriaList = newAdvProg.getAwardedCriteria();
+								Collection<String> awardedCriteria = advProg.getAwardedCriteria();
+								
+								//Iterate through all criteria
+								for ( Iterator<String> j = newAwardedCriteriaList.iterator(); j.hasNext(); ) {
+									
+									String newAwardedCriteria = j.next();
+									
+									//Check if the criteria has already been awarded
+									if ( !awardedCriteria.contains(newAwardedCriteria) ) {
+										advProg.awardCriteria(newAwardedCriteria);
+									}
+									
+								}
+								
+							}
+							
+						}
+						
+					}
 					
-					
-					
-				}
+				}//Advancement end
+				
+				
 				task.cancel();
 				Main.getPlugin().getServer().getScheduler().runTask(Main.getPlugin(), safeUnfreeze);
 				
