@@ -13,7 +13,6 @@ import com.gmail.xlifehd.xmysqlbridge.listeners.OnJoin;
 import com.gmail.xlifehd.xmysqlbridge.listeners.OnQuit;
 import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.EntityPickupItemListener;
 import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.InventoryClickListener;
-import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.InventoryCreativeListener;
 import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.InventoryDragListener;
 import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.InventoryInteractListener;
 import com.gmail.xlifehd.xmysqlbridge.listeners.blocker.PlayerCommandPreprocessListener;
@@ -111,7 +110,6 @@ public class Main extends JavaPlugin {
 		pluginMgr.registerEvents(new InventoryInteractListener(), this); //works
 		pluginMgr.registerEvents(new InventoryDragListener(), this); //Works
 		pluginMgr.registerEvents(new InventoryClickListener(), this); //Works
-		pluginMgr.registerEvents(new InventoryCreativeListener(), this);
 		pluginMgr.registerEvents(new PlayerItemHeldListener(), this); //Works
 		pluginMgr.registerEvents(new PlayerSwapHandItemsListener(), this); //Works
 		pluginMgr.registerEvents(new PlayerDropItemListener(), this); //Works
