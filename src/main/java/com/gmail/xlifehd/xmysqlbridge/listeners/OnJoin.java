@@ -111,7 +111,6 @@ public class OnJoin implements Listener {
 				
 				if ( config.getBoolean("table.advancements.enabled") ) {
 					
-					//TODO Set advancements
 					HashMap<Advancement, AdvancementProgress> hashMap = loadHandler.getAdvancements();
 					
 					//Iterate through all Advancements
@@ -123,15 +122,15 @@ public class OnJoin implements Listener {
 						if ( Bukkit.getAdvancement(adv.getKey()) != null ) {
 							
 							AdvancementProgress advProg = player.getAdvancementProgress(adv);
+							AdvancementProgress newAdvProg = hashMap.get(adv);
 							
 							//Check if the advancement is already completed
-							if ( !advProg.isDone() ) {
+							if ( !(advProg.isDone() && newAdvProg.isDone()) ) {
 								
-								AdvancementProgress newAdvProg = hashMap.get(adv);
 								Collection<String> newAwardedCriteriaList = newAdvProg.getAwardedCriteria();
 								Collection<String> awardedCriteria = advProg.getAwardedCriteria();
 								
-								//Iterate through all criteria
+								//Iterate through all awardedcriteria
 								for ( Iterator<String> j = newAwardedCriteriaList.iterator(); j.hasNext(); ) {
 									
 									String newAwardedCriteria = j.next();
@@ -139,6 +138,20 @@ public class OnJoin implements Listener {
 									//Check if the criteria has already been awarded
 									if ( !awardedCriteria.contains(newAwardedCriteria) ) {
 										advProg.awardCriteria(newAwardedCriteria);
+									}
+									
+								}
+								
+								Collection<String> newRemainingCriteriaList = newAdvProg.getRemainingCriteria();
+								
+								//Iterate through all remaining criteria
+								for ( Iterator<String> j = newRemainingCriteriaList.iterator(); j.hasNext(); ) {
+									
+									String remainingCriteria = j.next();
+									
+									//Check if the criteria has been awarded
+									if ( awardedCriteria.contains(remainingCriteria) ) {
+										advProg.revokeCriteria(remainingCriteria);
 									}
 									
 								}
