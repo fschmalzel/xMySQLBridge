@@ -15,7 +15,7 @@ public class PlayerInteractListener implements Listener {
 		Main plugin = Main.getPlugin();
 		
 		//DEBUG
-		plugin.getLogger().info("PlayerInteractEvent");
+		//plugin.getLogger().info("PlayerInteractEvent");
 		
 		if ( plugin.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);

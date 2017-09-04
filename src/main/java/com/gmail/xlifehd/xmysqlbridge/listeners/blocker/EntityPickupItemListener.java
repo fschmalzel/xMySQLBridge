@@ -16,7 +16,8 @@ public class EntityPickupItemListener implements Listener {
 		Main plugin = Main.getPlugin();
 		
 		//DEBUG
-		plugin.getLogger().info("EntityPickupItemEvent");
+		//plugin.getLogger().info("EntityPickupItemEvent");
+		
 		if ( e.getEntityType() == EntityType.PLAYER ) {
 			if ( plugin.getxUtils().isFrozen( e.getEntity().getUniqueId() ) ) {
 				e.setCancelled(true);

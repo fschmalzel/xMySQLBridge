@@ -15,7 +15,7 @@ public class InventoryDragListener implements Listener {
 		Main plugin = Main.getPlugin();
 		
 		//DEBUG
-		plugin.getLogger().info("InventoryDragEvent");
+		//plugin.getLogger().info("InventoryDragEvent");
 		
 		if ( plugin.getxUtils().isFrozen(e.getWhoClicked().getUniqueId())) {
 			e.setCancelled(true);

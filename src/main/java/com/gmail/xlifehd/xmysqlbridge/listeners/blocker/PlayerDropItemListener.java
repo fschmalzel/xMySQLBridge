@@ -15,7 +15,7 @@ public class PlayerDropItemListener implements Listener {
 		Main plugin = Main.getPlugin();
 		
 		//DEBUG
-		plugin.getLogger().info("PlayerDropItemEvent");
+		//plugin.getLogger().info("PlayerDropItemEvent");
 		
 		if ( plugin.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);

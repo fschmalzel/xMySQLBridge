@@ -4,7 +4,7 @@
 	
 	<groupId>com.gmail.xlifehd</groupId>
 	<artifactId>xMySQLBridge</artifactId>
-	<version>0.5.51</version>
+	<version>0.5.52</version>
 	<packaging>jar</packaging>
 	
 	<name>xMySQLBridge</name>

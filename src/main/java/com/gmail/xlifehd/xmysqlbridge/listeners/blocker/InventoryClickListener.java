@@ -15,7 +15,7 @@ public class InventoryClickListener implements Listener {
 		Main plugin = Main.getPlugin();
 		
 		//DEBUG
-		plugin.getLogger().info("InventoryClickEvent");
+		//plugin.getLogger().info("InventoryClickEvent");
 		
 		if ( plugin.getxUtils().isFrozen(e.getWhoClicked().getUniqueId())) {
 			e.setCancelled(true);

@@ -14,7 +14,6 @@ import com.gmail.xlifehd.xmysqlbridge.Main;
 
 public class SaveHandler {
 	
-	//TODO CREATE QUERYS
 	private static String queryHealth =			"INSERT INTO %s (uuid, health) VALUES (?, ?) ON DUPLICATE KEY UPDATE health = VALUES(health);";
 	private static String queryHunger =			"INSERT INTO %s (uuid, hunger, saturation) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE hunger = VALUES(hunger), saturation = VALUES(saturation);";
 	private static String queryEffects =		"INSERT INTO %s (uuid, effects) VALUES (?, ?) ON DUPLICATE KEY UPDATE effects = VALUES(effects);";

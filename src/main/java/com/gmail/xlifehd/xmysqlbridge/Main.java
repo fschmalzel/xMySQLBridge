@@ -52,10 +52,6 @@ public class Main extends JavaPlugin {
 		
 		registerListeners();
 		
-		//DEBUG
-		//Register Commands
-		//this.getCommand("xmbr").setExecutor(new TestCommand());
-		
 		setupSaveTask();
 		
 	}

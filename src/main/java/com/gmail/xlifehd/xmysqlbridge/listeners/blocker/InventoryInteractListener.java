@@ -15,7 +15,7 @@ public class InventoryInteractListener implements Listener {
 		Main plugin = Main.getPlugin();
 		
 		//DEBUG
-		plugin.getLogger().info("InventoryInteractEvent");
+		//plugin.getLogger().info("InventoryInteractEvent");
 		
 		if ( plugin.getxUtils().isFrozen(e.getWhoClicked().getUniqueId())) {
 			e.setCancelled(true);

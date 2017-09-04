@@ -15,7 +15,7 @@ public class PlayerPortalListener implements Listener {
 		Main plugin = Main.getPlugin();
 		
 		//DEBUG
-		plugin.getLogger().info("PortalEvent");
+		//plugin.getLogger().info("PortalEvent");
 		
 		if ( plugin.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);

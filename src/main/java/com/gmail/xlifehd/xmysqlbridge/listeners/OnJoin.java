@@ -23,8 +23,6 @@ import com.gmail.xlifehd.xmysqlbridge.mysql.LoadHandler;
 
 public class OnJoin implements Listener {
 	
-	
-	//TODO Maybe change to onAsyncPlayerPreLoginEvent
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();

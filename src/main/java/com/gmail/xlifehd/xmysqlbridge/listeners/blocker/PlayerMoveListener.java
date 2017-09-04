@@ -15,7 +15,7 @@ public class PlayerMoveListener implements Listener {
 		Main plugin = Main.getPlugin();
 		
 		//DEBUG
-		plugin.getLogger().info("PlayerMoveEvent");
+		//plugin.getLogger().info("PlayerMoveEvent");
 		
 		if ( plugin.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);

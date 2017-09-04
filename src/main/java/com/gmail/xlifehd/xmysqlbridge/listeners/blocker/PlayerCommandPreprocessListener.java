@@ -15,7 +15,7 @@ public class PlayerCommandPreprocessListener implements Listener {
 		Main plugin = Main.getPlugin();
 		
 		//DEBUG
-		plugin.getLogger().info("CommandPreProcessEvent");
+		//plugin.getLogger().info("CommandPreProcessEvent");
 		
 		if ( plugin.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);

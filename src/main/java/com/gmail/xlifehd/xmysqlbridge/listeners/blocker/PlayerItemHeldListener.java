@@ -15,7 +15,7 @@ public class PlayerItemHeldListener implements Listener {
 		Main plugin = Main.getPlugin();
 		
 		//DEBUG
-		plugin.getLogger().info("PlayerItemHeldEvent");
+		//plugin.getLogger().info("PlayerItemHeldEvent");
 		
 		if ( plugin.getxUtils().isFrozen( e.getPlayer().getUniqueId() ) ) {
 			e.setCancelled(true);
