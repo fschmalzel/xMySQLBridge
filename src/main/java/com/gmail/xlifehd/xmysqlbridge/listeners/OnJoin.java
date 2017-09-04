@@ -166,6 +166,8 @@ public class OnJoin implements Listener {
 				task.cancel();
 				Main.getPlugin().getServer().getScheduler().runTask(Main.getPlugin(), safeUnfreeze);
 				
+				Main.getPlugin().getServer().getLogger().info("Data loaded!");
+				
 			}//Run end
 			
 		};//Runnable end

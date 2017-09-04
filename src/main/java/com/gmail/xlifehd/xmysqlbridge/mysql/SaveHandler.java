@@ -201,6 +201,8 @@ public class SaveHandler {
 			
 			con.setAutoCommit(true);
 			
+			Main.getPlugin().getServer().getLogger().info("Data saved!");
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
