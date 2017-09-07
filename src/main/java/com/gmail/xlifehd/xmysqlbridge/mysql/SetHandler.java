@@ -45,7 +45,7 @@ public class SetHandler {
 	}
 	
 	public void start(long delay) {
-		Main.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(Main.getPlugin(), setRunnable, delay);
+		Main.getPlugin().getServer().getScheduler().runTaskLater(Main.getPlugin(), setRunnable, delay);
 	}
 	
 	private Runnable unfreezeRunnable = new Runnable() {

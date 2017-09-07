@@ -3,8 +3,8 @@ package com.gmail.xlifehd.xmysqlbridge;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
@@ -16,8 +16,8 @@ import com.google.common.io.ByteStreams;
 
 public class Sync implements PluginMessageListener {
 	
-	private List<UUID> savingList;
-	private HashMap<UUID, SetHandler> setList;
+	private ArrayList<UUID> savingList = new ArrayList<UUID>();
+	private HashMap<UUID, SetHandler> setList = new HashMap<UUID, SetHandler>();
 	
 	public void onPluginMessageReceived(String channel, Player player, byte[] message) {
 		
