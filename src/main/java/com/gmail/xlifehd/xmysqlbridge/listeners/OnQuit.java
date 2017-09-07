@@ -15,7 +15,7 @@ public class OnQuit implements Listener {
 		Player player = event.getPlayer();
 		Player[] players = {player};
 		
-		if ( !Main.getPlugin().getxUtils().isFrozen(player.getUniqueId()) ) {
+		if ( !Main.getxUtils().isFrozen(player.getUniqueId()) ) {
 			SaveHandler saveHandler = new SaveHandler(players);
 			saveHandler.savePlayerDataAsync();
 		}

@@ -12,12 +12,10 @@ public class PlayerSwapHandItemsListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerSwapHandItems ( PlayerSwapHandItemsEvent e ) {
 		
-		Main plugin = Main.getPlugin();
-		
 		//DEBUG
-		//plugin.getLogger().info("PlayerSwapHandItemsEvent");
+		//Main.getPlugin().getLogger().info("PlayerSwapHandItemsEvent");
 		
-		if ( plugin.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
+		if ( Main.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);
 		}
 	}

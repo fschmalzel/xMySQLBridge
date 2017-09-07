@@ -12,12 +12,10 @@ public class PlayerItemHeldListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerItemHeld ( PlayerItemHeldEvent e ) {
 		
-		Main plugin = Main.getPlugin();
-		
 		//DEBUG
-		//plugin.getLogger().info("PlayerItemHeldEvent");
+		//Main.getPlugin().getLogger().info("PlayerItemHeldEvent");
 		
-		if ( plugin.getxUtils().isFrozen( e.getPlayer().getUniqueId() ) ) {
+		if ( Main.getxUtils().isFrozen( e.getPlayer().getUniqueId() ) ) {
 			e.setCancelled(true);
 		}
 		

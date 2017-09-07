@@ -13,13 +13,11 @@ public class EntityPickupItemListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityPickupItem ( EntityPickupItemEvent e ) {
 		
-		Main plugin = Main.getPlugin();
-		
 		//DEBUG
-		//plugin.getLogger().info("EntityPickupItemEvent");
+		//Main.getPlugin().getLogger().info("EntityPickupItemEvent");
 		
 		if ( e.getEntityType() == EntityType.PLAYER ) {
-			if ( plugin.getxUtils().isFrozen( e.getEntity().getUniqueId() ) ) {
+			if ( Main.getxUtils().isFrozen( e.getEntity().getUniqueId() ) ) {
 				e.setCancelled(true);
 			}
 		}

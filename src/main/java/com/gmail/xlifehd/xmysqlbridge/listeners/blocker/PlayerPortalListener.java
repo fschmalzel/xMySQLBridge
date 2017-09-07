@@ -12,12 +12,10 @@ public class PlayerPortalListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerPortal ( PlayerPortalEvent e ) {
 		
-		Main plugin = Main.getPlugin();
-		
 		//DEBUG
-		//plugin.getLogger().info("PortalEvent");
+		//Main.getPlugin().getLogger().info("PortalEvent");
 		
-		if ( plugin.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
+		if ( Main.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);
 		}
 		

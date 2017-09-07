@@ -12,12 +12,10 @@ public class InventoryDragListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onInventoryDrag ( InventoryDragEvent e ) {
 		
-		Main plugin = Main.getPlugin();
-		
 		//DEBUG
-		//plugin.getLogger().info("InventoryDragEvent");
+		//Main.getPlugin().getLogger().info("InventoryDragEvent");
 		
-		if ( plugin.getxUtils().isFrozen(e.getWhoClicked().getUniqueId())) {
+		if ( Main.getxUtils().isFrozen(e.getWhoClicked().getUniqueId())) {
 			e.setCancelled(true);
 		}
 		

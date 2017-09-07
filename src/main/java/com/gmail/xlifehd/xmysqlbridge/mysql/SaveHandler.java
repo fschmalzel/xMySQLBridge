@@ -1,5 +1,8 @@
 package com.gmail.xlifehd.xmysqlbridge.mysql;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -11,6 +14,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.gmail.xlifehd.xmysqlbridge.BukkitSerialization;
 import com.gmail.xlifehd.xmysqlbridge.Main;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 
 public class SaveHandler {
 	
@@ -46,6 +51,10 @@ public class SaveHandler {
 	}
 	
 	public void savePlayerData() {
+		
+		//0 = saving, 1 = saved
+		sendState(0, players);
+		
 		PreparedStatement updateHealth = null;
 		PreparedStatement updateHunger = null;
 		PreparedStatement updateEffects = null;
@@ -107,7 +116,7 @@ public class SaveHandler {
 				
 				String uuid = player.getUniqueId().toString();
 				
-				if ( !Main.getPlugin().getxUtils().isFrozen(player.getUniqueId()) ) {
+				if ( !Main.getxUtils().isFrozen(player.getUniqueId()) ) {
 					
 					if (updateHealth != null) {
 						updateHealth.setString(1, uuid);
@@ -186,9 +195,11 @@ public class SaveHandler {
 					}
 					
 					con.commit();
-				}
+				} //END IF
 				
-			}
+				sendState(1, player);
+				
+			}//END FOR
 			
 			if ( updateHealth != null ) { updateHealth.close(); };
 			if ( updateHunger != null ) { updateHunger.close(); };
@@ -208,4 +219,52 @@ public class SaveHandler {
 		}
 	}
 	
+	private void sendState (int state, Player player) {
+		
+		try {
+			
+			ByteArrayDataOutput out = ByteStreams.newDataOutput();
+			out.writeUTF("Forward");
+			out.writeUTF("ALL");
+			out.writeUTF(Main.getChannel());
+			
+			ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
+			DataOutputStream msgout = new DataOutputStream(msgbytes);
+			msgout.writeInt(state);
+			
+			out.writeShort(msgbytes.toByteArray().length);
+			out.write(msgbytes.toByteArray());
+			
+			player.sendPluginMessage(Main.getPlugin(), "BungeeCord", out.toByteArray());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
+	private void sendState( int state, Player[] players ) {
+		for ( Player player : players ) {
+			sendState(state, player);
+		}
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

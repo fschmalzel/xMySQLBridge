@@ -12,12 +12,10 @@ public class PlayerInteractListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerInteract ( PlayerInteractEvent e ) {
 		
-		Main plugin = Main.getPlugin();
-		
 		//DEBUG
-		//plugin.getLogger().info("PlayerInteractEvent");
+		//Main.getPlugin().getLogger().info("PlayerInteractEvent");
 		
-		if ( plugin.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
+		if ( Main.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);
 		}
 		

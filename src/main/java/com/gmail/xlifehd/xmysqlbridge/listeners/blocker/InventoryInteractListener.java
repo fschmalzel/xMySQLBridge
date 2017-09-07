@@ -12,12 +12,10 @@ public class InventoryInteractListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onInventoryInteract ( InventoryInteractEvent e ) {
 		
-		Main plugin = Main.getPlugin();
-		
 		//DEBUG
-		//plugin.getLogger().info("InventoryInteractEvent");
+		//Main.getPlugin().getLogger().info("InventoryInteractEvent");
 		
-		if ( plugin.getxUtils().isFrozen(e.getWhoClicked().getUniqueId())) {
+		if ( Main.getxUtils().isFrozen(e.getWhoClicked().getUniqueId())) {
 			e.setCancelled(true);
 		}
 		

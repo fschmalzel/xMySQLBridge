@@ -1,4 +1,4 @@
 name: xMySQLBridge
 main: com.gmail.xlifehd.xmysqlbridge.Main
-version: 0.5.53
+version: 0.6.1
 commands:

@@ -12,12 +12,10 @@ public class PlayerDropItemListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerDropItem ( PlayerDropItemEvent e ) {
 		
-		Main plugin = Main.getPlugin();
-		
 		//DEBUG
-		//plugin.getLogger().info("PlayerDropItemEvent");
+		//Main.getPlugin().getLogger().info("PlayerDropItemEvent");
 		
-		if ( plugin.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
+		if ( Main.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);
 		}
 		

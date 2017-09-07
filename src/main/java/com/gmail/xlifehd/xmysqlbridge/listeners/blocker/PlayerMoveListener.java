@@ -12,12 +12,10 @@ public class PlayerMoveListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerMove( PlayerMoveEvent e ) {
 		
-		Main plugin = Main.getPlugin();
-		
 		//DEBUG
-		//plugin.getLogger().info("PlayerMoveEvent");
+		//Main.getPlugin().getLogger().info("PlayerMoveEvent");
 		
-		if ( plugin.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
+		if ( Main.getxUtils().isFrozen(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);
 		}
 		

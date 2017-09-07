@@ -4,7 +4,7 @@
 	
 	<groupId>com.gmail.xlifehd</groupId>
 	<artifactId>xMySQLBridge</artifactId>
-	<version>0.5.53</version>
+	<version>0.6.1</version>
 	<packaging>jar</packaging>
 	
 	<name>xMySQLBridge</name>
@@ -21,21 +21,9 @@
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 		
-		<repository>
-			<id>vault-repo</id>
-			<url>http://nexus.hc.to/content/repositories/pub_releases</url>
-		</repository>
-		
 	</repositories>
 	
 	<dependencies>
-	
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
 		
 		<dependency>
 			<groupId>org.spigotmc</groupId>

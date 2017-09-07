@@ -34,12 +34,16 @@ public class Main extends JavaPlugin {
 	
 	private GeneralHandler mySQLHandler;
 	
-	private XUtils xUtils;
+	private static XUtils xUtils;
+	
+	private static Sync sync;
 	
 	private static String pluginPrefix = ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "xMySQL" + ChatColor.GREEN + ChatColor.BOLD + "Bridge" + ChatColor.RESET + ChatColor.DARK_GRAY + "] ";
 	private static String errorPrefix = pluginPrefix + ChatColor.RED;
 	private static String infoPrefix = pluginPrefix + ChatColor.WHITE;
-	
+	private static String channel = "xmysqlbridge";
+
+
 	@Override
 	public void onEnable() {
 		
@@ -53,6 +57,11 @@ public class Main extends JavaPlugin {
 		registerListeners();
 		
 		setupSaveTask();
+		
+		sync = new Sync();
+		
+		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", sync);
+		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		
 	}
 	
@@ -145,6 +154,10 @@ public class Main extends JavaPlugin {
 		return instance;
 	}
 	
+	public static Sync getSync() {
+		return sync;
+	}
+	
 	public static String getPrefix(String str) {
 		if ( str.equalsIgnoreCase("info") ) {
 			return infoPrefix;
@@ -159,8 +172,12 @@ public class Main extends JavaPlugin {
 		return mySQLHandler;
 	}
 
-	public XUtils getxUtils() {
+	public static XUtils getxUtils() {
 		return xUtils;
+	}
+	
+	public static String getChannel() {
+		return channel;
 	}
 	
 }
