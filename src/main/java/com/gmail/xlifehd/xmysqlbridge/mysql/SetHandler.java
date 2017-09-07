@@ -59,6 +59,9 @@ public class SetHandler {
 	private Runnable setRunnable = new Runnable() {
 		
 		public void run() {
+			
+			player.sendMessage(Main.getPrefix("info") + "Loading Data! Please wait a second!");
+			
 			FileConfiguration config = Main.getPlugin().getConfig();
 			LoadHandler loadHandler = new LoadHandler(player.getUniqueId());
 			
@@ -183,6 +186,7 @@ public class SetHandler {
 			unfreezeTask.cancel();
 			Main.getxUtils().unfreezePlayer(player);
 			Main.getPlugin().getServer().getLogger().info("Data loaded!");
+			player.sendMessage(Main.getPrefix("info") + "Data loaded!");
 			
 		}//Run end
 		

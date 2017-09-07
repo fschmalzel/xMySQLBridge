@@ -246,9 +246,11 @@ public class SaveHandler {
 	
 	
 	private void sendState( int state, Player[] players ) {
+		
 		for ( Player player : players ) {
 			sendState(state, player);
 		}
+		
 	}
 	
 }
