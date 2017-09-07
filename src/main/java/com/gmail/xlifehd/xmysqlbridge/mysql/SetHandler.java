@@ -191,7 +191,6 @@ public class SetHandler {
 			backupsetTask.cancel();
 			unfreezeTask.cancel();
 			Main.getxUtils().unfreezePlayer(player);
-			Main.getPlugin().getServer().getLogger().info("Data loaded!");
 			player.sendMessage(Main.getPrefix("info") + "Data loaded!");
 			
 		}//Run end
