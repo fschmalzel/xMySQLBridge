@@ -77,8 +77,16 @@ public class Sync implements PluginMessageListener {
 	}
 	
 	public void registerSetHandler(SetHandler sethandler, UUID uuid) {
+		if (setList.containsKey(uuid)) {
+			setList.remove(uuid);
+		}
 		setList.put(uuid, sethandler);
 	}
 	
+	public void unregisterSetHandler(UUID uuid) {
+		if (setList.containsKey(uuid)) {
+			setList.remove(uuid);
+		}
+	}
 	
 }

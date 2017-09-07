@@ -22,6 +22,7 @@ public class SetHandler {
 	
 	private Player player;
 	private BukkitTask unfreezeTask;
+	private BukkitTask backupsetTask;
 	
 	public SetHandler ( Player player ) {
 		
@@ -40,11 +41,15 @@ public class SetHandler {
 			Main.getSync().registerSetHandler(this, uuid);
 		}
 		
-		unfreezeTask = Main.getPlugin().getServer().getScheduler().runTaskLater(Main.getPlugin(), unfreezeRunnable, 20*30);
+		unfreezeTask = Main.getPlugin().getServer().getScheduler().runTaskLater(Main.getPlugin(), unfreezeRunnable, 20*45);
+		backupsetTask = Main.getPlugin().getServer().getScheduler().runTaskLater(Main.getPlugin(), setRunnable, 20*30);
 		
 	}
 	
 	public void start(long delay) {
+		
+		player.sendMessage(Main.getPrefix("info") + "Loading Data! Please wait a second!");
+		
 		Main.getPlugin().getServer().getScheduler().runTaskLater(Main.getPlugin(), setRunnable, delay);
 	}
 	
@@ -60,7 +65,7 @@ public class SetHandler {
 		
 		public void run() {
 			
-			player.sendMessage(Main.getPrefix("info") + "Loading Data! Please wait a second!");
+			Main.getSync().unregisterSetHandler(player.getUniqueId());
 			
 			FileConfiguration config = Main.getPlugin().getConfig();
 			LoadHandler loadHandler = new LoadHandler(player.getUniqueId());
@@ -183,6 +188,7 @@ public class SetHandler {
 				
 			}//Advancement end
 			
+			backupsetTask.cancel();
 			unfreezeTask.cancel();
 			Main.getxUtils().unfreezePlayer(player);
 			Main.getPlugin().getServer().getLogger().info("Data loaded!");
